@@ -23,6 +23,7 @@ Route::group(['middleware' => 'auth'], function () {
 
     Route::get('/requests', 'RequestController@list');
     Route::get('/request/{token}/detail', 'RequestController@detail');
+    Route::post('/request/{token}/export', 'RequestController@export');
     Route::get('/request/create', 'RequestController@createForm');
     Route::post('/request/create', 'RequestController@create');
 

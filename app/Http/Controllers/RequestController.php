@@ -92,6 +92,84 @@ class RequestController extends Controller
         }
     }
 
+    public function export(String $token, Request $req)
+    {
+        $request = $this->requestRepository->getRequest($token);
+        if (!$request) return abort(404, 'Request Not Found');
+
+        $ecpayData = [];
+        $ecpayData['MerchantID'] = env('ECPAY_MERCHANTID');
+        $ecpayData['MerchantTradeNo'] = $request->id . substr($token, 0, 8) . rand(100,999);
+        $ecpayData['MerchantTradeDate'] = date('Y/m/d H:i:s');
+        $ecpayData['LogisticsType'] = $request->address_type == 'cvs' ? 'CVS' : 'Home';
+        $ecpayData['LogisticsSubType'] = $request->address_type == 'cvs' ? $request->address->vendor . 'C2C' : $req->input('vendor');
+        $ecpayData['GoodsAmount'] = $req->input('amount');
+        $ecpayData['IsCollection'] = $req->input('collect');
+        if ($req->input('collect') == 'Y') {
+            $ecpayData['CollectionAmount'] = $req->input('amount');
+        }
+        $ecpayData['GoodsName'] = $req->input('product_name');
+        $ecpayData['SenderName'] = $req->input('sender');
+        $ecpayData['SenderCellPhone'] = $req->input('sender_phone');
+        $ecpayData['ReceiverName'] = $request->address->receiver;
+        $ecpayData['ReceiverCellPhone'] = $request->address->phone;
+        $ecpayData['TradeDesc'] = $token;
+        $ecpayData['ServerReplyURL'] = url("/request/{$token}/notify");
+        $ecpayData['ClientReplyURL'] = url("/request/{$token}/notify");
+        $ecpayData['LogisticsC2CReplyURL'] = url("/request/{$token}/notify");
+        $ecpayData['Remark'] = $token;
+        $ecpayData['PlatformID'] = '';
+
+        if ($request->address_type == 'standard') {
+            $ecpayData['SenderZipCode'] = $req->input('sender_postcode') . '00';
+            $ecpayData['SenderAddress'] = $req->input('sender_address');
+            $ecpayData['ReceiverZipCode'] = $request->address->postcode . '00';
+            $ecpayData['ReceiverAddress'] = $request->address->county . $request->address->city . $request->address->address1 . ' ' . $request->address->address2;
+            $ecpayData['Temperature'] = $req->input('temperature');
+            $ecpayData['Distance'] = $req->input('distance');
+            $ecpayData['Specification'] = $req->input('specification');
+            $ecpayData['ScheduledDeliveryTime'] = $request->address->time == 0 ? 4 : $request->address->time;
+        } elseif ($request->address_type == 'cvs') {
+            $ecpayData['ReceiverStoreID'] = $request->address->store;
+        }
+
+        //@TODO
+        // sorting
+        $data = $ecpayData;
+        uksort($data, function ($a, $b) { return strcasecmp($a, $b); });
+
+        // buidling http query string
+        $checkMacValue = 'HashKey=' . env('ECPAY_HASHKEY');
+        // note: DO NOT use http_build_query, since it will do urlencode
+        foreach ($data as $key => $value) {
+            $checkMacValue .= '&' . $key . '=' . $value;
+        }
+        $checkMacValue .= '&HashIV=' . env('ECPAY_HASHIV');
+        $checkMacValue = strtolower(urlencode($checkMacValue));
+
+        // replace chars to keep the same with .Net
+        $checkMacValue = str_replace('%2d', '-', $checkMacValue);
+        $checkMacValue = str_replace('%5f', '_', $checkMacValue);
+        $checkMacValue = str_replace('%2e', '.', $checkMacValue);
+        $checkMacValue = str_replace('%21', '!', $checkMacValue);
+        $checkMacValue = str_replace('%2a', '*', $checkMacValue);
+        $checkMacValue = str_replace('%28', '(', $checkMacValue);
+        $checkMacValue = str_replace('%29', ')', $checkMacValue);
+
+        //str_replace(
+            //['%2d', '%5f', '%2e', '%21', '%2a', '%28', '%29'],
+            //['-', '-', '.', '!', '*', '(', ')'],
+            //$checkMacValue
+        //);
+
+        $ecpayData['CheckMacValue'] = strtoupper(md5($checkMacValue));
+        //return $ecpayData;
+        return view('request.export', [
+            'data' => $ecpayData
+        ]);
+
+    }
+
     /**
      * @param String $token
      * @param Request $request
