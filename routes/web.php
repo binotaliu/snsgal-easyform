@@ -31,4 +31,7 @@ Route::group(['middleware' => 'auth'], function () {
 });
 
 Route::get('/request/{token}', 'RequestController@get');
-Route::post('/request/{token}/address', 'RequestController@respond');
+Route::post('/request/{token}/address', 'RequestController@addAddress');
+
+Route::get('/map/cvs', 'RequestController@cvsmap');
+Route::post('/map/cvs/response', 'RequestController@cvsmapResponse');

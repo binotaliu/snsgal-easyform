@@ -44,7 +44,7 @@ class AddressRepository
     {
         $request = Request::where('token', $token)
             ->where('responded', true)->first();
-        if (is_null($request)) abort(500, 'Address Request Not Found');
+        if (is_null($request)) abort(404, 'Request Not Found');
 
         return $request->address;
     }
@@ -58,7 +58,7 @@ class AddressRepository
     {
         $request = Request::where('token', $token)
             ->where('responded', false)->first();
-        if (is_null($request)) abort(500, 'Address Request Not Found');
+        if (is_null($request)) abort(404, 'Request Not Found');
 
         $data['request_id'] = $request->id;
 
