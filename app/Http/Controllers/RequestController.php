@@ -53,7 +53,21 @@ class RequestController extends Controller
             'type' => 'required|in:cvs,standard'
         ]);
         $ticket = $this->requestRepository->createRequest($request->input('title'), $request->input('description'), $request->input('type'));
-        return redirect("request/{$ticket->token}");
+        return redirect("request/{$ticket->token}/detail");
+    }
+
+    /**
+     * @param String $token
+     * @return mixed
+     */
+    public function detail(String $token)
+    {
+        $request = $this->requestRepository->getRequest($token);
+        if (!$request) return abort(404, 'Request Not Found');
+
+        return view('request.detail', [
+            'request' => $request
+        ]);
     }
 
     /**
@@ -78,6 +92,11 @@ class RequestController extends Controller
         }
     }
 
+    /**
+     * @param String $token
+     * @param Request $request
+     * @return mixed
+     */
     public function addAddress(String $token, Request $request)
     {
         switch ($request->input('address_type')) {
