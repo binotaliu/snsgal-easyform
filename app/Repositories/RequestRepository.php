@@ -24,6 +24,14 @@ class RequestRepository
     }
 
     /**
+     * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator
+     */
+    public function pagination()
+    {
+        return Request::paginate(self::PER_PAGE);
+    }
+
+    /**
      * @return int
      */
     public function count()

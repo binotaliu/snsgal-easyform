@@ -22,9 +22,9 @@ class RequestRepositoryTest extends TestCase
 
     /**
      * @param Int $times
-     * @return App\Eloquent\Address\Request
+     * @return \App\Eloquent\Address\Request
      */
-    public function createRequests(Int $times = 1)
+    public function createRequests($times = 1)
     {
         return factory(App\Eloquent\Address\Request::class, $times)->create();
     }
