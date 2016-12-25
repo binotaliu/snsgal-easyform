@@ -82,6 +82,25 @@ class RequestController extends Controller
     {
         switch ($request->input('address_type')) {
             case 'standard':
+                $this->validate($request, [
+                    'receiver' => 'required|max:128',
+                    'phone' => 'required|regex:/^09\d{8}$/',
+                    'postcode' => 'required|numeric|digits:3',
+                    'county' => 'required',
+                    'city' => 'required',
+                    'address1' => 'required',
+                    'time' => 'required|in:0,1,2,3'
+                ]);
+                $this->addressRepository->createAddress($token, [
+                    'receiver' => $request->input('receiver'),
+                    'phone' => $request->input('phone'),
+                    'postcode' => $request->input('postcode'),
+                    'county' => $request->input('county'),
+                    'city' => $request->input('city'),
+                    'address1' => $request->input('address1'),
+                    'address2' => $request->input('address2'),
+                    'time' => $request->input('time')
+                ]);
                 break;
             case 'cvs':
                 $this->validate($request, [

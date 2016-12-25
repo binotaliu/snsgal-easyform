@@ -33,8 +33,8 @@
                                         <td>{{ $request->title }}<br>
                                         <td><a href="{{ url("/request/{$request->token}") }}" target="_blank">{{ $request->token }}</a></td>
                                         <td>{{ $request->address_type }}</td>
-                                        <td>{{ $request->exported ? 'yes' : 'no' }}</td>
                                         <td>{{ $request->responded ? 'yes' : 'no' }}</td>
+                                        <td>{{ $request->exported ? 'yes' : 'no' }}</td>
                                         <td>
                                             <a href="{{ url("/request/{$request->token}/detail") }}" class="btn btn-primary" target="_blank">View</a>
                                         </td>
