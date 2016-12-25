@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Repositories\AddressRepository;
 use App\Repositories\RequestRepository;
+use Auth;
 use Illuminate\Http\Request;
 
 class RequestController extends Controller
@@ -92,6 +93,11 @@ class RequestController extends Controller
         }
     }
 
+    /**
+     * @param String $token
+     * @param Request $req
+     * @return mixed
+     */
     public function export(String $token, Request $req)
     {
         $request = $this->requestRepository->getRequest($token);
@@ -121,9 +127,9 @@ class RequestController extends Controller
         $ecpayData['PlatformID'] = '';
 
         if ($request->address_type == 'standard') {
-            $ecpayData['SenderZipCode'] = $req->input('sender_postcode') . '00';
+            $ecpayData['SenderZipCode'] = $req->input('sender_postcode');
             $ecpayData['SenderAddress'] = $req->input('sender_address');
-            $ecpayData['ReceiverZipCode'] = $request->address->postcode . '00';
+            $ecpayData['ReceiverZipCode'] = $request->address->postcode;
             $ecpayData['ReceiverAddress'] = $request->address->county . $request->address->city . $request->address->address1 . ' ' . $request->address->address2;
             $ecpayData['Temperature'] = $req->input('temperature');
             $ecpayData['Distance'] = $req->input('distance');
@@ -133,41 +139,51 @@ class RequestController extends Controller
             $ecpayData['ReceiverStoreID'] = $request->address->store;
         }
 
-        //@TODO
-        // sorting
-        $data = $ecpayData;
-        uksort($data, function ($a, $b) { return strcasecmp($a, $b); });
+        $ecpayData['CheckMacValue'] = $this->generateCheckMacValue($ecpayData);
 
-        // buidling http query string
-        $checkMacValue = 'HashKey=' . env('ECPAY_HASHKEY');
-        // note: DO NOT use http_build_query, since it will do urlencode
-        foreach ($data as $key => $value) {
-            $checkMacValue .= '&' . $key . '=' . $value;
-        }
-        $checkMacValue .= '&HashIV=' . env('ECPAY_HASHIV');
-        $checkMacValue = strtolower(urlencode($checkMacValue));
-
-        // replace chars to keep the same with .Net
-        $checkMacValue = str_replace('%2d', '-', $checkMacValue);
-        $checkMacValue = str_replace('%5f', '_', $checkMacValue);
-        $checkMacValue = str_replace('%2e', '.', $checkMacValue);
-        $checkMacValue = str_replace('%21', '!', $checkMacValue);
-        $checkMacValue = str_replace('%2a', '*', $checkMacValue);
-        $checkMacValue = str_replace('%28', '(', $checkMacValue);
-        $checkMacValue = str_replace('%29', ')', $checkMacValue);
-
-        //str_replace(
-            //['%2d', '%5f', '%2e', '%21', '%2a', '%28', '%29'],
-            //['-', '-', '.', '!', '*', '(', ')'],
-            //$checkMacValue
-        //);
-
-        $ecpayData['CheckMacValue'] = strtoupper(md5($checkMacValue));
-        //return $ecpayData;
         return view('request.export', [
             'data' => $ecpayData
         ]);
+    }
 
+    public function notify(String $token, Request $req)
+    {
+        $request = $this->requestRepository->getRequest($token);
+        if (!$request) return abort(404, 'Request Not Found');
+
+        $ecpayData = [
+            'MerchantID' => $req->input('MerchantID'),
+            'MerchantTradeNo' => $req->input('MerchantTradeNo'),
+            'RtnCode' => $req->input('RtnCode'),
+            'RtnMsg' => $req->input('RtnMsg'),
+            'AllPayLogisticsID' => $req->input('AllPayLogisticsID'),
+            'LogisticsType' => $req->input('LogisticsType'),
+            'LogisticsSubType' => $req->input('LogisticsSubType'),
+            'GoodsAmount' => $req->input('GoodsAmount'),
+            'UpdateStatusDate' => $req->input('UpdateStatusDate'),
+            'ReceiverName' => $req->input('ReceiverName'),
+            'ReceiverPhone' => $req->input('ReceiverPhone'),
+            'ReceiverCellPhone' => $req->input('ReceiverCellPhone'),
+            'ReceiverEmail' => $req->input('ReceiverEmail'),
+            'ReceiverAddress' => $req->input('ReceiverAddress'),
+            'CVSPaymentNo' => $req->input('CVSPaymentNo'),
+            'CVSValidationNo' => $req->input('CVSValidationNo'),
+            'BookingNote' => $req->input('BookingNote')
+        ];
+        $checkMacValue = $this->generateCheckMacValue($ecpayData);
+
+        //@TODO
+        if ($checkMacValue === $req->input('CheckMacValue')) {
+            $this->requestRepository->updateRequest($token, $request->title, $request->description, $req->input('AllPayLogisticsID'));
+        } else {
+            return abort(403, 'Invalid CheckMacValue');
+        }
+
+        if(Auth::guest()) {
+            return '1|OK';
+        } else {
+            return redirect("request/{$token}/detail");
+        }
     }
 
     /**
@@ -238,5 +254,31 @@ class RequestController extends Controller
             'store' => $request->input('CVSStoreID'),
             'name' => $request->input('CVSStoreName')
         ]);
+    }
+
+    /**
+     * @param array $data
+     * @return string
+     */
+    private function generateCheckMacValue(Array $data)
+    {
+        uksort($data, function ($a, $b) { return strcasecmp($a, $b); });
+
+        // buidling http query string
+        $checkMacValue = 'HashKey=' . env('ECPAY_HASHKEY');
+        // note: DO NOT use http_build_query, since it will do urlencode
+        foreach ($data as $key => $value) {
+            $checkMacValue .= '&' . $key . '=' . $value;
+        }
+        $checkMacValue .= '&HashIV=' . env('ECPAY_HASHIV');
+        $checkMacValue = strtolower(urlencode($checkMacValue));
+
+        $checkMacValue = str_replace(
+            ['%2d', '%5f', '%2e', '%21', '%2a', '%28', '%29'],
+            ['-', '-', '.', '!', '*', '(', ')'],
+            $checkMacValue
+        );
+
+        return strtoupper(md5($checkMacValue));
     }
 }

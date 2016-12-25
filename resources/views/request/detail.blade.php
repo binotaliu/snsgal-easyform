@@ -57,7 +57,7 @@
                             @endif
                         </address>
 
-                        @if ($request->address_exported)
+                        @if ($request->exported)
                             ECPayID: {{ $request->exported }}
                         @else
                             <form class="form-horizontal" action="{{ url("/request/{$request->token}/export") }}" method="POST">

@@ -87,13 +87,15 @@ class RequestRepository
      * @param String $token
      * @param String $title
      * @param String $description
+     * @param Int $ecpayId
      * @return Request
      */
-    public function updateRequest(String $token, String $title, String $description)
+    public function updateRequest(String $token, String $title, String $description, Int $ecpayId)
     {
         Request::where('token', $token)->update([
             'title' => $title,
-            'description' => $description
+            'description' => $description,
+            'exported' => $ecpayId
         ]);
     }
 

@@ -72,7 +72,7 @@ class RequestRepositoryTest extends TestCase
     {
         $expected = 'Awwwwwwwwww';
         $request = $this->createRequests();
-        $this->requestRepository->updateRequest($request->token, $expected, $request->description);
+        $this->requestRepository->updateRequest($request->token, $expected, $request->description, 123);
         $actual = $this->requestRepository->getRequest($request->token)->title;
 
         $this->assertEquals($expected, $actual);

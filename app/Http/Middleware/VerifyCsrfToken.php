@@ -12,6 +12,7 @@ class VerifyCsrfToken extends BaseVerifier
      * @var array
      */
     protected $except = [
-        'map/cvs/response'
+        'map/cvs/response',
+        'request/*/notify'
     ];
 }
