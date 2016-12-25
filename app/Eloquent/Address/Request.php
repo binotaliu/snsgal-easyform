@@ -27,6 +27,8 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @method static \Illuminate\Database\Query\Builder|\App\Eloquent\Address\Request whereCreatedAt($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Eloquent\Address\Request whereUpdatedAt($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Eloquent\Address\Request whereDeletedAt($value)
+ * @property bool $responded
+ * @method static \Illuminate\Database\Query\Builder|\App\Eloquent\Address\Request whereResponded($value)
  */
 class Request extends Model
 {
