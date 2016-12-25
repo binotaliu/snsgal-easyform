@@ -45,7 +45,7 @@ $factory->state(App\Eloquent\Address\Request::class, 'cvs', function (Faker\Gene
 $factory->state(App\Eloquent\Address\Request::class, 'standard', function (Faker\Generator $faker) {
     $faker->seed(time() . random_int(1, 99999));
     return [
-        'title' => $faker->conpany,
+        'title' => $faker->company,
         'description' => $faker->paragraph,
         'address_type' => 'standard',
         'token' => $faker->uuid
