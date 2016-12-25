@@ -49,12 +49,12 @@ class RequestRepository
     }
 
     /**
-     * @param Int $id
+     * @param String $token
      * @return Request
      */
-    public function getRequest(Int $id)
+    public function getRequest(String $token)
     {
-        return Request::find($id);
+        return Request::where('token', $token)->first();
     }
 
     /**
@@ -84,26 +84,24 @@ class RequestRepository
     }
 
     /**
-     * @param Int $id
+     * @param String $token
      * @param String $title
      * @param String $description
      * @return Request
      */
-    public function updateRequest(Int $id, String $title, String $description)
+    public function updateRequest(String $token, String $title, String $description)
     {
-        Request::find($id)->update([
+        Request::where('token', $token)->update([
             'title' => $title,
             'description' => $description
         ]);
-
-        return Request::find($id);
     }
 
     /**
-     * @param Int $id
+     * @param String $token
      */
-    public function removeRequest(Int $id)
+    public function removeRequest(String $token)
     {
-        Request::find($id)->delete();
+        Request::where('token', $token)->delete();
     }
 }

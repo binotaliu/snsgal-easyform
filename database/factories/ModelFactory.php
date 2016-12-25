@@ -25,7 +25,7 @@ $factory->define(App\User::class, function (Faker\Generator $faker) {
 $factory->define(App\Eloquent\Address\Request::class, function (Faker\Generator $faker) {
     $faker->seed(time() . random_int(1, 99999));
     return [
-        'title' => $faker->title,
+        'title' => $faker->company,
         'description' => $faker->paragraph,
         'address_type' => $faker->boolean ? 'cvs' : 'standard',
         'token' => $faker->uuid
@@ -35,7 +35,7 @@ $factory->define(App\Eloquent\Address\Request::class, function (Faker\Generator 
 $factory->state(App\Eloquent\Address\Request::class, 'cvs', function (Faker\Generator $faker) {
     $faker->seed(time() . random_int(1, 99999));
     return [
-        'title' => $faker->title,
+        'title' => $faker->company,
         'description' => $faker->paragraph,
         'address_type' => 'cvs',
         'token' => $faker->uuid
@@ -45,7 +45,7 @@ $factory->state(App\Eloquent\Address\Request::class, 'cvs', function (Faker\Gene
 $factory->state(App\Eloquent\Address\Request::class, 'standard', function (Faker\Generator $faker) {
     $faker->seed(time() . random_int(1, 99999));
     return [
-        'title' => $faker->title,
+        'title' => $faker->conpany,
         'description' => $faker->paragraph,
         'address_type' => 'standard',
         'token' => $faker->uuid

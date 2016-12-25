@@ -57,7 +57,7 @@ class RequestRepositoryTest extends TestCase
         $request = $this->createRequests();
         $expected = $request->title;
 
-        $actual = $this->requestRepository->getRequest($request->id)->title;
+        $actual = $this->requestRepository->getRequest($request->token)->title;
         $this->assertEquals($expected, $actual);
     }
 
@@ -72,8 +72,8 @@ class RequestRepositoryTest extends TestCase
     {
         $expected = 'Awwwwwwwwww';
         $request = $this->createRequests();
-        $this->requestRepository->updateRequest($request->id, $expected, $request->description);
-        $actual = $this->requestRepository->getRequest($request->id)->title;
+        $this->requestRepository->updateRequest($request->token, $expected, $request->description);
+        $actual = $this->requestRepository->getRequest($request->token)->title;
 
         $this->assertEquals($expected, $actual);
     }
@@ -84,7 +84,7 @@ class RequestRepositoryTest extends TestCase
         $this->createRequests($expected);
         $request = $this->createRequests(); // create one more
 
-        $this->requestRepository->removeRequest($request->id);
+        $this->requestRepository->removeRequest($request->token);
         $actual = App\Eloquent\Address\Request::all()->count();
 
         $this->assertEquals($expected, $actual);
