@@ -78,6 +78,10 @@ class AddressRepository
         return $retval;
     }
 
+    /**
+     * @param Int $id
+     * @param array $data
+     */
     public function updateAddress(Int $id, Array $data)
     {
         $request = Request::where('id', $id)
@@ -85,8 +89,12 @@ class AddressRepository
         if (is_null($request)) abort(500, 'Address Request Not Found');
 
         $request->address->update($data);
+        return;
     }
 
+    /**
+     * @param Int $id
+     */
     public function removeAddress(Int $id)
     {
         $request = Request::where('id', $id)
@@ -96,5 +104,6 @@ class AddressRepository
         $request->address->delete();
         $request->responded = false;
         $request->save();
+        return;
     }
 }
