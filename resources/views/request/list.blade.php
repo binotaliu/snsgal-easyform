@@ -4,10 +4,18 @@
     <div class="container">
         <div class="row">
             <div class="col-md-12">
+
                 <div class="panel panel-default">
-                    <div class="panel-heading">Requests</div>
+                    <div class="panel-heading">
+                        Requests
+                    </div>
 
                     <div class="panel-body">
+                        {{ $requests->links() }}
+                        <div class="pull-right">
+                            <a href="{{ url('/request/create') }}" class="btn btn-success btn">New Request</a>
+                        </div>
+
                         <table class="table table-bordered">
                             <thead><tr>
                                 <td>#</td>
@@ -35,6 +43,9 @@
                             </tbody>
                         </table>
                         {{ $requests->links() }}
+                        <div class="pull-right">
+                            <a href="{{ url('/request/create') }}" class="btn btn-success btn">New Request</a>
+                        </div>
                     </div> <!-- /.panel-body -->
                 </div> <!-- /.panel -->
             </div> <!-- /.col-sm-12 -->

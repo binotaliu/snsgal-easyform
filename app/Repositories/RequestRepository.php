@@ -28,7 +28,7 @@ class RequestRepository
      */
     public function pagination()
     {
-        return Request::paginate(self::PER_PAGE);
+        return Request::orderBy('id', 'desc')->paginate(self::PER_PAGE);
     }
 
     /**

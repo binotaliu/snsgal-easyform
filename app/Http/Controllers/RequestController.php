@@ -33,4 +33,22 @@ class RequestController extends Controller
             'requests' => $this->requestRepository->pagination()
         ]);
     }
+
+    /**
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function createForm()
+    {
+        return view('request.create');
+    }
+
+    public function create(Request $request)
+    {
+        $this->validate($request, [
+            'title' => 'required|max:255',
+            'type' => 'required|in:cvs,standard'
+        ]);
+        $ticket = $this->requestRepository->createRequest($request->input('title'), $request->input('description'), $request->input('type'));
+        return redirect("request/{$ticket->token}");
+    }
 }

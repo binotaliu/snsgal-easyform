@@ -22,8 +22,9 @@ Route::get('/home', 'HomeController@index');
 Route::group(['middleware' => 'auth'], function () {
 
     Route::get('/requests', 'RequestController@list');
-    Route::get('/requests/{token}/detail', 'RequestController@detail');
-    Route::post('/request', 'RequestController@create');
+    Route::get('/request/{token}/detail', 'RequestController@detail');
+    Route::get('/request/create', 'RequestController@createForm');
+    Route::post('/request/create', 'RequestController@create');
 
     Route::put('/request/{token}', 'RequestController@create');
     Route::delete('/request/{token}', 'RequestController@remove');
