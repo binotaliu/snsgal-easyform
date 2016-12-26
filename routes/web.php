@@ -12,15 +12,18 @@
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    if (Auth::guest()) {
+        return redirect('https://www.snsgal.com/');
+    } else {
+        return redirect('/home');
+    }
 });
 
 Auth::routes();
 
 Route::get('/home', 'HomeController@index');
 
-Route::group(['middleware' => 'auth'], function () {
-
+Route::group(['middleware' => ['auth', 'admin']], function () {
     Route::get('/requests', 'RequestController@list');
     Route::get('/request/{token}/detail', 'RequestController@detail');
     Route::post('/request/{token}/export', 'RequestController@export');
