@@ -17,7 +17,11 @@
                             </tr>
                             <tr>
                                 <td>Token</td>
-                                <td>{{ $request->token }}</td>
+                                <td>
+                                    <a href="{{ url("request/{$request->token}") }}" target="_blank">
+                                        {{ $request->token }}
+                                    </a>
+                                </td>
                             </tr>
                             <tr>
                                 <td>Description</td>
