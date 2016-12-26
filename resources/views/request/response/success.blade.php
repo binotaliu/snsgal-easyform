@@ -11,7 +11,7 @@
                     </div>
 
                     <div class="panel-body">
-                        Done!
+                        The address has been saved. Thank you for your order!
                     </div>
                 </div>
             </div>

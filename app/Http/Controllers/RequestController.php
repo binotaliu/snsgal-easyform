@@ -80,6 +80,10 @@ class RequestController extends Controller
         $request = $this->requestRepository->getRequest($token);
         if (!$request) return abort(404, 'Request Not Found');
 
+        if ($request->responded) {
+            return view('request.response.success');
+        }
+
         switch ($request->address_type) {
             case 'standard':
             case 'cvs':
