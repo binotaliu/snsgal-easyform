@@ -9,14 +9,13 @@
             @foreach ($data as $key => $value)
                 <input type="hidden" name="{{ $key }}" value="{{ $value }}">
             @endforeach
-            <button type="submit">Submit</button>
         </form>
 @endsection
 
 @section('footer')
     <script>
         (function () {
-            //$('#exporter').submit();
+            $('#exporter').submit();
         })();
     </script>
 @endsection

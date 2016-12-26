@@ -7,7 +7,7 @@
 
                 <div class="panel panel-default">
                     <div class="panel-heading">
-                        Address Request
+                        {{ trans('request.response_title') }}
                     </div>
 
                     <div class="panel-body">
@@ -28,48 +28,48 @@
                         <form action="{{ url("/request/{$request->token}/address") }}" method="POST" class="form-horizontal">
                             {{ csrf_field() }}
                             <div class="form-group">
-                                <label for="address-receiver" class="col-sm-2 control-label">Receiver</label>
+                                <label for="address-receiver" class="col-sm-2 control-label">{{ trans('request.field_receiver') }}</label>
                                 <div class="col-sm-10">
                                     <input type="text" class="form-control" id="address-receiver" name="receiver" value="{{ old('receiver') }}" required>
                                 </div>
                             </div>
 
                             <div class="form-group">
-                                <label for="address-phone" class="col-sm-2 control-label">Phone</label>
+                                <label for="address-phone" class="col-sm-2 control-label">{{ trans('request.field_phone') }}</label>
                                 <div class="col-sm-10">
                                     <input type="number" class="form-control" id="address-phone" name="phone" value="{{ old('phone') }}" required>
                                 </div>
                             </div>
 
                             <div class="form-group">
-                                <label for="address-city" class="col-sm-2 control-label">City</label>
+                                <label for="address-city" class="col-sm-2 control-label">{{ trans('request.field_city') }}</label>
                                 <div class="col-sm-10">
                                     <zipcode></zipcode>
                                 </div>
                             </div>
 
                             <div class="form-group">
-                                <label for="address-address1" class="col-sm-2 control-label">Address 1</label>
+                                <label for="address-address1" class="col-sm-2 control-label">{{ trans('request.field_address1') }}</label>
                                 <div class="col-sm-10">
                                     <input type="text" class="form-control" id="address-address1" name="address1" value="{{ old('address1') }}" required>
                                 </div>
                             </div>
 
                             <div class="form-group">
-                                <label for="address-address2" class="col-sm-2 control-label">Address 2</label>
+                                <label for="address-address2" class="col-sm-2 control-label">{{ trans('request.field_address2') }}</label>
                                 <div class="col-sm-10">
                                     <input type="text" class="form-control" id="address-address2" name="address2" value="{{ old('address2') }}">
                                 </div>
                             </div>
 
                             <div class="form-group">
-                                <label for="address-time" class="col-sm-2 control-label">Delivery Time</label>
+                                <label for="address-time" class="col-sm-2 control-label">{{ trans('request.field_delivery_time') }}</label>
                                 <div class="col-sm-10">
                                     <select class="form-control" id="address-time" name="time">
                                         @if ( old('time') == 0 )
-                                            <option value="0" selected>Not Specified</option>
+                                            <option value="0" selected>{{ trans('request.time_unlimited') }}</option>
                                         @else
-                                            <option value="0">Not Specified</option>
+                                            <option value="0">{{ trans('request.time_unlimited') }}</option>
                                         @endif
 
                                         @if ( old('time') == 1 )
@@ -96,7 +96,7 @@
                             <div class="form-group">
                                 <div class="col-sm-10 col-sm-offset-2">
                                     <input type="hidden" name="address_type" value="standard">
-                                    <button type="submit" class="btn btn-default">Submit</button>
+                                    <button type="submit" class="btn btn-default">{{ trans('request.submit') }}</button>
                                 </div>
                             </div>
                         </form>

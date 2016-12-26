@@ -7,11 +7,11 @@
 
                 <div class="panel panel-default">
                     <div class="panel-heading">
-                        Address Request
+                        {{ trans('request.response_title') }}
                     </div>
 
                     <div class="panel-body">
-                        The address has been saved. Thank you for your order!
+                        {{ trans('request.responded') }}
                     </div>
                 </div>
             </div>

@@ -7,7 +7,7 @@
 
                 <div class="panel panel-default">
                     <div class="panel-heading">
-                        Address Request
+                        {{ trans('request.response_title') }}
                     </div>
 
                     <div class="panel-body">
@@ -28,35 +28,35 @@
                         <form action="{{ url("/request/{$request->token}/address") }}" method="POST" class="form-horizontal">
                             {{ csrf_field() }}
                             <div class="form-group">
-                                <label for="address-receiver" class="col-sm-2 control-label">Receiver</label>
+                                <label for="address-receiver" class="col-sm-2 control-label">{{ trans('request.field_receiver') }}</label>
                                 <div class="col-sm-10">
                                     <input type="text" class="form-control" id="address-receiver" name="receiver" value="{{ old('receiver') }}" required>
                                 </div>
                             </div>
 
                             <div class="form-group">
-                                <label for="address-phone" class="col-sm-2 control-label">Phone</label>
+                                <label for="address-phone" class="col-sm-2 control-label">{{ trans('request.field_phone') }}</label>
                                 <div class="col-sm-10">
                                     <input type="number" class="form-control" id="address-phone" name="phone" value="{{ old('phone') }}" required>
                                 </div>
                             </div>
 
                             <div class="form-group">
-                                <label for="request-store" class="col-sm-2 control-label">Convenience Store</label>
+                                <label for="request-store" class="col-sm-2 control-label">{{ trans('request.field_cvs') }}</label>
                                 <div class="col-sm-7">
                                     <input type="hidden" id="request-vendor" name="vendor" value="{{ old('vendor') }}">
                                     <input type="hidden" id="request-store" name="store" value="{{ old('store') }}">
                                     <input type="text" id="request-store-showname" name="store-showname" class="form-control" value="{{ old('store-showname') }}" disabled required>
                                 </div>
                                 <div class="col-sm-3">
-                                    <button type="button" id="show-map" class="btn btn-block btn-default">Select</button>
+                                    <button type="button" id="show-map" class="btn btn-block btn-default">{{ trans('request.map_btn') }}</button>
                                 </div>
                             </div>
 
                             <div class="form-group">
                                 <div class="col-sm-10 col-sm-offset-2">
                                     <input type="hidden" name="address_type" value="cvs">
-                                    <button type="submit" class="btn btn-default">Submit</button>
+                                    <button type="submit" class="btn btn-default">{{ trans('request.submit') }}</button>
                                 </div>
                             </div>
                         </form>
