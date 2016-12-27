@@ -108,7 +108,7 @@
                                 </div>
                                 @if ($request->address_type == 'standard')
                                     <div class="form-group">
-                                        <label for="export-vendor" class="col-sm-2 control-label">{{ trans('request.vendor') }}</label>
+                                        <label for="export-vendor" class="col-sm-2 control-label">{{ trans('request.field_vendor') }}</label>
                                         <div class="col-sm-5">
                                             <select class="form-control" id="export-vendor" name="vendor">
                                                 <option value="TCAT">{{ trans('request.vendor_tcat') }}</option>

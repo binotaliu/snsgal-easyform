@@ -54,6 +54,7 @@ return [
     'field_sender_phone' => 'Sender Phone',
     'field_sender_postcode' => 'Sender Postcode',
     'field_sender_address' => 'Sender Address',
+    'field_vendor' => 'Vendor',
     'field_collect?' => 'Collect Amount?',
 
     'field_temperature' => 'Temperature',

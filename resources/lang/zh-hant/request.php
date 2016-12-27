@@ -54,6 +54,7 @@ return [
     'field_sender_phone' => '寄件者手機',
     'field_sender_postcode' => '寄件者郵遞區號',
     'field_sender_address' => '寄件者地址',
+    'field_vendor' => '配送廠商',
     'field_collect?' => '代收款？',
 
     'field_temperature' => '溫度',
