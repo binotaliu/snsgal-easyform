@@ -89,4 +89,20 @@ class RequestRepositoryTest extends TestCase
 
         $this->assertEquals($expected, $actual);
     }
+
+    public function testUpdateProfile()
+    {
+        $excepted = 'Naganohara';
+        $user = factory(\App\User::class)->create();
+
+        $this->requestRepository->updateProfile($user->id, [
+            'name' => $excepted,
+            'phone' => '0987654321',
+            'postcode' => '10748',
+            'address' => '3-5-7 Kinoue, Donjina City'
+        ]);
+
+        $actual = \App\User::find($user->id)->get()->requestProfile->name;
+        $this->assertEquals($expected, $actual);
+    }
 }

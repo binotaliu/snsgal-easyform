@@ -71,13 +71,18 @@
                             <form class="form-horizontal" action="{{ url("/request/{$request->token}/export") }}" method="POST">
                                 {{ csrf_field() }}
                                 <div class="form-group">
-                                    <label for="export-product-name" class="col-sm-2 control-label">{{ trans('request.field_product_name') }}</label>
+                                    <div class="col-sm-12">
+                                        <b>{{ trans('request.field_package') }}</b>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="export-product-name" class="col-sm-2 col-sm-offset-1 control-label">{{ trans('request.field_product_name') }}</label>
                                     <div class="col-sm-5">
                                         <textarea class="form-control" id="export-product-name" name="product_name" maxlength="60" required></textarea>
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label for="export-amount" class="col-sm-2 control-label">{{ trans('request.field_product_amount') }}</label>
+                                    <label for="export-amount" class="col-sm-2 col-sm-offset-1 control-label">{{ trans('request.field_product_amount') }}</label>
                                     <div class="col-sm-5">
                                         <div class="input-group">
                                             <div class="input-group-addon">NT$</div>
@@ -86,19 +91,7 @@
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label for="export-sender" class="col-sm-2 control-label">{{ trans('request.field_sender_name') }}</label>
-                                    <div class="col-sm-5">
-                                        <input type="text" class="form-control" id="export-sender" name="sender" required>
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label for="export-sender-phone" class="col-sm-2 control-label">{{ trans('request.field_sender_phone') }}</label>
-                                    <div class="col-sm-5">
-                                        <input type="number" class="form-control" id="export-sender-phone" name="sender_phone" required>
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label for="export-collect" class="col-sm-2 control-label">{{ trans('request.field_collect?') }}</label>
+                                    <label for="export-collect" class="col-sm-2 col-sm-offset-1 control-label">{{ trans('request.field_collect?') }}</label>
                                     <div class="col-sm-5">
                                         <select class="form-control" id="export-collect" name="collect">
                                             <option value="N">{{ trans('request.status_no') }}</option>
@@ -106,9 +99,10 @@
                                         </select>
                                     </div>
                                 </div>
+
                                 @if ($request->address_type == 'standard')
                                     <div class="form-group">
-                                        <label for="export-vendor" class="col-sm-2 control-label">{{ trans('request.field_vendor') }}</label>
+                                        <label for="export-vendor" class="col-sm-2 col-sm-offset-1 control-label">{{ trans('request.field_vendor') }}</label>
                                         <div class="col-sm-5">
                                             <select class="form-control" id="export-vendor" name="vendor">
                                                 <option value="TCAT">{{ trans('request.vendor_tcat') }}</option>
@@ -117,19 +111,7 @@
                                         </div>
                                     </div>
                                     <div class="form-group">
-                                        <label for="export-sender-postcode" class="col-sm-2 control-label">{{ trans('request.field_sender_postcode') }}</label>
-                                        <div class="col-sm-5">
-                                            <input type="number" class="form-control" id="export-sender-postcode" name="sender_postcode" required>
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="export-sender-address" class="col-sm-2 control-label">{{ trans('request.field_sender_address') }}</label>
-                                        <div class="col-sm-5">
-                                            <input type="text" class="form-control" id="export-sender-address" name="sender_address" required>
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="export-temperature" class="col-sm-2 control-label">{{ trans('request.field_temperature') }}</label>
+                                        <label for="export-temperature" class="col-sm-2 col-sm-offset-1 control-label">{{ trans('request.field_temperature') }}</label>
                                         <div class="col-sm-5">
                                             <select class="form-control" id="export-temperature" name="temperature">
                                                 <option value="0001">{{ trans('request.temperature_normal') }}</option>
@@ -139,17 +121,17 @@
                                         </div>
                                     </div>
                                     <div class="form-group">
-                                        <label for="export-distance" class="col-sm-2 control-label">{{ trans('request.field_distance') }}</label>
+                                        <label for="export-distance" class="col-sm-2 col-sm-offset-1 control-label">{{ trans('request.field_distance') }}</label>
                                         <div class="col-sm-5">
                                             <select class="form-control" id="export-distance" name="distance">
-                                                <option value="00">{{ trans('request.distance_local') }}</option>
                                                 <option value="01">{{ trans('request.distance_difference_county') }}</option>
+                                                <option value="00">{{ trans('request.distance_local') }}</option>
                                                 <option value="02">{{ trans('request.distance_outer_island') }}</option>
                                             </select>
                                         </div>
                                     </div>
                                     <div class="form-group">
-                                        <label for="export-specification" class="col-sm-2 control-label">{{ trans('request.field_specification') }}</label>
+                                        <label for="export-specification" class="col-sm-2 col-sm-offset-1 control-label">{{ trans('request.field_specification') }}</label>
                                         <div class="col-sm-5">
                                             <select class="form-control" id="export-specification" name="specification">
                                                 <option value="0001">60cm</option>
@@ -160,8 +142,40 @@
                                         </div>
                                     </div>
                                 @endif
+
                                 <div class="form-group">
-                                    <div class="col-sm-5 col-sm-offset-2">
+                                    <div class="col-sm-12">
+                                        <b>{{ trans('request.field_common') }}</b>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="export-sender" class="col-sm-2 col-sm-offset-1 control-label">{{ trans('request.field_sender_name') }}</label>
+                                    <div class="col-sm-5">
+                                        <input type="text" class="form-control" id="export-sender" name="sender" value="{{ old('sender') ? old('sender') : $requestProfile->name }}" required>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="export-sender-phone" class="col-sm-2 col-sm-offset-1 control-label">{{ trans('request.field_sender_phone') }}</label>
+                                    <div class="col-sm-5">
+                                        <input type="text" class="form-control" id="export-sender-phone" name="sender_phone" value="{{ old('sender_phone') ? old('sender_phone') : $requestProfile->phone }}" required>
+                                    </div>
+                                </div>
+                                @if ($request->address_type == 'standard')
+                                    <div class="form-group">
+                                        <label for="export-sender-postcode" class="col-sm-2 col-sm-offset-1 control-label">{{ trans('request.field_sender_postcode') }}</label>
+                                        <div class="col-sm-5">
+                                            <input type="number" class="form-control" id="export-sender-postcode" name="sender_postcode" max="999" value="{{ old('sender_postcode') ? old('sender_postcode') : $requestProfile->postcode }}" required>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="export-sender-address" class="col-sm-2 col-sm-offset-1 control-label">{{ trans('request.field_sender_address') }}</label>
+                                        <div class="col-sm-5">
+                                            <input type="text" class="form-control" id="export-sender-address" name="sender_address" value="{{ old('sender_address') ? old('sender_address') : $requestProfile->address }}" required>
+                                        </div>
+                                    </div>
+                                @endif
+                                <div class="form-group">
+                                    <div class="col-sm-5 col-sm-offset-3">
                                         <button type="submit" class="btn btn-md btn-primary">{{ trans('request.export_btn') }}</button>
                                     </div>
                                 </div>

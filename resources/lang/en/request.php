@@ -48,6 +48,9 @@ return [
     'field_address2' => 'Address 2',
     'field_delivery_time' => 'Delivery Time',
 
+    'field_package' => 'Package Specified Config',
+    'field_common' => 'Common Config',
+
     'field_product_name' => 'Product Name',
     'field_product_amount' => 'Product Amount',
     'field_sender_name' => 'Sender Name',
@@ -74,4 +77,7 @@ return [
 
     'response_title' => 'Address Request',
     'responded' => 'The address has been saved. Thank you for your order!',
+
+    'profile_title' => 'Update Profile',
+    'profile_btn' => 'Update Profile',
 ];

@@ -29,6 +29,8 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @method static \Illuminate\Database\Query\Builder|\App\Eloquent\Address\Request whereDeletedAt($value)
  * @property bool $responded
  * @method static \Illuminate\Database\Query\Builder|\App\Eloquent\Address\Request whereResponded($value)
+ * @property int $exported
+ * @method static \Illuminate\Database\Query\Builder|\App\Eloquent\Address\Request whereExported($value)
  */
 class Request extends Model
 {

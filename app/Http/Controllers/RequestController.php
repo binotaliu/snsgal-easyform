@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Eloquent\User\RequestProfile;
 use App\Repositories\AddressRepository;
 use App\Repositories\RequestRepository;
 use Auth;
@@ -66,8 +67,12 @@ class RequestController extends Controller
         $request = $this->requestRepository->getRequest($token);
         if (!$request) return abort(404, 'Request Not Found');
 
+        $requestProfile = Auth::user()->requestProfile;
+        if (!$requestProfile) $requestProfile = new RequestProfile();
+
         return view('request.detail', [
-            'request' => $request
+            'request' => $request,
+            'requestProfile' => $requestProfile
         ]);
     }
 
@@ -242,6 +247,39 @@ class RequestController extends Controller
                 break;
         }
         return view('request.response.success');
+    }
+
+    /**
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function profile()
+    {
+        $requestProfile = Auth::user()->requestProfile;
+        if (!$requestProfile) $requestProfile = new RequestProfile();
+        return view('request.profile', [
+            'requestProfile' => $requestProfile
+        ]);
+    }
+
+    /**
+     * @param Request $request
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+     */
+    public function profileUpdate(Request $request)
+    {
+        $this->validate($request, [
+            'name' => 'required',
+            'phone' => 'required|regex:/^09\d{8}$/',
+            'postcode' => 'required|numeric|digits:3',
+            'address' => 'required'
+        ]);
+        $this->requestRepository->updateProfile(Auth::user()->id, [
+            'name' => $request->input('name'),
+            'phone' => $request->input('phone'),
+            'postcode' => $request->input('postcode'),
+            'address' => $request->input('address')
+        ]);
+        return redirect('/request/profile');
     }
 
     /**

@@ -3,6 +3,7 @@
 namespace App\Repositories;
 
 use App\Eloquent\Address\Request;
+use App\Eloquent\User\RequestProfile;
 use Ramsey\Uuid\Uuid;
 
 class RequestRepository
@@ -105,5 +106,26 @@ class RequestRepository
     public function removeRequest(String $token)
     {
         Request::where('token', $token)->delete();
+    }
+
+    /**
+     * @param Int $user
+     * @param array $data
+     */
+    public function updateProfile(Int $user, Array $data)
+    {
+        $updateData = [];
+        if ($data['name']) $updateData['name'] = $data['name'];
+        if ($data['phone']) $updateData['phone'] = $data['phone'];
+        if ($data['postcode']) $updateData['postcode'] = $data['postcode'];
+        if ($data['address']) $updateData['address'] = $data['address'];
+
+        // check whether the profile already exists
+        if (RequestProfile::where('user_id', $user)->exists()) {
+            RequestProfile::where('user_id', $user)->update($updateData);
+        } else {
+            $updateData['user_id'] = $user;
+            RequestProfile::create($updateData);
+        }
     }
 }

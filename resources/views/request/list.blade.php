@@ -12,8 +12,11 @@
 
                     <div class="panel-body">
                         <div class="row">
-                            <div class="col-md-10">
+                            <div class="col-md-8">
                                 {{ $requests->links() }}
+                            </div>
+                            <div class="col-md-2">
+                                <a href="{{ url('/request/profile') }}" class="btn btn-primary btn-block">{{ trans('request.profile_btn') }}</a>
                             </div>
                             <div class="col-md-2">
                                 <a href="{{ url('/request/create') }}" class="btn btn-success btn-block">{{ trans('request.create_btn') }}</a>
@@ -56,8 +59,11 @@
                         </div>
 
                         <div class="row">
-                            <div class="col-md-10">
+                            <div class="col-md-8">
                                 {{ $requests->links() }}
+                            </div>
+                            <div class="col-md-2">
+                                <a href="{{ url('/request/profile') }}" class="btn btn-primary btn-block">{{ trans('request.profile_btn') }}</a>
                             </div>
                             <div class="col-md-2">
                                 <a href="{{ url('/request/create') }}" class="btn btn-success btn-block">{{ trans('request.create_btn') }}</a>

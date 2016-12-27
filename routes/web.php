@@ -30,7 +30,10 @@ Route::group(['middleware' => ['auth', 'admin']], function () {
     Route::get('/request/create', 'RequestController@createForm');
     Route::post('/request/create', 'RequestController@create');
 
-    Route::put('/request/{token}', 'RequestController@create');
+    Route::get('/request/profile', 'RequestController@profile');
+    Route::put('/request/profile', 'RequestController@profileUpdate');
+
+    Route::put('/request/{token}', 'RequestController@update');
     Route::delete('/request/{token}', 'RequestController@remove');
 });
 

@@ -48,6 +48,9 @@ return [
     'field_address2' => '建築物與樓層',
     'field_delivery_time' => '指定配達時段',
 
+    'field_package' => '本包裹專用設定',
+    'field_common' => '通用設定',
+
     'field_product_name' => '商品名稱',
     'field_product_amount' => '商品金額',
     'field_sender_name' => '寄件者姓名',
@@ -74,4 +77,7 @@ return [
 
     'response_title' => '填寫地址',
     'responded' => '已儲存該地址。感謝您的購物！',
+
+    'profile_title' => '更新通用資訊',
+    'profile_btn' => '更新通用資訊',
 ];
