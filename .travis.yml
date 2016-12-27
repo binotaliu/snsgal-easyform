@@ -10,6 +10,16 @@ before_script:
   - composer self-update
   - composer install --prefer-source --no-interaction --dev
   - composer ide
+  - nvm install 6.9
+  - nvm use 6.9
+  - npm install --global gulp-cli
+  - npm install
+  - gulp
+
+cache:
+  directories:
+    - vendor
+    - node_modules
 
 script: vendor/bin/phpunit
 
