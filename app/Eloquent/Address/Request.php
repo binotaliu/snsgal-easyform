@@ -65,18 +65,18 @@ class Request extends Model
     public $timestamps = true;
 
     /**
-     * Get the address
-     *
      * @return \Illuminate\Database\Eloquent\Relations\HasOne
      */
-    public function address() {
-        switch ($this->address_type) {
-            case 'cvs':
-                return $this->hasOne('App\Eloquent\Address\Cvs');
-                break;
-            case 'standard':
-                return $this->hasOne('App\Eloquent\Address\Standard');
-                break;
-        }
+    public function cvs_address()
+    {
+        return $this->hasOne('App\Eloquent\Address\Cvs');
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
+    public function standard_address()
+    {
+        return $this->hasOne('App\Eloquent\Address\Standard');
     }
 }

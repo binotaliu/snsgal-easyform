@@ -96,7 +96,7 @@ class AddressRepositoryTest extends TestCase
             'phone' => '886987654321'
         ]);
 
-        $actual = $request->address->address2;
+        $actual = $request->standard_address->address2;
         $this->assertEquals($expected, $actual);
     }
 
@@ -110,7 +110,7 @@ class AddressRepositoryTest extends TestCase
             'phone' => '886987654321'
         ]);
 
-        $actual = $request->address->store;
+        $actual = $request->cvs_address->store;
         $this->assertEquals($expected, $actual);
     }
 
@@ -171,7 +171,7 @@ class AddressRepositoryTest extends TestCase
             'receiver' => $expected
         ]);
 
-        $actual = $request->address->receiver;
+        $actual = $request->standard_address->receiver;
         $this->assertEquals($expected, $actual);
     }
 
@@ -184,7 +184,7 @@ class AddressRepositoryTest extends TestCase
             'receiver' => $expected
         ]);
 
-        $actual = $request->address->receiver;
+        $actual = $request->cvs_address->receiver;
         $this->assertEquals($expected, $actual);
     }
 
