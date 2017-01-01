@@ -4,9 +4,49 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "189de57378ba11a7a92a5e4a928e295c",
-    "content-hash": "8679411cdf4e3c9bca0b58fb2d07982f",
+    "hash": "5f6549f09800b2e0e56dfd5a70e8e202",
+    "content-hash": "762d7c16f20308cdd0f31126c3b4d289",
     "packages": [
+        {
+            "name": "binota/ecpay-sdk",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/BinotaLIU/ECPay-PHP-SDK.git",
+                "reference": "553077d43d9e01dd37b7bc34021bead590fa522f"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/BinotaLIU/ECPay-PHP-SDK/zipball/553077d43d9e01dd37b7bc34021bead590fa522f",
+                "reference": "553077d43d9e01dd37b7bc34021bead590fa522f",
+                "shasum": ""
+            },
+            "require": {
+                "guzzlehttp/guzzle": "^6.2",
+                "respect/validation": "^1.1"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^5.7"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Binota\\ECPay\\": "src/ECPay"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "BinotaLIU",
+                    "email": "binota@binota.org"
+                }
+            ],
+            "description": "An Unofficial ECPay SDK for PHP",
+            "time": "2017-01-01 13:37:22"
+        },
         {
             "name": "classpreloader/classpreloader",
             "version": "3.1.0",
@@ -160,6 +200,177 @@
                 "string"
             ],
             "time": "2015-11-06 14:35:42"
+        },
+        {
+            "name": "guzzlehttp/guzzle",
+            "version": "6.2.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/guzzle/guzzle.git",
+                "reference": "ebf29dee597f02f09f4d5bbecc68230ea9b08f60"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/guzzle/guzzle/zipball/ebf29dee597f02f09f4d5bbecc68230ea9b08f60",
+                "reference": "ebf29dee597f02f09f4d5bbecc68230ea9b08f60",
+                "shasum": ""
+            },
+            "require": {
+                "guzzlehttp/promises": "^1.0",
+                "guzzlehttp/psr7": "^1.3.1",
+                "php": ">=5.5"
+            },
+            "require-dev": {
+                "ext-curl": "*",
+                "phpunit/phpunit": "^4.0",
+                "psr/log": "^1.0"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "6.2-dev"
+                }
+            },
+            "autoload": {
+                "files": [
+                    "src/functions_include.php"
+                ],
+                "psr-4": {
+                    "GuzzleHttp\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Michael Dowling",
+                    "email": "mtdowling@gmail.com",
+                    "homepage": "https://github.com/mtdowling"
+                }
+            ],
+            "description": "Guzzle is a PHP HTTP client library",
+            "homepage": "http://guzzlephp.org/",
+            "keywords": [
+                "client",
+                "curl",
+                "framework",
+                "http",
+                "http client",
+                "rest",
+                "web service"
+            ],
+            "time": "2016-10-08 15:01:37"
+        },
+        {
+            "name": "guzzlehttp/promises",
+            "version": "v1.3.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/guzzle/promises.git",
+                "reference": "a59da6cf61d80060647ff4d3eb2c03a2bc694646"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/guzzle/promises/zipball/a59da6cf61d80060647ff4d3eb2c03a2bc694646",
+                "reference": "a59da6cf61d80060647ff4d3eb2c03a2bc694646",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.5.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^4.0"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.4-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "GuzzleHttp\\Promise\\": "src/"
+                },
+                "files": [
+                    "src/functions_include.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Michael Dowling",
+                    "email": "mtdowling@gmail.com",
+                    "homepage": "https://github.com/mtdowling"
+                }
+            ],
+            "description": "Guzzle promises library",
+            "keywords": [
+                "promise"
+            ],
+            "time": "2016-12-20 10:07:11"
+        },
+        {
+            "name": "guzzlehttp/psr7",
+            "version": "1.3.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/guzzle/psr7.git",
+                "reference": "5c6447c9df362e8f8093bda8f5d8873fe5c7f65b"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/guzzle/psr7/zipball/5c6447c9df362e8f8093bda8f5d8873fe5c7f65b",
+                "reference": "5c6447c9df362e8f8093bda8f5d8873fe5c7f65b",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.4.0",
+                "psr/http-message": "~1.0"
+            },
+            "provide": {
+                "psr/http-message-implementation": "1.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "~4.0"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.4-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "GuzzleHttp\\Psr7\\": "src/"
+                },
+                "files": [
+                    "src/functions_include.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Michael Dowling",
+                    "email": "mtdowling@gmail.com",
+                    "homepage": "https://github.com/mtdowling"
+                }
+            ],
+            "description": "PSR-7 message implementation",
+            "keywords": [
+                "http",
+                "message",
+                "stream",
+                "uri"
+            ],
+            "time": "2016-06-24 23:00:38"
         },
         {
             "name": "jakub-onderka/php-console-color",
@@ -786,6 +997,56 @@
             "time": "2016-11-07 23:38:38"
         },
         {
+            "name": "psr/http-message",
+            "version": "1.0.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/php-fig/http-message.git",
+                "reference": "f6561bf28d520154e4b0ec72be95418abe6d9363"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/php-fig/http-message/zipball/f6561bf28d520154e4b0ec72be95418abe6d9363",
+                "reference": "f6561bf28d520154e4b0ec72be95418abe6d9363",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.0"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.0.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Psr\\Http\\Message\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "PHP-FIG",
+                    "homepage": "http://www.php-fig.org/"
+                }
+            ],
+            "description": "Common interface for HTTP messages",
+            "homepage": "https://github.com/php-fig/http-message",
+            "keywords": [
+                "http",
+                "http-message",
+                "psr",
+                "psr-7",
+                "request",
+                "response"
+            ],
+            "time": "2016-08-06 14:39:51"
+        },
+        {
             "name": "psr/log",
             "version": "1.0.2",
             "source": {
@@ -986,6 +1247,71 @@
                 "uuid"
             ],
             "time": "2016-11-22 19:21:44"
+        },
+        {
+            "name": "respect/validation",
+            "version": "1.1.10",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Respect/Validation.git",
+                "reference": "710e807a68aa79b992d85defb60b36a59745ae91"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Respect/Validation/zipball/710e807a68aa79b992d85defb60b36a59745ae91",
+                "reference": "710e807a68aa79b992d85defb60b36a59745ae91",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.4",
+                "symfony/polyfill-mbstring": "^1.2"
+            },
+            "require-dev": {
+                "egulias/email-validator": "~1.2",
+                "malkusch/bav": "~1.0",
+                "mikey179/vfsstream": "^1.5",
+                "phpunit/phpunit": "~4.0",
+                "symfony/validator": "~2.6.9",
+                "zendframework/zend-validator": "~2.3"
+            },
+            "suggest": {
+                "egulias/email-validator": "Strict (RFC compliant) email validation",
+                "ext-bcmath": "Arbitrary Precision Mathematics",
+                "ext-mbstring": "Multibyte String Functions",
+                "fabpot/php-cs-fixer": "Fix PSR2 and other coding style issues",
+                "malkusch/bav": "German bank account validation",
+                "symfony/validator": "Use Symfony validator through Respect\\Validation",
+                "zendframework/zend-validator": "Use Zend Framework validator through Respect\\Validation"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.1-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Respect\\Validation\\": "library/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD Style"
+            ],
+            "authors": [
+                {
+                    "name": "Respect/Validation Contributors",
+                    "homepage": "https://github.com/Respect/Validation/graphs/contributors"
+                }
+            ],
+            "description": "The most awesome validation engine ever created for PHP",
+            "homepage": "http://respect.github.io/Validation/",
+            "keywords": [
+                "respect",
+                "validation",
+                "validator"
+            ],
+            "time": "2016-10-29 13:29:17"
         },
         {
             "name": "swiftmailer/swiftmailer",
@@ -4023,7 +4349,9 @@
     ],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": [],
+    "stability-flags": {
+        "binota/ecpay-sdk": 20
+    },
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {

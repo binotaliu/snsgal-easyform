@@ -29,6 +29,7 @@ return [
 
     'list_title' => '地址單',
 
+    'field_id' => 'ID',
     'field_title' => '標題',
     'field_description' => '說明',
     'field_token' => 'Token',

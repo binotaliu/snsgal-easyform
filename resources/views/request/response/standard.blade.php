@@ -108,6 +108,7 @@
 @endsection
 
 @section('footer')
+    <script src="{{ elixir('js/requests.js') }}"></script>
     <script>
         (function() {
             "use strict";

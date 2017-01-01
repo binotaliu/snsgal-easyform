@@ -29,6 +29,7 @@ return [
 
     'list_title' => 'Requests',
 
+    'field_id' => 'ID',
     'field_title' => 'Title',
     'field_description' => 'Description',
     'field_token' => 'Token',
