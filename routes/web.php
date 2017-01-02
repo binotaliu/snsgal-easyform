@@ -24,23 +24,26 @@ Auth::routes();
 Route::get('/home', 'HomeController@index');
 
 Route::group(['middleware' => ['auth', 'admin']], function () {
-    Route::get('/requests', 'RequestController@list');
-    Route::get('/request/{token}/detail', 'RequestController@detail');
-    Route::post('/request/{token}/export', 'RequestController@export');
-    Route::get('/request/create', 'RequestController@createForm');
-    Route::post('/request/create', 'RequestController@create');
+    Route::get('/shipment/requests', 'Shipment\RequestController@view');
 
-    Route::get('/request/profile', 'RequestController@profile');
-    Route::put('/request/profile', 'RequestController@profileUpdate');
+    Route::post('/api/shipment/request/{token}/export', 'Shipment\RequestController@export');
+    Route::resource('/api/shipment/requests', 'Shipment\RequestController', [
+        'only' => [
+            'index', 'store', 'update', 'destroy'
+        ]
+    ]);
 
-    Route::put('/request/{token}', 'RequestController@update');
-    Route::delete('/request/{token}', 'RequestController@remove');
+    Route::resource('/api/shipment/sender_profile', 'Shipment\SenderController', [
+        'only' => [
+            'index', 'store'
+        ]
+    ]);
 });
 
-Route::get('/request/{token}', 'RequestController@get');
-Route::post('/request/{token}/address', 'RequestController@addAddress');
+Route::get('/shipment/request/{token}', 'Shipment\RequestController@get');
+Route::post('/request/{token}/address', 'Shipment\RequestController@addAddress');
 
-Route::post('/request/{token}/notify', 'RequestController@notify');
+Route::post('/request/{token}/notify', 'Shipment\RequestController@notify');
 
-Route::get('/map/cvs', 'RequestController@cvsmap');
-Route::post('/map/cvs/response', 'RequestController@cvsmapResponse');
+Route::get('/map/cvs', 'Shipment\RequestController@cvsmap');
+Route::post('/map/cvs/response', 'Shipment\RequestController@cvsmapResponse');

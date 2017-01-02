@@ -26,10 +26,13 @@ require('vue-resource');
  */
 
 Vue.http.interceptors.push((request, next) => {
-    request.headers.set('X-CSRF-TOKEN', Laravel.csrfToken);
+    request.headers.set('X-CSRF-TOKEN', Snsgal.csrfToken);
 
     next();
 });
+
+window.extend = require('extend');
+window.Splash = require('splash-screen').Splash;
 
 /**
  * Echo exposes an expressive API for subscribing to channels and listening

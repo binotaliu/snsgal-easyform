@@ -8,6 +8,16 @@
 // Bootstrap
 @import "node_modules/bootstrap-sass/assets/stylesheets/bootstrap";
 
+// Text-Spinners
+@import "node_modules/text-spinners/spinners.scss";
+
+// Splash
+@import "node_modules/splash-screen/dist/splash.min";
+
+.splash {
+  z-index: 1060;
+}
+
 .pagination {
   margin: 0;
 }

@@ -50,6 +50,14 @@ class RequestRepository
     }
 
     /**
+     * @return \Illuminate\Database\Eloquent\Collection|static[]
+     */
+    public function getRequests()
+    {
+        return Request::with(['cvs_address', 'standard_address'])->orderBy('id', 'desc')->get();
+    }
+
+    /**
      * @param String $token
      * @return Request
      */

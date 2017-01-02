@@ -1,11 +1,14 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Shipment;
 
 use App\Eloquent\User\RequestProfile;
+use App\Http\Controllers\Controller;
 use App\Repositories\AddressRepository;
 use App\Repositories\RequestRepository;
 use Auth;
+use Binota\ECPay\ECPay;
+use Binota\ECPay\Response as ECPayResponse;
 use Illuminate\Http\Request;
 
 class RequestController extends Controller
@@ -27,53 +30,33 @@ class RequestController extends Controller
     }
 
     /**
-     * @return \Illuminate\Contracts\View\Factory
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function list()
+    public function view()
     {
-        return view('request.list', [
-            'requests' => $this->requestRepository->pagination()
-        ]);
+        return view('shipment.requests');
     }
 
     /**
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     * @return \Illuminate\Database\Eloquent\Collection|static[]
      */
-    public function createForm()
+    public function index()
     {
-        return view('request.create');
+        return $this->requestRepository->getRequests();
     }
 
     /**
      * @param Request $request
-     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+     * @return \App\Eloquent\Address\Request
      */
-    public function create(Request $request)
+    public function store(Request $request)
     {
         $this->validate($request, [
             'title' => 'required|max:255',
-            'type' => 'required|in:cvs,standard'
+            'method' => 'required|in:cvs,standard'
         ]);
-        $ticket = $this->requestRepository->createRequest($request->input('title'), $request->input('description'), $request->input('type'));
-        return redirect("request/{$ticket->token}/detail");
-    }
-
-    /**
-     * @param String $token
-     * @return mixed
-     */
-    public function detail(String $token)
-    {
-        $request = $this->requestRepository->getRequest($token);
-        if (!$request) return abort(404, 'Request Not Found');
-
-        $requestProfile = Auth::user()->requestProfile;
-        if (!$requestProfile) $requestProfile = new RequestProfile();
-
-        return view('request.detail', [
-            'request' => $request,
-            'requestProfile' => $requestProfile
-        ]);
+        $ticket = $this->requestRepository->createRequest($request->input('title'), $request->input('description'), $request->input('method'));
+        return $ticket;
     }
 
     /**
@@ -112,47 +95,55 @@ class RequestController extends Controller
         $request = $this->requestRepository->getRequest($token);
         if (!$request) return abort(404, 'Request Not Found');
 
-        $ecpayData = [];
-        $ecpayData['MerchantID'] = env('ECPAY_MERCHANTID');
-        $ecpayData['MerchantTradeNo'] = $request->id . substr($token, 0, 8) . rand(100,999);
-        $ecpayData['MerchantTradeDate'] = date('Y/m/d H:i:s');
-        $ecpayData['LogisticsType'] = $request->address_type == 'cvs' ? 'CVS' : 'Home';
-        $ecpayData['LogisticsSubType'] = $request->address_type == 'cvs' ? $request->address->vendor . 'C2C' : $req->input('vendor');
-        $ecpayData['GoodsAmount'] = $req->input('amount');
-        $ecpayData['IsCollection'] = $req->input('collect');
-        if ($req->input('collect') == 'Y') {
-            $ecpayData['CollectionAmount'] = $req->input('amount');
-        }
-        $ecpayData['GoodsName'] = $req->input('product_name');
-        $ecpayData['SenderName'] = $req->input('sender');
-        $ecpayData['SenderCellPhone'] = $req->input('sender_phone');
-        $ecpayData['ReceiverName'] = $request->address->receiver;
-        $ecpayData['ReceiverCellPhone'] = $request->address->phone;
-        $ecpayData['TradeDesc'] = $token;
-        $ecpayData['ServerReplyURL'] = url("/request/{$token}/notify");
-        $ecpayData['ClientReplyURL'] = url("/request/{$token}/notify");
-        $ecpayData['LogisticsC2CReplyURL'] = url("/request/{$token}/notify");
-        $ecpayData['Remark'] = $token;
-        $ecpayData['PlatformID'] = '';
+
+        $ecpay = new ECPay(env('ECPAY_MERCHANTID'), env('ECPAY_HASHKEY'), env('ECPAY_HASHIV'));
+        $ticket = $ecpay->getLogisticFactory()
+            ->makeTicket($request->id . substr($token, 0, 8), strtotime($request->created_at));
+
+        $ticket = $ticket
+            ->amount($req->input('package')['amount'])
+            ->collect($req->input('package')['collect'])
+            ->replyServer(url("/shipment/request/{$token}/notify"))
+            ->replyC2C(url("/shipment/request/{$token}/notify"))
+            ->products([$req->input('package')['products']])
+            ->remark($token)
+            ->vendor($request->address_type == 'standard' ? $req->input('package')['vendor'] : $request->cvs_address->vendor . 'C2C');
 
         if ($request->address_type == 'standard') {
-            $ecpayData['SenderZipCode'] = $req->input('sender_postcode');
-            $ecpayData['SenderAddress'] = $req->input('sender_address');
-            $ecpayData['ReceiverZipCode'] = $request->address->postcode;
-            $ecpayData['ReceiverAddress'] = $request->address->county . $request->address->city . $request->address->address1 . ' ' . $request->address->address2;
-            $ecpayData['Temperature'] = $req->input('temperature');
-            $ecpayData['Distance'] = $req->input('distance');
-            $ecpayData['Specification'] = $req->input('specification');
-            $ecpayData['ScheduledDeliveryTime'] = $request->address->time == 0 ? 4 : $request->address->time;
+            $ticket = $ticket
+                ->sender(
+                    $req->input('sender')['name'],
+                    null,
+                    $req->input('sender')['phone'],
+                    $req->input('sender')['postcode'],
+                    $req->input('sender')['address'])
+                ->receiver(
+                    $request->standard_address->receiver,
+                    null,
+                    $request->standard_address->phone,
+                    $request->standard_address->postcode,
+                    $request->standard_address->county . $request->standard_address->city .
+                        $request->standard_address->address1 . ' ' . $request->standard_address->address2)
+                ->temperature($req->input('package')['temperature'])
+                ->distance($req->input('package')['distance'])
+                ->specification($req->input('package')['specification']);
         } elseif ($request->address_type == 'cvs') {
-            $ecpayData['ReceiverStoreID'] = $request->address->store;
+            $ticket = $ticket
+                ->sender(
+                    $req->input('sender')['name'],
+                    null,
+                    $req->input('sender')['phone'])
+                ->receiver(
+                    $request->cvs_address->receiver,
+                    null,
+                    $request->cvs_address->phone,
+                    $request->cvs_address->store);
         }
 
-        $ecpayData['CheckMacValue'] = $this->generateCheckMacValue($ecpayData);
-
-        return view('request.export', [
-            'data' => $ecpayData
-        ]);
+        $ecpayRequest = $ticket->create($request->address_type == 'cvs' ? 'cvs' : 'home');
+        $ecpayResponse = $ecpayRequest->send();
+        $this->requestRepository->updateRequest($token, $request->title, $request->description, $ecpayResponse->data('AllPayLogisticsID'));
+        return $ecpayResponse->all();
     }
 
     /**
@@ -184,19 +175,14 @@ class RequestController extends Controller
             'CVSValidationNo' => $req->input('CVSValidationNo'),
             'BookingNote' => $req->input('BookingNote')
         ];
-        $checkMacValue = $this->generateCheckMacValue($ecpayData);
+        new ECPayResponse(env('ECPAY_MERCHANTID'), env('ECPAY_HASHIV'), env('ECPAY_HASHKEY'), $ecpayData);
 
-        //@TODO
-        if ($checkMacValue === $req->input('CheckMacValue')) {
-            $this->requestRepository->updateRequest($token, $request->title, $request->description, $req->input('AllPayLogisticsID'));
-        } else {
-            return abort(403, 'Invalid CheckMacValue');
-        }
+        $this->requestRepository->updateRequest($token, $request->title, $request->description, $req->input('AllPayLogisticsID'));
 
         if(Auth::guest()) {
             return '1|OK';
         } else {
-            return redirect("request/{$token}/detail");
+            return redirect("shipment/request#/{$token}");
         }
     }
 
@@ -252,39 +238,6 @@ class RequestController extends Controller
     /**
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function profile()
-    {
-        $requestProfile = Auth::user()->requestProfile;
-        if (!$requestProfile) $requestProfile = new RequestProfile();
-        return view('request.profile', [
-            'requestProfile' => $requestProfile
-        ]);
-    }
-
-    /**
-     * @param Request $request
-     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
-     */
-    public function profileUpdate(Request $request)
-    {
-        $this->validate($request, [
-            'name' => 'required',
-            'phone' => 'required|regex:/^09\d{8}$/',
-            'postcode' => 'required|numeric|digits:3',
-            'address' => 'required'
-        ]);
-        $this->requestRepository->updateProfile(Auth::user()->id, [
-            'name' => $request->input('name'),
-            'phone' => $request->input('phone'),
-            'postcode' => $request->input('postcode'),
-            'address' => $request->input('address')
-        ]);
-        return redirect('/request/profile');
-    }
-
-    /**
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
-     */
     public function cvsmap()
     {
         return view('request.map.select');
@@ -301,31 +254,5 @@ class RequestController extends Controller
             'store' => $request->input('CVSStoreID'),
             'name' => $request->input('CVSStoreName')
         ]);
-    }
-
-    /**
-     * @param array $data
-     * @return string
-     */
-    private function generateCheckMacValue(Array $data)
-    {
-        uksort($data, function ($a, $b) { return strcasecmp($a, $b); });
-
-        // buidling http query string
-        $checkMacValue = 'HashKey=' . env('ECPAY_HASHKEY');
-        // note: DO NOT use http_build_query, since it will do urlencode
-        foreach ($data as $key => $value) {
-            $checkMacValue .= '&' . $key . '=' . $value;
-        }
-        $checkMacValue .= '&HashIV=' . env('ECPAY_HASHIV');
-        $checkMacValue = strtolower(urlencode($checkMacValue));
-
-        $checkMacValue = str_replace(
-            ['%2d', '%5f', '%2e', '%21', '%2a', '%28', '%29'],
-            ['-', '-', '.', '!', '*', '(', ')'],
-            $checkMacValue
-        );
-
-        return strtoupper(md5($checkMacValue));
     }
 }
