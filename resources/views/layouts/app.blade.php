@@ -44,7 +44,7 @@
                     <!-- Left Side Of Navbar -->
                     <ul class="nav navbar-nav">
                         @if (!Auth::guest())
-                            <li><a href="{{ url('/requests') }}">{{ trans('request.list_title') }}</a></li>
+                            <li><a href="{{ url('/shipment/requests') }}">{{ trans('request.list_title') }}</a></li>
                         @endif
                     </ul>
 
