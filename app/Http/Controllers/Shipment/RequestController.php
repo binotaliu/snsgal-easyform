@@ -29,6 +29,9 @@ class RequestController extends Controller
         $this->addressRepository = $addressRepository;
     }
 
+    /**
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function view()
     {
         return view('shipment.requests');
