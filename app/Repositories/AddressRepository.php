@@ -46,7 +46,14 @@ class AddressRepository
             ->where('responded', true)->first();
         if (is_null($request)) abort(404, 'Request Not Found');
 
-        return $request->address;
+        switch ($request->address_type) {
+            case 'cvs':
+                return $request->cvs_address;
+                break;
+            case 'standard':
+                return $request->standard_address;
+                break;
+        }
     }
 
     /**
@@ -88,7 +95,14 @@ class AddressRepository
             ->where('responded', true)->first();
         if (is_null($request)) abort(500, 'Address Request Not Found');
 
-        $request->address->update($data);
+        switch ($request->address_type) {
+            case 'cvs':
+                $request->cvs_address->update($data);
+                break;
+            case 'standard':
+                $request->standard_address->update($data);
+                break;
+        }
         return;
     }
 
@@ -101,7 +115,14 @@ class AddressRepository
             ->where('responded', true)->first();
         if (is_null($request)) abort(500, 'Address Request Not Found');
 
-        $request->address->delete();
+        switch ($request->address_type) {
+            case 'cvs':
+                $request->cvs_address->delete();
+                break;
+            case 'standard':
+                $request->standard_address->delete();
+                break;
+        }
         $request->responded = false;
         $request->save();
         return;

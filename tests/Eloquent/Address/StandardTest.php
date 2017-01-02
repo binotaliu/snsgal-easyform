@@ -44,7 +44,7 @@ class StandardTest extends TestCase
         $address = $this->createAddress($request);
 
         $expected = $address->receiver;
-        $actual = $request->address->receiver;
+        $actual = $request->standard_address->receiver;
 
         $this->assertEquals($expected, $actual);
     }

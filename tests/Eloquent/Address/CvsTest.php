@@ -40,7 +40,7 @@ class CvsTest extends TestCase
         $address = $this->createAddress($request);
 
         $expected = $address->receiver;
-        $actual = $request->address->receiver;
+        $actual = $request->cvs_address->receiver;
 
         $this->assertEquals($expected, $actual);
     }
