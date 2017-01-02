@@ -32,6 +32,7 @@ Vue.http.interceptors.push((request, next) => {
 });
 
 window.extend = require('extend');
+window.Splash = require('splash-screen').Splash;
 
 /**
  * Echo exposes an expressive API for subscribing to channels and listening

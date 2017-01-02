@@ -46,13 +46,13 @@ class RequestController extends Controller
      * @param Request $request
      * @return \App\Eloquent\Address\Request
      */
-    public function create(Request $request)
+    public function store(Request $request)
     {
         $this->validate($request, [
             'title' => 'required|max:255',
-            'type' => 'required|in:cvs,standard'
+            'method' => 'required|in:cvs,standard'
         ]);
-        $ticket = $this->requestRepository->createRequest($request->input('title'), $request->input('description'), $request->input('type'));
+        $ticket = $this->requestRepository->createRequest($request->input('title'), $request->input('description'), $request->input('method'));
         return $ticket;
     }
 

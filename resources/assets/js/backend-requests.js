@@ -9,7 +9,6 @@ const app = new Vue({
             address: ''
         },
         exportForm: {
-            loading: false,
             sender: {
                 name: '',
                 phone: '',
@@ -27,13 +26,18 @@ const app = new Vue({
                 specification: '0001'
             }
         },
+        createForm: {
+            title: '',
+            description: '',
+            method: 'cvs'
+        },
         requests: []
     },
     methods: {
         fetchRequests: function () {
             let resource = this.$resource('/api/shipment/requests');
 
-            resource.get().then((response) => {
+            return resource.get().then((response) => {
                 return response.json();
             }).then((json) => {
                 this.$set(this, 'requests', json);
@@ -42,7 +46,7 @@ const app = new Vue({
         fetchSender: function () {
             let resource = this.$resource('/api/shipment/sender_profile');
 
-            resource.get().then((response) => {
+            return resource.get().then((response) => {
                 return response.json();
             }).then((json) => {
                 this.$set(this, 'sender', extend({
@@ -77,12 +81,35 @@ const app = new Vue({
         },
         saveSender: function () {
             let resource = this.$resource('/api/shipment/sender_profile');
-            resource.save(this.sender);
+
+            Splash.enable('windcatcher');
+            resource.save(this.sender).then((response) => {
+                Splash.destroy();
+                return response;
+            });
+        },
+        showCreate: function () {
+            this.createForm.title = '';
+            this.createForm.description = '';
+            this.createForm.method = 'cvs';
+            $('#create-modal').modal('show');
+        },
+        createRequest: function () {
+            let resource = this.$resource('/api/shipment/requests');
+
+            Splash.enable('windcatcher');
+            return resource.save(this.createForm).then((response) => { // @TODO: not clear
+                return this.fetchRequests().then((response) => {
+                    Splash.destroy();
+                    $('#create-modal').modal('hide');
+                    return response;
+                });
+            });
         },
         exportTicket: function () {
             let resource = this.$resource('/api/shipment/request{/token}/export');
 
-            this.modalContent.loading = true;
+            Splash.enable('windcatcher');
 
             resource.save({token: this.modalContent.token}, this.exportForm).then((response) => {
                 return response.json()
@@ -95,7 +122,8 @@ const app = new Vue({
 
                 this.requests[index].exported = json.AllPayLogisticsID;
                 $('#request-modal').modal('hide');
-                this.modalContent.loading = false;
+                Splash.destroy();
+                return response;
             });
         }
     }

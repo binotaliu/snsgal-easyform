@@ -10,6 +10,7 @@
 
             <div class="panel-body">
                 <button type="button" v-on:click="showSender()" class="btn btn-success">{{ trans('request.profile_btn') }}</button>
+                <button type="button" v-on:click="showCreate()" class="btn btn-primary">{{ trans('request.create_btn') }}</button>
                 <div class="clearfix"></div>
                 <table class="table table-bordered">
                     <thead><tr>
@@ -267,6 +268,51 @@
                         <div class="form-group">
                             <div class="col-sm-5 col-sm-offset-2">
                                 <button type="button" class="btn btn-primary" v-on:click="saveSender()">{{ trans('request.submit') }}</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="create-modal" class="modal fade" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+
+                    <h4 class="modal-title">{{ trans('request.create_title') }}</h4>
+                </div>
+
+                <div class="modal-body">
+                    <form class="form-horizontal">
+                        <div class="form-group">
+                            <label for="create-title" class="col-sm-2 control-label">{{ trans('request.field_title') }}</label>
+                            <div class="col-sm-10">
+                                <input id="create-title" v-model="createForm.title" class="form-control">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="create-description" class="col-sm-2 control-label">{{ trans('request.field_description') }}</label>
+                            <div class="col-sm-10">
+                                <textarea id="create-description" v-model="createForm.description" class="form-control"></textarea>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="create-method" class="col-sm-2 control-label">{{ trans('request.field_shipping') }}</label>
+                            <div class="col-sm-10">
+                                <select id="create-method" v-model="createForm.method" class="form-control">
+                                    <option value="standard">{{ trans('request.shipping_standard') }}</option>
+                                    <option value="cvs">{{ trans('request.shipping_cvs') }}</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-sm-10 col-sm-offset-2">
+                                <button type="button" v-on:click="createRequest()" class="btn btn-primary">{{ trans('request.submit') }}</button>
                             </div>
                         </div>
                     </form>
