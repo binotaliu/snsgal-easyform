@@ -23,27 +23,31 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index');
 
-Route::group(['middleware' => ['auth', 'admin']], function () {
-    Route::get('/shipment/requests', 'Shipment\RequestController@view');
+Route::group(['namespace' => 'Shipment'], function () {
+    // /shipment/requests
+    Route::group(['prefix' => 'shipment'], function () {
+        Route::get('/request/{token}', 'RequestController@get');
+        Route::post('/request/{token}/address', 'RequestController@addAddress');
+        Route::post('/request/{token}/notify', 'RequestController@notify');
 
-    Route::post('/api/shipment/request/{token}/export', 'Shipment\RequestController@export');
-    Route::resource('/api/shipment/requests', 'Shipment\RequestController', [
-        'only' => [
-            'index', 'store', 'update', 'destroy'
-        ]
-    ]);
+        Route::group(['middleware' => ['auth', 'admin']], function () {
+            Route::get('/requests', 'RequestController@view');
+        });
+    });
 
-    Route::resource('/api/shipment/sender_profile', 'Shipment\SenderController', [
-        'only' => [
-            'index', 'store'
-        ]
-    ]);
+    // /api/shipment
+    Route::group(['prefix' => 'api/shipment', 'middleware' => ['auth', 'admin']], function () {
+        Route::post('/request/{token}/export', 'RequestController@export');
+        Route::resource('/requests', 'RequestController', [
+            'only' => ['index', 'store', 'update', 'destroy']
+        ]);
+
+        Route::resource('/sender_profile', 'SenderController', [
+            'only' => ['index', 'store']
+        ]);
+    });
+
+    Route::get('/map/cvs', 'RequestController@cvsmap');
+    Route::post('/map/cvs/response', 'RequestController@cvsmapResponse');
 });
 
-Route::get('/shipment/request/{token}', 'Shipment\RequestController@get');
-Route::post('/request/{token}/address', 'Shipment\RequestController@addAddress');
-
-Route::post('/request/{token}/notify', 'Shipment\RequestController@notify');
-
-Route::get('/map/cvs', 'Shipment\RequestController@cvsmap');
-Route::post('/map/cvs/response', 'Shipment\RequestController@cvsmapResponse');

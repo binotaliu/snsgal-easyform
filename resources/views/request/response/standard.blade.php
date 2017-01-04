@@ -25,7 +25,7 @@
                             {!! nl2br(htmlspecialchars($request->description)) !!}
                         </div>
 
-                        <form action="{{ url("/request/{$request->token}/address") }}" method="POST" class="form-horizontal">
+                        <form action="{{ url("/shipment/request/{$request->token}/address") }}" method="POST" class="form-horizontal">
                             {{ csrf_field() }}
                             <div class="form-group">
                                 <label for="address-receiver" class="col-sm-2 control-label">{{ trans('request.field_receiver') }}</label>
