@@ -79,7 +79,7 @@ class RequestController extends Controller
         switch ($request->address_type) {
             case 'standard':
             case 'cvs':
-                return view("request.response.{$request->address_type}", [
+                return view('request.response', [
                     'request' => $request
                 ]);
                 break;
