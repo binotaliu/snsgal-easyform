@@ -37,6 +37,7 @@ class AddressRepository
     }
 
     /**
+     * Get the address of the request
      * @param String $token
      * @return StandardAddress|CvsAddress
      */
@@ -57,6 +58,7 @@ class AddressRepository
     }
 
     /**
+     * Create an address for the request
      * @param String $token
      * @param array $data
      * @return StandardAddress|CvsAddress|null
@@ -86,6 +88,7 @@ class AddressRepository
     }
 
     /**
+     * Update an address
      * @param Int $id
      * @param array $data
      */
@@ -107,6 +110,7 @@ class AddressRepository
     }
 
     /**
+     * Remove address
      * @param Int $id
      */
     public function removeAddress(Int $id)

@@ -26,6 +26,8 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Query\Builder|\App\Eloquent\User\RequestProfile whereUpdatedAt($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Eloquent\User\RequestProfile whereDeletedAt($value)
  * @mixin \Eloquent
+ * @property int $user_id
+ * @method static \Illuminate\Database\Query\Builder|\App\Eloquent\User\RequestProfile whereUserId($value)
  */
 class RequestProfile extends Model
 {

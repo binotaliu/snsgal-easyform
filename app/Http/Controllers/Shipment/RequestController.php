@@ -30,6 +30,7 @@ class RequestController extends Controller
     }
 
     /**
+     * Show the page for vue.js handle
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function view()
@@ -38,6 +39,7 @@ class RequestController extends Controller
     }
 
     /**
+     * List requests
      * @return \Illuminate\Database\Eloquent\Collection|static[]
      */
     public function index()
@@ -46,6 +48,7 @@ class RequestController extends Controller
     }
 
     /**
+     * Store new request
      * @param Request $request
      * @return \App\Eloquent\Address\Request
      */
@@ -60,6 +63,7 @@ class RequestController extends Controller
     }
 
     /**
+     * Get the response form request
      * @param String $token
      * @return mixed
      */
@@ -86,6 +90,7 @@ class RequestController extends Controller
     }
 
     /**
+     * Export the shipping information to ECPay
      * @param String $token
      * @param Request $req
      * @return mixed
@@ -147,6 +152,7 @@ class RequestController extends Controller
     }
 
     /**
+     * Handle the notifications from ECPay
      * @param String $token
      * @param Request $req
      * @return mixed
@@ -187,6 +193,7 @@ class RequestController extends Controller
     }
 
     /**
+     * Save the address user responded
      * @param String $token
      * @param Request $request
      * @return mixed
@@ -236,6 +243,7 @@ class RequestController extends Controller
     }
 
     /**
+     * Show CVS map selector
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function cvsmap()
@@ -244,6 +252,7 @@ class RequestController extends Controller
     }
 
     /**
+     * Return CVS selected for parent page
      * @param Request $request
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */

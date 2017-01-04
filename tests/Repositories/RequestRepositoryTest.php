@@ -29,27 +29,13 @@ class RequestRepositoryTest extends TestCase
         return factory(App\Eloquent\Address\Request::class, $times)->create();
     }
 
-    public function testCount()
+    public function testGetRequests()
     {
-        $expected = 27;
+        $expected = 15;
         $this->createRequests($expected);
 
-        $actual = $this->requestRepository->count();
+        $actual = $this->requestRepository->getRequests()->count();
         $this->assertEquals($expected, $actual);
-    }
-
-    public function testGetPage()
-    {
-        // for 17 requests, page 1 have 15 items, page 2 have 2
-        $expectedPage1 = 15;
-        $expectedPage2 = 2;
-        $this->createRequests($expectedPage1 + $expectedPage2);
-
-        $actual = $this->requestRepository->getPage(1)->count();
-        $this->assertEquals($expectedPage1, $actual);
-
-        $actual = $this->requestRepository->getPage(2)->count();
-        $this->assertEquals($expectedPage2, $actual);
     }
 
     public function testGetRequest()

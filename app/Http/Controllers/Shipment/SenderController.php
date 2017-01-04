@@ -21,6 +21,7 @@ class SenderController extends Controller
     }
 
     /**
+     * Get user's profile
      * @return \App\Eloquent\User\RequestProfile|array
      */
     public function index()
@@ -38,6 +39,7 @@ class SenderController extends Controller
     }
 
     /**
+     * Save user's profile
      * @param Request $request
      * @return array
      */

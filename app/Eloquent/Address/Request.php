@@ -31,6 +31,8 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @method static \Illuminate\Database\Query\Builder|\App\Eloquent\Address\Request whereResponded($value)
  * @property int $exported
  * @method static \Illuminate\Database\Query\Builder|\App\Eloquent\Address\Request whereExported($value)
+ * @property-read \App\Eloquent\Address\Cvs $cvs_address
+ * @property-read \App\Eloquent\Address\Standard $standard_address
  */
 class Request extends Model
 {

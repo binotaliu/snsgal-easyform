@@ -25,31 +25,7 @@ class RequestRepository
     }
 
     /**
-     * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator
-     */
-    public function pagination()
-    {
-        return Request::orderBy('id', 'desc')->paginate(self::PER_PAGE);
-    }
-
-    /**
-     * @return int
-     */
-    public function count()
-    {
-        return Request::all()->count();
-    }
-
-    /**
-     * @param Int $page
-     * @return \Illuminate\Database\Eloquent\Collection|\Illuminate\Support\Collection|static[]
-     */
-    public function getPage(Int $page)
-    {
-        return Request::forPage($page, self::PER_PAGE)->get();
-    }
-
-    /**
+     * Get all requests
      * @return \Illuminate\Database\Eloquent\Collection|static[]
      */
     public function getRequests()
@@ -58,6 +34,7 @@ class RequestRepository
     }
 
     /**
+     * Get specified request
      * @param String $token
      * @return Request
      */
@@ -67,6 +44,7 @@ class RequestRepository
     }
 
     /**
+     * Create new request
      * @param String $title
      * @param String $description
      * @param String $type
@@ -93,6 +71,7 @@ class RequestRepository
     }
 
     /**
+     * Update request
      * @param String $token
      * @param String $title
      * @param String $description
@@ -109,6 +88,7 @@ class RequestRepository
     }
 
     /**
+     * Remove specified request
      * @param String $token
      */
     public function removeRequest(String $token)
@@ -117,6 +97,7 @@ class RequestRepository
     }
 
     /**
+     * Update user's profile
      * @param Int $user
      * @param array $data
      */
