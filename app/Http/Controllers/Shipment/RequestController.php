@@ -131,7 +131,9 @@ class RequestController extends Controller
                         $request->standard_address->address1 . ' ' . $request->standard_address->address2)
                 ->temperature($req->input('package')['temperature'])
                 ->distance($req->input('package')['distance'])
-                ->specification($req->input('package')['specification']);
+                ->specification($req->input('package')['specification'])
+                ->deliveryAt($request->standard_address->time)
+                ->package(1);
         } elseif ($request->address_type == 'cvs') {
             $ticket = $ticket
                 ->sender(
@@ -209,7 +211,7 @@ class RequestController extends Controller
                     'county' => 'required',
                     'city' => 'required',
                     'address1' => 'required',
-                    'time' => 'required|in:0,1,2,3'
+                    'time' => 'required|min:1|max:15'
                 ]);
                 $this->addressRepository->createAddress($token, [
                     'receiver' => $request->input('receiver'),

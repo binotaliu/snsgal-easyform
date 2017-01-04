@@ -41,6 +41,7 @@ const app = new Vue({
                 return response.json();
             }).then((json) => {
                 this.$set(this, 'requests', json);
+                return json;
             });
         },
         fetchSender: function () {
@@ -55,6 +56,7 @@ const app = new Vue({
                     postcode: '',
                     address: ''
                 }, json));
+                return json;
             });
         },
         showRequest: function (index) {
@@ -83,7 +85,7 @@ const app = new Vue({
             let resource = this.$resource('/api/shipment/sender_profile');
 
             Splash.enable('windcatcher');
-            resource.save(this.sender).then((response) => {
+            return resource.save(this.sender).then((response) => {
                 Splash.destroy();
                 return response;
             });
@@ -111,7 +113,7 @@ const app = new Vue({
 
             Splash.enable('windcatcher');
 
-            resource.save({token: this.modalContent.token}, this.exportForm).then((response) => {
+            return resource.save({token: this.modalContent.token}, this.exportForm).then((response) => {
                 return response.json()
             }, (response) => {
                 // @TODO: error handle
@@ -123,7 +125,7 @@ const app = new Vue({
                 this.requests[index].exported = json.AllPayLogisticsID;
                 $('#request-modal').modal('hide');
                 Splash.destroy();
-                return response;
+                return json;
             });
         }
     }

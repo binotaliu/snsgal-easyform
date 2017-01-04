@@ -66,31 +66,7 @@
                                 <div class="form-group">
                                     <label for="address-time" class="col-sm-2 control-label">{{ trans('request.field_delivery_time') }}</label>
                                     <div class="col-sm-10">
-                                        <select class="form-control" id="address-time" name="time">
-                                            @if ( old('time') == 0 )
-                                                <option value="0" selected>{{ trans('request.time_unlimited') }}</option>
-                                            @else
-                                                <option value="0">{{ trans('request.time_unlimited') }}</option>
-                                            @endif
-
-                                            @if ( old('time') == 1 )
-                                                <option value="1" selected>9 ~ 12</option>
-                                            @else
-                                                <option value="1">9 ~ 12</option>
-                                            @endif
-
-                                            @if ( old('time') == 2 )
-                                                <option value="2" selected>12 ~ 17</option>
-                                            @else
-                                                <option value="2">12 ~ 17</option>
-                                            @endif
-
-                                            @if ( old('time') == 3 )
-                                                <option value="3" selected>17 ~ 20</option>
-                                            @else
-                                                <option value="3">17 ~ 20</option>
-                                            @endif
-                                        </select>
+                                        <shipping-time-selector :input-name="'time'"></shipping-time-selector>
                                     </div>
                                 </div>
                             @elseif ($request->address_type == 'cvs')
