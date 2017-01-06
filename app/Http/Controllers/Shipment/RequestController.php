@@ -79,7 +79,7 @@ class RequestController extends Controller
         switch ($request->address_type) {
             case 'standard':
             case 'cvs':
-                return view('request.response', [
+                return view('shipment.request.response', [
                     'request' => $request
                 ]);
                 break;
@@ -241,7 +241,7 @@ class RequestController extends Controller
                 return abort(500, 'Unknown Address Type');
                 break;
         }
-        return view('request.response.success');
+        return view('shipment.request.response.success');
     }
 
     /**
@@ -250,7 +250,7 @@ class RequestController extends Controller
      */
     public function cvsmap()
     {
-        return view('request.map.select');
+        return view('shipment.map.select');
     }
 
     /**
@@ -260,7 +260,7 @@ class RequestController extends Controller
      */
     public function cvsmapResponse(Request $request)
     {
-        return view('request.map.response', [
+        return view('shipment.map.response', [
             'vendor' => $request->input('LogisticsSubType'),
             'store' => $request->input('CVSStoreID'),
             'name' => $request->input('CVSStoreName')
