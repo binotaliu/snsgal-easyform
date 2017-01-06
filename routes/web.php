@@ -31,7 +31,7 @@ Route::group(['namespace' => 'Shipment'], function () {
         Route::post('/request/{token}/notify', 'RequestController@notify');
 
         Route::group(['middleware' => ['auth', 'admin']], function () {
-            Route::get('/requests', 'RequestController@view');
+            Route::get('/requests', 'RequestController@view'); // vue handle
         });
     });
 
@@ -49,5 +49,13 @@ Route::group(['namespace' => 'Shipment'], function () {
 
     Route::get('/map/cvs', 'RequestController@cvsmap');
     Route::post('/map/cvs/response', 'RequestController@cvsmapResponse');
+});
+
+
+Route::group(['namespace' => 'Procurement'], function () {
+    // /procurement/tickets
+    Route::group(['prefix' => 'procurement'], function () {
+        Route::get('/tickets/new', 'TicketController@new');
+    });
 });
 

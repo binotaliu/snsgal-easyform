@@ -33,6 +33,7 @@ Vue.http.interceptors.push((request, next) => {
 
 window.extend = require('extend');
 window.Splash = require('splash-screen').Splash;
+window.moneyFormatter = require('money-formatter');
 
 /**
  * Echo exposes an expressive API for subscribing to channels and listening
