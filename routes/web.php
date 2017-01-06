@@ -26,9 +26,9 @@ Route::get('/home', 'HomeController@index');
 Route::group(['namespace' => 'Shipment'], function () {
     // /shipment/requests
     Route::group(['prefix' => 'shipment'], function () {
-        Route::get('/request/{token}', 'RequestController@get');
-        Route::post('/request/{token}/address', 'RequestController@addAddress');
-        Route::post('/request/{token}/notify', 'RequestController@notify');
+        Route::get('/requests/{token}', 'RequestController@get');
+        Route::post('/requests/{token}/address', 'RequestController@addAddress');
+        Route::post('/requests/{token}/notify', 'RequestController@notify');
 
         Route::group(['middleware' => ['auth', 'admin']], function () {
             Route::get('/requests', 'RequestController@view');
@@ -37,7 +37,7 @@ Route::group(['namespace' => 'Shipment'], function () {
 
     // /api/shipment
     Route::group(['prefix' => 'api/shipment', 'middleware' => ['auth', 'admin']], function () {
-        Route::post('/request/{token}/export', 'RequestController@export');
+        Route::post('/requests/{token}/export', 'RequestController@export');
         Route::resource('/requests', 'RequestController', [
             'only' => ['index', 'store', 'update', 'destroy']
         ]);

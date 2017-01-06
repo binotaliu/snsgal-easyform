@@ -109,7 +109,7 @@ const app = new Vue({
             });
         },
         exportTicket: function () {
-            let resource = this.$resource('/api/shipment/request{/token}/export');
+            let resource = this.$resource('/api/shipment/requests{/token}/export');
 
             Splash.enable('windcatcher');
 
