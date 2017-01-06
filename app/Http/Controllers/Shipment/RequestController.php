@@ -108,8 +108,8 @@ class RequestController extends Controller
         $ticket = $ticket
             ->amount($req->input('package')['amount'])
             ->collect($req->input('package')['collect'])
-            ->replyServer(url("/shipment/request/{$token}/notify"))
-            ->replyC2C(url("/shipment/request/{$token}/notify"))
+            ->replyServer(url("/shipment/requests/{$token}/notify"))
+            ->replyC2C(url("/shipment/requests/{$token}/notify"))
             ->products([$req->input('package')['products']])
             ->remark($token)
             ->vendor($request->address_type == 'standard' ? $req->input('package')['vendor'] : $request->cvs_address->vendor . 'C2C');
@@ -190,7 +190,7 @@ class RequestController extends Controller
         if(Auth::guest()) {
             return '1|OK';
         } else {
-            return redirect("shipment/request#/{$token}");
+            return redirect("shipment/requests#/{$token}");
         }
     }
 

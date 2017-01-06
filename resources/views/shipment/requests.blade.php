@@ -27,7 +27,7 @@
                             <td>@{{ request.id }}</td>
                             <td>@{{ request.title }}</td>
                             <td>
-                                <a v-bind:href="'{{ url('shipment/request') }}/' + request.token" target="_blank">
+                                <a v-bind:href="'{{ url('shipment/requests') }}/' + request.token" target="_blank">
                                     @{{ request.token }}
                                 </a>
                             </td>
