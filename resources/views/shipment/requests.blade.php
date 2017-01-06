@@ -1,5 +1,7 @@
 @extends('layouts.app')
 
+@section('title', trans('request.list_title'))
+
 @section('content')
 
     <div class="col-sm-12">
