@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Procurement;
 use App\Eloquent\Procurement\Ticket;
 use App\Repositories\CurrencyRepository;
 use App\Repositories\Procurement\TicketRepository;
-use App\Status\Procurement\TicketStatus;
+use App\Codes\Procurement\TicketStatus;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 

@@ -1,7 +1,7 @@
 <?php
 
 use App\Eloquent\Procurement\Ticket as ProcurementTicket;
-use App\Status\Procurement\TicketStatus;
+use App\Codes\Procurement\TicketStatus;
 use Illuminate\Foundation\Testing\WithoutMiddleware;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\DatabaseTransactions;

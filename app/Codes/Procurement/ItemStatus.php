@@ -1,7 +1,7 @@
 <?php
 
 
-namespace App\Status\Procurement;
+namespace App\Codes\Procurement;
 
 
 class ItemStatus
