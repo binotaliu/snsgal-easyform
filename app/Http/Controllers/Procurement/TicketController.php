@@ -37,7 +37,8 @@ class TicketController extends Controller
      * Show create form
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function new() {
+    public function new()
+    {
         return view('procurement.tickets.new');
     }
 
@@ -45,7 +46,8 @@ class TicketController extends Controller
      * @param Request $request
      * @return Ticket
      */
-    public function store(Request $request) {
+    public function store(Request $request)
+    {
         $this->validate($request, [
             'name' => 'required|max:256',
             'email' => 'required|email|max:256',
@@ -67,5 +69,18 @@ class TicketController extends Controller
         );
 
         return $ticket;
+    }
+
+    public function view(string $token)
+    {
+        /** @var Ticket $ticket */
+        $ticket = $this->ticketRepository->getTicket($token);
+
+        if (!$ticket) abort(404, 'Ticket not found');
+
+        return view('procurement.tickets.view', [
+            'ticket' => $ticket,
+            'rate' => $this->currencyRepository->getRate('JPY')
+        ]);
     }
 }
