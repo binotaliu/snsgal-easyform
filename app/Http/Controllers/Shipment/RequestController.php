@@ -73,7 +73,7 @@ class RequestController extends Controller
         if (!$request) return abort(404, 'Request Not Found');
 
         if ($request->responded) {
-            return view('request.response.success');
+            return view('shipment.request.response.success');
         }
 
         switch ($request->address_type) {
