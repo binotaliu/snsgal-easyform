@@ -1,7 +1,7 @@
 <?php
 
 use App\Eloquent\Procurement\Ticket as ProcurementTicket;
-use App\Repositories\Procurement\TicketRepository;
+use App\Status\Procurement\TicketStatus;
 use Illuminate\Foundation\Testing\WithoutMiddleware;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
@@ -10,11 +10,15 @@ class TicketRepositoryTest extends TestCase
 {
     use DatabaseMigrations;
 
+    /**
+     * @var \App\Repositories\Procurement\TicketRepository
+     */
     protected $ticketRepository;
 
     public function setUp()
     {
-        $this->ticketRepository = new TicketRepository();
+        parent::setUp();
+        $this->ticketRepository = app('App\Repositories\Procurement\TicketRepository');
     }
 
     /**
@@ -38,7 +42,8 @@ class TicketRepositoryTest extends TestCase
             'binota@binota.org',
             'LINE:binota',
             'dfasklfsadklafkljsfdjskl',
-            ProcurementTicket::STATUS_WAITING_CHECK,
+            TicketStatus::WAITING_CHECK,
+            0.2807,
             $items
         );
     }
@@ -55,13 +60,13 @@ class TicketRepositoryTest extends TestCase
         $this->assertEquals($expectedItem, $ticket->items->count());
     }
 
-    public function updateTicketStatus()
+    public function testUpdateTicketStatus()
     {
-        $expected = ProcurementTicket::STATUS_TRANSFERING;
+        $expected = TicketStatus::TRANSFERRING;
 
         $ticket = $this->createTicket(3);
 
-        $this->ticketRepository->updateStatus($ticket->id, $expected);
+        $this->ticketRepository->updateTicketStatus($ticket->id, $expected);
         $actual = ProcurementTicket::find($ticket->id)->status;
 
         $this->assertEquals($expected, $actual);
