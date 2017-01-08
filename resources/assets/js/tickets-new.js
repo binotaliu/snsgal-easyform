@@ -15,7 +15,8 @@ const app = new Vue({
             name: '',
             email: '',
             contact: ''
-        }
+        },
+        errors: []
     },
     methods: {
         pushItem() {
@@ -33,6 +34,33 @@ const app = new Vue({
         },
         format(price) {
             return moneyFormatter.format('JPY', price);
+        },
+        store() {
+            let resource = this.$resource('/api/procurement/tickets');
+
+            Splash.enable('windcatcher');
+            return resource.save({
+                name: this.customer.name,
+                email: this.customer.email,
+                contact: this.customer.contact,
+                note: this.note,
+                items: this.items
+            }).then((response) => {
+                return response.json();
+            }, (response) => {
+                return response.json();
+            }).then((json) => {
+                if (typeof json.token !== 'undefined') {
+                    window.location.href = `/procurement/tickets/${json.token}`;
+                    return json;
+                }
+
+                for (let i in json) {
+                    this.errors.push(json[i]);
+                }
+                Splash.destroy();
+                return json;
+            });
         },
         summary() {
             let total = 0;

@@ -13,6 +13,13 @@
                 </div>
 
                 <div class="panel-body">
+                    <div v-if="errors.length > 0" class="col-md-12">
+                        <div class="alert alert-warning">
+                            <ul v-for="error in errors">
+                                <li v-for="message in error">@{{ message }}</li>
+                            </ul>
+                        </div>
+                    </div>
                     <div class="col-md-12">
                         <form class="form-inline">
                             <div class="form-group">
@@ -108,7 +115,7 @@
                     </div>
 
                     <div class="col-md-4 col-md-offset-8">
-                        <button type="button" class="btn btn-block btn-success">Send</button>
+                        <button type="button" v-on:click="store()" class="btn btn-block btn-success">Send</button>
                     </div>
                 </div>
             </div>

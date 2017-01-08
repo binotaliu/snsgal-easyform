@@ -56,6 +56,13 @@ Route::group(['namespace' => 'Procurement'], function () {
     // /procurement/tickets
     Route::group(['prefix' => 'procurement'], function () {
         Route::get('/tickets/new', 'TicketController@new');
+        Route::get('/tickets/{token}', 'TicketController@view');
+    });
+
+    Route::group(['prefix' => 'api/procurement'], function () {
+        Route::resource('/tickets', 'TicketController', [
+            'only' => ['store']
+        ]);
     });
 });
 
