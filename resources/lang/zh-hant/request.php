@@ -4,6 +4,7 @@ return [
     'status_yes' => '是',
     'status_no' => '否',
     'submit' => '送出',
+    'cancel' => '取消',
 
     'type_cvs' => '超商',
     'type_standard' => '宅配',
@@ -81,4 +82,9 @@ return [
 
     'profile_title' => '更新通用資訊',
     'profile_btn' => '更新通用資訊',
+
+    'archive_btn' => '封存',
+    'archive_title' => '封存地址單',
+    'archive_confirm_text' => '確定要封存下列地址單？',
+    'archive_not_exported_text' => '注意：這個地址單還未匯出',
 ];
