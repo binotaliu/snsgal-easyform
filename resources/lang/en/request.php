@@ -4,6 +4,7 @@ return [
     'status_yes' => 'Yes',
     'status_no' => 'No',
     'submit' => 'Submit',
+    'cancel' => 'Cancel',
 
     'type_cvs' => 'CVS',
     'type_standard' => 'Standard',
@@ -81,4 +82,9 @@ return [
 
     'profile_title' => 'Update Profile',
     'profile_btn' => 'Update Profile',
+
+    'archive_btn' => 'Archive',
+    'archive_title' => 'Archive Request',
+    'archive_confirm_text' => 'Are you sure you want to archive following request?',
+    'archive_not_exported_text' => 'Note: The request haven\'t been exported.',
 ];

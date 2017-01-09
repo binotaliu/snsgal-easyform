@@ -2,6 +2,7 @@ const app = new Vue({
     el: '#app',
     data: {
         modalContent: {},
+        archive: 0,
         sender: {
             name: '',
             phone: '',
@@ -77,6 +78,24 @@ const app = new Vue({
             this.exportForm.package.distance = 'other';
             this.exportForm.package.specification = '60';
             $('#request-modal').modal('show');
+        },
+        confirmArchive: function (index) {
+            this.archive = index;
+
+            $('#archive-modal').modal('show');
+        },
+        archiveRequest: function () {
+            let resource = this.$resource('/api/shipment/requests{/token}/archive');
+
+            Splash.enable('windcatcher');
+            return resource.save({token: this.requests[this.archive].token}, {}).then((response) => {
+                Splash.destroy();
+                $('#archive-modal').modal('hide');
+
+                this.requests.splice(this.archive, 1);
+
+                return response;
+            });
         },
         showSender: function () {
             $('#sender-modal').modal('show');

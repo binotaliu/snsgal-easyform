@@ -154,6 +154,17 @@ class RequestController extends Controller
     }
 
     /**
+     * @param string $token
+     * @return array
+     */
+    public function archive(string $token)
+    {
+        $this->requestRepository->removeRequest($token);
+
+        return ['status' => 200];
+    }
+
+    /**
      * Handle the notifications from ECPay
      * @param String $token
      * @param Request $req

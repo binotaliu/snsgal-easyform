@@ -42,6 +42,7 @@
                             <td>
                                 <div class="btn-group">
                                     <button class="btn btn-primary" v-on:click="showRequest(index)">{{ trans('request.detail_btn') }}</button>
+                                    <button class="btn btn-warning" v-on:click="confirmArchive(index)">{{ trans('request.archive_btn') }}</button>
                                 </div>
                             </td>
                         </tr>
@@ -318,6 +319,36 @@
                             </div>
                         </div>
                     </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="archive-modal" class="modal fade" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+
+                    <h4 class="modal-title">{{ trans('request.archive_title') }}</h4>
+                </div>
+
+                <div v-if="requests[archive]" class="modal-body">
+                    {{ trans('request.archive_confirm_text') }}<br>
+                    @{{ requests[archive].title }}<br>
+                    <br>
+                    <p v-if="!requests[archive].exported" class="text-danger">
+                        {{ trans('request.archive_not_exported_text') }}
+                    </p>
+                </div>
+
+                <div class="modal-footer">
+                    <div class="btn-group pull-right">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">{{ trans('request.cancel') }}</button>
+                        <button type="button" class="btn btn-warning" v-on:click="archiveRequest">{{ trans('request.archive_btn') }}</button>
+                    </div>
                 </div>
             </div>
         </div>

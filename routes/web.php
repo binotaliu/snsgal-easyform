@@ -38,6 +38,7 @@ Route::group(['namespace' => 'Shipment'], function () {
     // /api/shipment
     Route::group(['prefix' => 'api/shipment', 'middleware' => ['auth', 'admin']], function () {
         Route::post('/requests/{token}/export', 'RequestController@export');
+        Route::post('/requests/{token}/archive', 'RequestController@archive');
         Route::resource('/requests', 'RequestController', [
             'only' => ['index', 'store', 'update', 'destroy']
         ]);
