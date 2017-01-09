@@ -96,4 +96,16 @@ class TicketRepositoryTest extends TestCase
 
         $this->assertEquals($expected, $actual);
     }
+
+    public function testAddJapanShipment()
+    {
+        $expected = 'Melonbooks';
+
+        $ticket = $this->createTicket(2);
+        $this->ticketRepository->addJapanShipment($ticket, $expected, 500);
+
+        $actual = ProcurementTicket::find($ticket->id)->japanShipments->first()->title;
+
+        $this->assertEquals($expected, $actual);
+    }
 }

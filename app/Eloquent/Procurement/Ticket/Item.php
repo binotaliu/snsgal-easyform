@@ -26,6 +26,8 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @method static \Illuminate\Database\Query\Builder|\App\Eloquent\Procurement\Ticket\Item whereUpdatedAt($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Eloquent\Procurement\Ticket\Item whereDeletedAt($value)
  * @mixin \Eloquent
+ * @property string $url
+ * @method static \Illuminate\Database\Query\Builder|\App\Eloquent\Procurement\Ticket\Item whereUrl($value)
  */
 class Item extends Model
 {

@@ -5,7 +5,6 @@ namespace App\Repositories\Procurement;
 
 
 use App\Eloquent\Procurement\Ticket as ProcurementTicket;
-use App\Eloquent\Procurement\Ticket\Item as ProcurementTicketItem;
 use Ramsey\Uuid\Uuid;
 
 class TicketRepository
@@ -16,18 +15,26 @@ class TicketRepository
     protected $ticket;
 
     /**
-     * @var ProcurementTicketItem
+     * @var ProcurementTicket\Item
      */
     protected $item;
 
     /**
+     * @var ProcurementTicket\JapanShipment
+     */
+    protected $japanShipment;
+
+    /**
      * TicketRepository constructor.
      * @param ProcurementTicket $ticket
+     * @param ProcurementTicket\Item $item
+     * @param ProcurementTicket\JapanShipment $japanShipment
      */
-    public function __construct(ProcurementTicket $ticket, ProcurementTicketItem $item)
+    public function __construct(ProcurementTicket $ticket, ProcurementTicket\Item $item, ProcurementTicket\JapanShipment $japanShipment)
     {
         $this->ticket = $ticket;
         $this->item = $item;
+        $this->japanShipment = $japanShipment;
     }
 
     /**
@@ -94,7 +101,7 @@ class TicketRepository
      */
     public function getTicket(string $token)
     {
-        return $this->ticket->with('items')->whereToken($token)->first();
+        return $this->ticket->with('items', 'japanShipments')->whereToken($token)->first();
     }
 
     /**
@@ -104,5 +111,21 @@ class TicketRepository
     public function removeTicket(int $id)
     {
         return $this->ticket->find($id)->delete();
+    }
+
+    /**
+     * @param ProcurementTicket $ticket
+     * @param string $title
+     * @param float $price
+     * @return \Illuminate\Database\Eloquent\Model
+     */
+    public function addJapanShipment(ProcurementTicket $ticket, string $title, float $price)
+    {
+        return $ticket->japanShipments()->save(
+            new $this->japanShipment([
+                'title' => $title,
+                'price' => $price
+            ])
+        );
     }
 }

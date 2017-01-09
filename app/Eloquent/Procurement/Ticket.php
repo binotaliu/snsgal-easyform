@@ -32,6 +32,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @method static \Illuminate\Database\Query\Builder|\App\Eloquent\Procurement\Ticket whereUpdatedAt($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Eloquent\Procurement\Ticket whereDeletedAt($value)
  * @mixin \Eloquent
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Eloquent\Procurement\Ticket\JapanShipment[] $japanShipments
  */
 class Ticket extends Model
 {
@@ -53,5 +54,13 @@ class Ticket extends Model
     public function items()
     {
         return $this->hasMany('App\Eloquent\Procurement\Ticket\Item');
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function japanShipments()
+    {
+        return $this->hasMany('App\Eloquent\Procurement\Ticket\JapanShipment');
     }
 }
