@@ -103,7 +103,7 @@ class RequestController extends Controller
 
         $ecpay = new ECPay(env('ECPAY_MERCHANTID'), env('ECPAY_HASHKEY'), env('ECPAY_HASHIV'));
         $ticket = $ecpay->getLogisticFactory()
-            ->makeTicket($request->id . '_' . substr($token, 0, 8) . '_' . rand(100, 999), strtotime($request->created_at));
+            ->makeTicket($request->id . '' . substr($token, 0, 8) . '' . rand(1, 999), strtotime($request->created_at));
 
         $ticket = $ticket
             ->amount($req->input('package')['amount'])
