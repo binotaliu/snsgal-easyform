@@ -110,7 +110,7 @@ class TicketRepository
      */
     public function getTickets()
     {
-        return $this->ticket->with('items', 'japanShipments')->orderBy('id', 'desc')->get();
+        return $this->ticket->with('items', 'japanShipments')->orderBy('updated_at', 'desc')->get();
     }
 
     /**

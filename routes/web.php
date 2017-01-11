@@ -55,13 +55,14 @@ Route::group(['namespace' => 'Shipment'], function () {
 Route::group(['namespace' => 'Procurement'], function () {
     // /procurement/tickets
     Route::group(['prefix' => 'procurement'], function () {
+        Route::get('/tickets', 'TicketController@view');
         Route::get('/tickets/new', 'TicketController@new');
-        Route::get('/tickets/{token}', 'TicketController@view');
+        Route::get('/tickets/{token}', 'TicketController@get');
     });
 
     Route::group(['prefix' => 'api/procurement'], function () {
         Route::resource('/tickets', 'TicketController', [
-            'only' => ['store']
+            'only' => ['index', 'store']
         ]);
     });
 });

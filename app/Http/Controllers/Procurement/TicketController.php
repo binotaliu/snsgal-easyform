@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers\Procurement;
 
+use App\Codes\Procurement\ItemStatus;
 use App\Eloquent\Procurement\Ticket;
 use App\Repositories\CurrencyRepository;
 use App\Repositories\Procurement\TicketRepository;
 use App\Codes\Procurement\TicketStatus;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
@@ -71,7 +73,12 @@ class TicketController extends Controller
         return $ticket;
     }
 
-    public function view(string $token)
+    /**
+     * Get ticket by token
+     * @param string $token
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function get(string $token)
     {
         /** @var Ticket $ticket */
         $ticket = $this->ticketRepository->getTicket($token);
@@ -82,5 +89,26 @@ class TicketController extends Controller
             'ticket' => $ticket,
             'rate' => $this->currencyRepository->getRate('JPY')
         ]);
+    }
+
+
+    /**
+     * Get list view.
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function view()
+    {
+        return view('procurement.tickets.list', [
+            'ticket_status' => TicketStatus::getCodes(),
+            'item_status' => ItemStatus::getCodes(),
+        ]);
+    }
+
+    public function index()
+    {
+        /** @var Collection $tickets */
+        $tickets = $this->ticketRepository->getTickets();
+
+        return $tickets;
     }
 }
