@@ -16,14 +16,14 @@
 
                 <div class="panel-body">
                     <div id="procurement-ticket-filter">
-                        <div class="col-sm-4 form-group">
+                        <div class="col-sm-3 form-group">
                             <label class="control-label">Ticket Status: </label>
                             <select v-model="filter.ticketStatus" class="form-control">
                                 <option value="0">All Status</option>
                                 <option v-for="(text, code) in status.ticket" v-bind:value="code">@{{ text }}</option>
                             </select>
                         </div>
-                        <div class="col-sm-4 form-group">
+                        <div class="col-sm-3 form-group">
                             <label class="control-label">Item Status: </label>
                             <select v-model="filter.itemStatus" class="form-control">
                                 <option value="0">All Status</option>
@@ -61,7 +61,9 @@
                                         <td>@{{ ticket.rate }}</td>
                                         <td>
                                             <div class="btn-group">
-                                                <button type="button" class="btn btn-primary" v-on:click="viewTicket(index)">View</button>
+                                                <a v-bind:href="'/procurement/tickets/' + ticket.token" target="_blank" class="btn btn-primary" v-on:click="viewTicket(index)">
+                                                    View
+                                                </a>
                                             </div>
                                         </td>
                                     </tr>
@@ -96,6 +98,8 @@
         </div>
 
     </div>
+
+
 @endsection
 
 @section('footer')

@@ -87,6 +87,8 @@ class TicketController extends Controller
 
         return view('procurement.tickets.view', [
             'ticket' => $ticket,
+            'ticket_status' => TicketStatus::getCodes(),
+            'item_status' => ItemStatus::getCodes(),
             'rate' => $this->currencyRepository->getRate('JPY')
         ]);
     }
