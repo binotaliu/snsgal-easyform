@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'View Procurement Ticket')
+@section('title', 'Procurement Ticket')
 
 @section('content')
     <div class="container">
@@ -22,7 +22,7 @@
                             <th width="110">Extra Services</th>
                             <th width="100" class="text-right">Price (Yen)</th>
                             <th width="110" class="text-right table-price">Price (TWD)</th>
-                            <th width="200">Note</th>
+                            <th width="240">Note</th>
                         </tr></thead>
 
                         <tbody>
@@ -46,7 +46,7 @@
                             {{-- Shipments --}}
                             <tr class="active">
                                 <th></th>
-                                <th colspan="2">Shipment</th>
+                                <th colspan="2">In-Japan Shipment</th>
                                 <th class="text-right">Price (Yen)</th>
                                 <th class="text-right table-price">Price (TWD)</th>
                                 <th>Note</th>
@@ -63,6 +63,37 @@
                                     <td class="text-right">¥{{ Format::number($item->price, 0, '.', ',') }}</td>
                                     <td class="text-right table-price">NT${{ Format::number($item->price * $ticket->rate, 2, '.', ',') }}</td>
                                     <td>{{ $item->note }}</td>
+                                </tr>
+                            @endforeach
+
+                            {{-- Total --}}
+                            <tr class="active">
+                                <th></th>
+                                <th colspan="5">Total</th>
+                            </tr>
+                            @foreach ($total as $item)
+                                <tr>
+                                    <td></td>
+                                    @if ($item['final'])
+                                        <td colspan="3" class="text-right h4">
+                                            <strong>
+                                                {{ $item['name'] }}
+                                            </strong>
+                                        </td>
+                                        <td class="table-price text-right h4">
+                                            <strong>NT${{ Format::number($item['price'], 0, '.', ',') }}</strong>
+                                        </td>
+                                    @else
+                                        <td colspan="3" class="text-right">{{ $item['name'] }}</td>
+                                        <td class="table-price text-right">
+                                            NT${{ Format::number($item['price'], 2, '.', ',') }}
+                                        </td>
+                                    @endif
+                                    <td>
+                                        <small>
+                                            {{ $item['note'] }}
+                                        </small>
+                                    </td>
                                 </tr>
                             @endforeach
                         </tbody>

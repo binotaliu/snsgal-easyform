@@ -7,6 +7,7 @@ use App\Eloquent\Procurement\Ticket;
 use App\Repositories\CurrencyRepository;
 use App\Repositories\Procurement\TicketRepository;
 use App\Codes\Procurement\TicketStatus;
+use App\Services\Procurement\Ticket\TotalService;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -26,13 +27,19 @@ class TicketController extends Controller
     protected $currencyRepository;
 
     /**
+     * @var TotalService
+     */
+    protected $totalService;
+
+    /**
      * TicketController constructor.
      * @param TicketRepository $ticketRepository
      */
-    public function __construct(TicketRepository $ticketRepository, CurrencyRepository $currencyRepository)
+    public function __construct(TicketRepository $ticketRepository, CurrencyRepository $currencyRepository, TotalService $totalService)
     {
         $this->ticketRepository = $ticketRepository;
         $this->currencyRepository = $currencyRepository;
+        $this->totalService = $totalService;
     }
 
     /**
@@ -89,6 +96,7 @@ class TicketController extends Controller
             'ticket' => $ticket,
             'ticket_status' => TicketStatus::getCodes(),
             'item_status' => ItemStatus::getCodes(),
+            'total' => $this->totalService->getTotal($ticket),
             'rate' => $this->currencyRepository->getRate('JPY')
         ]);
     }
