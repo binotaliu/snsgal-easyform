@@ -82,6 +82,17 @@ class TicketRepositoryTest extends TestCase
         $this->assertEquals($expected, $actual);
     }
 
+    public function testGetTickets()
+    {
+        $expected = 10;
+        for ($i = 0; $i < $expected; $i++) {
+            $this->createTicket(3);
+        }
+
+        $actual = $this->ticketRepository->getTickets()->count();
+        $this->assertEquals($expected, $actual);
+    }
+
     public function testRemoveTicket()
     {
         $expected = 10;

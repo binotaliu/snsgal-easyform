@@ -105,6 +105,15 @@ class TicketRepository
     }
 
     /**
+     * Get all tickets
+     * @return \Illuminate\Database\Eloquent\Collection|static[]
+     */
+    public function getTickets()
+    {
+        return $this->ticket->with('items', 'japanShipments')->orderBy('id', 'desc')->get();
+    }
+
+    /**
      * @param int $id
      * @return bool|null
      */
