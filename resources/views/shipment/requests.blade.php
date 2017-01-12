@@ -110,7 +110,7 @@
                         <h3 class="text-center"><span class="loading dots"></span> {{ trans('request.loading') }}</h3>
                     </div>
 
-                    <div v-if="modalContent.responded && !modalContent.loading">
+                    <div v-if="modalContent.responded && !modalContent.exported">
                         <form class="form-horizontal">
                             <div class="form-group">
                                 <div class="col-sm-12">
