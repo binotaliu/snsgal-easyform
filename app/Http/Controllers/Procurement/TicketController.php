@@ -31,9 +31,24 @@ class TicketController extends Controller
      */
     protected $totalService;
 
+    protected $ticketValidation = [
+        'name' => 'required|max:256',
+        'email' => 'required|email|max:256',
+        'contact' => 'required|max:256',
+        'note' => 'max:512',
+        'items.*.url' => 'required|url|max:256',
+        'items.*.price' => 'required|numeric',
+        'items.*.title' => 'required|max:512',
+        'items.*.note' => 'max:512',
+        'japanShipments.*.title' => 'max:512',
+        'japanShipments.*.price' => 'numeric',
+    ];
+
     /**
      * TicketController constructor.
      * @param TicketRepository $ticketRepository
+     * @param CurrencyRepository $currencyRepository
+     * @param TotalService $totalService
      */
     public function __construct(TicketRepository $ticketRepository, CurrencyRepository $currencyRepository, TotalService $totalService)
     {
@@ -57,15 +72,7 @@ class TicketController extends Controller
      */
     public function store(Request $request)
     {
-        $this->validate($request, [
-            'name' => 'required|max:256',
-            'email' => 'required|email|max:256',
-            'contact' => 'required|max:256',
-            'note' => 'max:512',
-            'items.*.url' => 'required|url|max:256',
-            'items.*.title' => 'required|max:512',
-            'items.*.note' => 'max:512'
-        ]);
+        $this->validate($request, $this->ticketValidation);
 
         $ticket = $this->ticketRepository->createTicket(
             $request->get('name'),
@@ -74,7 +81,10 @@ class TicketController extends Controller
             $request->get('note'),
             self::DEFAULT_STATUS,
             $this->currencyRepository->getRate('JPY'),
-            $request->get('items')
+            '',
+            0,
+            $request->get('items'),
+            []
         );
 
         return $ticket;
@@ -115,11 +125,100 @@ class TicketController extends Controller
         ]);
     }
 
+    /**
+     * Get all tickets
+     * @return Collection
+     */
     public function index()
     {
         /** @var Collection $tickets */
         $tickets = $this->ticketRepository->getTickets();
 
         return $tickets;
+    }
+
+    /**
+     * Filter input into [new => [], delete => [], update => []]
+     * @param array $items
+     * @return array
+     */
+    private function filterItems(array $items, callable $onDelete, callable $onUpdate, callable $onCreate)
+    {
+        $newItems = [];
+        $deleteItems = [];
+        $updateItems = [];
+        foreach ($items as $item) {
+            switch (true) {
+                case !empty($item['deleted']) && ($item['deleted'] != true):
+                    $deleteItems[] = $onDelete($item);
+                    break;
+                case !empty($item['created_at']):
+                    $updateItems[] = $onUpdate($item);
+                    break;
+                default:
+                    $newItems[] = $onCreate($item);
+                    break;
+            }
+        }
+
+        return [
+            'new' => $newItems,
+            'delete' => $deleteItems,
+            'update' => $updateItems
+        ];
+    }
+
+    public function update(Request $request)
+    {
+        $this->validate($request, $this->ticketValidation);
+
+        $items = $this->filterItems($request->get('items'), function ($item) {
+            return $item['id'];
+        }, function ($item) {
+            return [
+                'id' => $item['id'],
+                'status' => $item['status'],
+                'title' => $item['title'],
+                'url' => $item['url'],
+                'price' => $item['price'],
+                'note' => $item['note']
+            ];
+        }, function ($item) {
+            return [
+                'status' => $item['status'],
+                'title' => $item['title'],
+                'url' => $item['url'],
+                'price' => $item['price'],
+                'note' => $item['note']
+            ];
+        });
+        $japanShipments = $this->filterItems($request->get('japanShipments'), function ($item) {
+            return $item['id'];
+        }, function ($item) {
+            return [
+                'id' => $item['id'],
+                'title' => $item['title'],
+                'price' => $item['price']
+            ];
+        }, function ($item) {
+            return [
+                'title' => $item['title'],
+                'price' => $item['price']
+            ];
+        });
+
+        $this->ticketRepository->updateTicket(
+            $request->get('token'),
+            $request->get('name'),
+            $request->get('email'),
+            $request->get('contact'),
+            $request->get('note'),
+            $request->get('status'),
+            $request->get('rate'),
+            $request->get('localShipment')['method'],
+            $request->get('localShipment')['price'],
+            $items,
+            $japanShipments
+        );
     }
 }

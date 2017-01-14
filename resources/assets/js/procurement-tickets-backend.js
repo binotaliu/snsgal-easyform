@@ -9,6 +9,7 @@ const app = new Vue({
         tickets: [],
         edit: {
             id: 0,
+            token: '',
             rate: 0,
             name: '',
             email: '',
@@ -53,6 +54,7 @@ const app = new Vue({
         },
         editTicket(index) {
             this.edit.id = this.tickets[index].id;
+            this.edit.token = this.tickets[index].token;
             this.edit.status = this.tickets[index].status;
             this.edit.rate = this.tickets[index].rate;
             this.edit.name = this.tickets[index].name;
@@ -88,6 +90,19 @@ const app = new Vue({
         },
         saveEdit() {
             //@TODO: implement saveEdit method
+            let resource = this.$resource('/api/procurement/tickets{/token}');
+
+            Splash.enable('windcatcher');
+
+            return resource.update({token: this.edit.token}, this.edit).then((response) => {
+                this.fetchTickets().then((response) => {
+                    Splash.destroy();
+
+                    $('#ticket-modal').modal('hide');
+                });
+                // @TODO: Error handle (form validation)
+                return response;
+            });
         }
     }
 });

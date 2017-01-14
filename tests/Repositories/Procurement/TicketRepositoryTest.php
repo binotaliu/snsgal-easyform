@@ -2,6 +2,7 @@
 
 use App\Eloquent\Procurement\Ticket as ProcurementTicket;
 use App\Codes\Procurement\TicketStatus;
+use App\Codes\Procurement\ItemStatus;
 use Illuminate\Foundation\Testing\WithoutMiddleware;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
@@ -23,13 +24,14 @@ class TicketRepositoryTest extends TestCase
 
     /**
      * @param int $itemCount
-     * @return mixed
+     * @return ProcurementTicket
      */
     public function createTicket(int $itemCount = 3)
     {
         $items = [];
         while ($itemCount--) {
             $items[] = [
+                'status' => ItemStatus::WAITING_CHECK,
                 'url' => 'https://www.example.com/products/' . $itemCount,
                 'title' => 'Product' . $itemCount,
                 'price' => '1750',
@@ -44,7 +46,10 @@ class TicketRepositoryTest extends TestCase
             'dfasklfsadklafkljsfdjskl',
             TicketStatus::WAITING_CHECK,
             0.2807,
-            $items
+            '',
+            0,
+            $items,
+            []
         );
     }
 
@@ -82,6 +87,36 @@ class TicketRepositoryTest extends TestCase
         $this->assertEquals($expected, $actual);
     }
 
+    public function testUpdateTicket()
+    {
+        $ticket = $this->createTicket(3);
+        $expected = 'Usapyon';
+        $this->ticketRepository->updateTicket(
+            $ticket->token,
+            $expected,
+            $ticket->email,
+            $ticket->contact,
+            $ticket->note,
+            $ticket->status,
+            $ticket->rate,
+            $ticket->local_shipment_method,
+            $ticket->local_shipment_price,
+            [
+                'new' => [],
+                'update' => [],
+                'delete' => []
+            ],
+            [
+                'new' => [],
+                'update' => [],
+                'delete' => []
+            ]
+        );
+
+        $actual = $this->ticketRepository->getTicket($ticket->token)->name;
+        $this->assertEquals($expected, $actual);
+    }
+
     public function testGetTickets()
     {
         $expected = 10;
@@ -97,6 +132,7 @@ class TicketRepositoryTest extends TestCase
     {
         $expected = 10;
 
+        $ticket = null;
         for ($i = 0; $i <= $expected; $i++) { // this will do $expected + 1 times
             $ticket = $this->createTicket(2);
         }

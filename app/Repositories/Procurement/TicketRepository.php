@@ -45,10 +45,13 @@ class TicketRepository
      * @param string $note
      * @param int $status
      * @param float $rate
+     * @param string $localShipmentMethod
+     * @param int $localShipmentPrice
      * @param array $items
+     * @param array $japanShipments
      * @return ProcurementTicket
      */
-    public function createTicket(string $name, string $email, string $contact, string $note, int $status, float $rate, array $items)
+    public function createTicket(string $name, string $email, string $contact, string $note, int $status, float $rate, string $localShipmentMethod, int $localShipmentPrice, array $items, array $japanShipments)
     {
         // Create a new token
         $token = Uuid::uuid1();
@@ -61,13 +64,16 @@ class TicketRepository
             'contact' => $contact,
             'note' => $note,
             'status' => $status,
-            'rate' => $rate
+            'rate' => $rate,
+            'local_shipment_method' => $localShipmentMethod,
+            'local_shipment_price' => $localShipmentPrice
         ]);
         $ticket->save();
 
         $itemModels = [];
         foreach ($items as $item) {
             $itemModels[] = new $this->item([
+                'status' => $item['status'],
                 'url' => $item['url'],
                 'title' => $item['title'],
                 'price' => $item['price'],
@@ -75,7 +81,16 @@ class TicketRepository
             ]);
         }
 
+        $japanShipmentModels = [];
+        foreach ($japanShipments as $japanShipment) {
+            $japanShipmentModels[] = new $this->japanShipment([
+                'title' => $japanShipment['title'],
+                'price' => $japanShipment['price']
+            ]);
+        }
+
         $ticket->items()->saveMany($itemModels);
+        $ticket->japanShipments()->saveMany($japanShipmentModels);
 
         return $ticket;
     }
@@ -101,7 +116,90 @@ class TicketRepository
      */
     public function getTicket(string $token)
     {
-        return $this->ticket->with('items', 'japanShipments')->whereToken($token)->first();
+        return $this->ticket->with('items', 'japanShipments')->token($token);
+    }
+
+    /**
+     * @param string $token
+     * @param string $name
+     * @param string $email
+     * @param string $contact
+     * @param string $note
+     * @param int $status
+     * @param float $rate
+     * @param string $localShipmentMethod
+     * @param int $localShipmentPrice
+     * @param array $items
+     * @param array $japanShipments
+     */
+    public function updateTicket(string $token, string $name, string $email, string $contact, string $note, int $status, float $rate, string $localShipmentMethod, int $localShipmentPrice, array $items, array $japanShipments)
+    {
+        //@TODO: it's too hard to read.
+        if (count($items['new'])) {
+            $newItems = [];
+            foreach ($items['new'] as $item) {
+                $newItems[] = new $this->item([
+                    'status' => $item['status'],
+                    'url' => $item['url'],
+                    'title' => $item['title'],
+                    'price' => $item['price'],
+                    'note' => $item['note']
+                ]);
+            } // foreach
+            $this->ticket->token($token)->items()->saveMany($newItems);
+        } // if count new
+
+        if (count($items['update'])) {
+            foreach ($items['update'] as $item) {
+                $this->item->find($item['id'])->update([
+                    'status' => $item['status'],
+                    'title' => $item['title'],
+                    'price' => $item['price'],
+                    'url' => $item['url'],
+                    'note' => $item['note']
+                ]);
+            } // foreach
+        } // if count update
+
+        if (count($items['delete'])) {
+            $this->item->whereIn('id', $items['delete'])->delete();
+        } // if count delete
+
+        if (count($japanShipments['new'])) {
+            $newJapanShipments = [];
+            foreach ($japanShipments['new'] as $japanShipment) {
+                $newJapanShipments[] = new $this->japanShipment([
+                    'title' => $japanShipment['title'],
+                    'price' => $japanShipment['price']
+                ]);
+            }
+
+            $this->ticket->token($token)->japanShipments()->saveMany($newJapanShipments);
+        } // if count new
+
+        if (count($japanShipments['update'])) {
+            foreach ($japanShipments['update'] as $japanShipment) {
+                $this->japanShipment->find($japanShipment['id'])->update([
+                    'title' => $japanShipment['title'],
+                    'price' => $japanShipment['price']
+                ]);
+            } // foreach
+        } //if update
+
+        if (count($japanShipments['delete'])) {
+            $this->japanShipment->whereIn('id', $japanShipments['delete'])->delete();
+        } //if count delete
+
+        $this->ticket->token($token)->update([
+            'name' => $name,
+            'email' => $email,
+            'contact' => $contact,
+            'note' => $note,
+            'status' => $status,
+            'rate' => $rate,
+            'local_shipment_method' => $localShipmentMethod,
+            'local_shipment_price' => $localShipmentPrice
+        ]);
     }
 
     /**

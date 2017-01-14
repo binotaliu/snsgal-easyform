@@ -2,6 +2,7 @@
 
 namespace App\Eloquent\Procurement;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
@@ -33,6 +34,11 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @method static \Illuminate\Database\Query\Builder|\App\Eloquent\Procurement\Ticket whereDeletedAt($value)
  * @mixin \Eloquent
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Eloquent\Procurement\Ticket\JapanShipment[] $japanShipments
+ * @property float $local_shipment_price
+ * @property string $local_shipment_method
+ * @method static \Illuminate\Database\Query\Builder|\App\Eloquent\Procurement\Ticket whereLocalShipmentPrice($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Eloquent\Procurement\Ticket whereLocalShipmentMethod($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Eloquent\Procurement\Ticket token($token)
  */
 class Ticket extends Model
 {
@@ -62,5 +68,16 @@ class Ticket extends Model
     public function japanShipments()
     {
         return $this->hasMany('App\Eloquent\Procurement\Ticket\JapanShipment');
+    }
+
+    /**
+     * Scope a query to given token
+     * @param Builder $query
+     * @param string $token
+     * @return Builder
+     */
+    public function scopeToken(Builder $query, string $token)
+    {
+        return $query->where('token', $token)->first();
     }
 }

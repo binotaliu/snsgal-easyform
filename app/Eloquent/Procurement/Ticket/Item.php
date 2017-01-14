@@ -28,6 +28,8 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @mixin \Eloquent
  * @property string $url
  * @method static \Illuminate\Database\Query\Builder|\App\Eloquent\Procurement\Ticket\Item whereUrl($value)
+ * @property int $status
+ * @method static \Illuminate\Database\Query\Builder|\App\Eloquent\Procurement\Ticket\Item whereStatus($value)
  */
 class Item extends Model
 {
