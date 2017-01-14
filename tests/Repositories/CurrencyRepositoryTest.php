@@ -20,17 +20,10 @@ class CurrencyRepositoryTest extends TestCase
         $this->currencyRepository = app('App\Repositories\CurrencyRepository');
     }
 
-    public function testGetLatestRate()
-    {
-        $rate = $this->currencyRepository->getLatestRate('JPY');
-
-        $this->assertNotNull($rate);
-    }
-
     public function testUpdateRate()
     {
         $expected = 10;
-        $rate = $this->currencyRepository->getLatestRate('JPY');
+        $rate = 0.8607;
 
         for ($i = 0; $i < $expected; $i++) {
             $this->currencyRepository->updateRate('JPY', $rate);
@@ -44,7 +37,7 @@ class CurrencyRepositoryTest extends TestCase
     public function testGetRate()
     {
         $expected = 0.8769;
-        $rate = $this->currencyRepository->getLatestRate('JPY');
+        $rate = 0.8607;
         $this->currencyRepository->updateRate('JPY', $rate);
         $this->currencyRepository->updateRate('JPY', $expected);
 
