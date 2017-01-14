@@ -18,9 +18,9 @@ class CategoryController extends Controller
      * @var array
      */
     private $categoryValidation = [
-        'name' => 'required|max:512',
-        'value' => 'required|numeric|between:0,100',
-        'lower' => 'required|numeric'
+        'categories.*.name' => 'required|max:512',
+        'categories.*.value' => 'required|numeric|between:0,100',
+        'categories.*.lower' => 'required|numeric'
     ];
 
     /**
@@ -42,7 +42,7 @@ class CategoryController extends Controller
     }
 
     /**
-     * create a new category
+     * handle category update
      * @param Request $request
      * @return array
      */
@@ -50,32 +50,16 @@ class CategoryController extends Controller
     {
         $this->validate($request, $this->categoryValidation);
 
-        $this->categoryRepository->addCategory($request->get('name'), (float)$request->get('value'), (int)$request->get('lower'));
-        return ['code' => '200', 'msg' => 'OK'];
-    }
-
-    /**
-     * update an exist category
-     * @param Request $request
-     * @param int $id
-     * @return array
-     */
-    public function update(Request $request, int $id)
-    {
-        $this->validate($request, $this->categoryValidation);
-
-        $this->categoryRepository->updateCategory($id, $request->get('name'), (float)$request->get('value'), (int)$request->get('lower'));
-        return ['code' => '200', 'msg' => 'OK'];
-    }
-
-    /**
-     * delete a category
-     * @param int $id
-     * @return array
-     */
-    public function destroy(int $id)
-    {
-        $this->categoryRepository->removeCategory($id);
+        foreach ($request->get('categories') as $category) {
+            if (!empty($category['deleted_at']) && $category['deleted_at']) {
+                $this->categoryRepository->removeCategory($category['id']);
+                continue;
+            } elseif (!empty($category['new']) && $category['new']) {
+                $this->categoryRepository->addCategory($category['name'], (float)$category['value'], (int)$category['lower']);
+                continue;
+            }
+            $this->categoryRepository->updateCategory($category['id'], $category['name'], (float)$category['value'], (int)$category['lower']);
+        }
         return ['code' => '200', 'msg' => 'OK'];
     }
 }

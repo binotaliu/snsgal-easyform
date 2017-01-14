@@ -4,8 +4,18 @@
 
 @section('content')
     <div class="container">
-        <div class="col-sm-12">
+        <div class="col-sm-6">
             <h3>Procurement Tickets</h3>
+        </div>
+
+        <div class="col-sm-6">
+            <p class="h4"></p>
+            <div class="text-right">
+                <div class="btn-group">
+                    <a href="{{ url('procurement/tickets/new') }}" class="btn btn-default" target="_blank">New Ticket</a>
+                    <button type="button" class="btn btn-default" v-on:click="showCategoryModal()">Item Categories</button>
+                </div>
+            </div>
         </div>
 
         <div class="col-sm-12">
@@ -292,6 +302,74 @@
             </div> {{-- /.modal-content --}}
         </div> {{-- /.modal-dialog --}}
     </div> {{-- /#ticket-modal --}}
+
+    <div id="category-modal" class="modal fade">
+        <div class="modal-dialog modal-md">
+            <div class="modal-content">
+                <div class="modal-header">
+                    Edit Categories
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span>&times;</span>
+                    </button>
+                </div>
+
+                <div class="modal-body">
+                    <div class="col-sm-12">
+                        <div class="text-right">
+                            <button type="button" class="btn btn-success" v-on:click="addCategory()">Add Category</button>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-12">
+                        <hr>
+                    </div>
+
+                    <div class="col-sm-12">
+                        <table class="table">
+                            <thead><tr>
+                                <th>#</th>
+                                <th>Name</th>
+                                <th>Value</th>
+                                <th>Lower</th>
+                                <th>Actions</th>
+                            </tr></thead>
+                            <tbody>
+                                <tr v-for="(category, index) in categoryModal" v-bind:class="category.deleted_at ? 'danger' : ''">
+                                    <td>@{{ index + 1 }}</td>
+                                    <td><input type="text" v-model="categoryModal[index].name" class="form-control"></td>
+                                    <td>
+                                        <div class="input-group">
+                                            <input type="number" v-model="categoryModal[index].value" class="form-control">
+                                            <div class="input-group-addon">%</div>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="input-group">
+                                            <div class="input-group-addon">NT$</div>
+                                            <input type="number" v-model="categoryModal[index].lower" class="form-control">
+                                        </div>
+                                    </td>
+                                    <td v-if="category.deleted_at == true">
+                                        <button type="button" class="btn btn-warning" v-on:click="undoRemoveCategory(index)">Undo</button>
+                                    </td>
+                                    <td v-else>
+                                        <button type="button" class="btn btn-danger" v-on:click="removeCategory(index)">Delete</button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="clearfix"></div>
+                </div> {{-- /.modal-body --}}
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" v-on:click="saveCategories()">Save</button>
+                </div> {{-- /.modal-footer --}}
+            </div> {{-- /.modal-content --}}
+        </div> {{-- /.modal-dialog --}}
+    </div> {{-- /#category-modal --}}
 
 @endsection
 

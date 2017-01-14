@@ -1,3 +1,5 @@
+"use strict";
+
 const app = new Vue({
     el: '#app',
     data: {
@@ -7,6 +9,8 @@ const app = new Vue({
             customer: ''
         },
         tickets: [],
+        categories: [],
+        categoryModal: [],
         edit: {
             id: 0,
             token: '',
@@ -39,6 +43,16 @@ const app = new Vue({
                 return response.json();
             }).then((json) => {
                 this.$set(this, 'tickets', json);
+                return json;
+            });
+        },
+        fetchCategories() {
+            let resource = this.$resource('/api/procurement/item_categories');
+
+            return resource.get().then((response) => {
+                return response.json();
+            }).then((json) => {
+                this.$set(this, 'categories', json);
                 return json;
             });
         },
@@ -103,8 +117,44 @@ const app = new Vue({
                 // @TODO: Error handle (form validation)
                 return response;
             });
+        },
+        showCategoryModal() {
+            this.$set(this, 'categoryModal', this.categories.slice(0));
+            $('#category-modal').modal('show');
+        },
+        addCategory() {
+            this.categoryModal.push({
+                name: '',
+                value: 0,
+                lower: 40,
+                new: true
+            });
+        },
+        removeCategory(index) {
+            if (this.categoryModal[index].new) {
+                this.categoryModal.splice(index, 1);
+            } else {
+                this.categoryModal[index].deleted_at = true;
+            }
+        },
+        undoRemoveCategory(index) {
+            this.categoryModal[index].deleted_at = null;
+        },
+        saveCategories() {
+            let resource = this.$resource('/api/procurement/item_categories');
+
+            Splash.enable('windcatcher');
+            return resource.save({categories: this.categoryModal}).then((response) => {
+                this.fetchCategories().then((response) => {
+                    Splash.destroy();
+
+                    $('#category-modal').modal('hide');
+                });
+                return response;
+            });
         }
     }
 });
 
 app.fetchTickets();
+app.fetchCategories();
