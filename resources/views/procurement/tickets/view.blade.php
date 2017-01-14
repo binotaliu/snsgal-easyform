@@ -18,6 +18,7 @@
                     <table class="table table-striped">
                         <thead><tr class="active">
                             <th width="20" class="text-center">#</th>
+                            <th>Category</th>
                             <th>Product</th>
                             <th width="110">Extra Services</th>
                             <th width="100" class="text-right">Price (Yen)</th>
@@ -29,6 +30,7 @@
                             @foreach ($ticket->items as $i => $item)
                                 <tr>
                                     <td class="text-center">{{ $i + 1 }}</td>
+                                    <td>{{ $item->category->name }}</td>
                                     <td>
                                         <span class="label label-primary">{{ $item_status[$item->status] }}</span>
                                         {{ $item->title }}<br>
@@ -46,7 +48,7 @@
                             {{-- Shipments --}}
                             <tr class="active">
                                 <th></th>
-                                <th colspan="2">In-Japan Shipment</th>
+                                <th colspan="3">In-Japan Shipment</th>
                                 <th class="text-right">Price (Yen)</th>
                                 <th class="text-right table-price">Price (TWD)</th>
                                 <th>Note</th>
@@ -54,7 +56,7 @@
                             @foreach ($ticket->japanShipments as $item)
                                 <tr>
                                     <td></td>
-                                    <td colspan="2">
+                                    <td colspan="3">
                                         {{ $item->title }}<br>
                                         <small>
                                             <a href="{{ $item->url }}">{{ $item->url }}</a>
@@ -69,11 +71,11 @@
                             {{-- Total --}}
                             <tr class="active">
                                 <th></th>
-                                <th colspan="5">Total</th>
+                                <th colspan="6">Total</th>
                             </tr>
                             @foreach ($ticket->totals as $item)
                                 <tr>
-                                    <td colspan="4" class="text-right">{{ $item['name'] }}</td>
+                                    <td colspan="5" class="text-right">{{ $item['name'] }}</td>
                                     <td class="table-price text-right">
                                             NT${{ Format::number($item['price'], 2, '.', ',') }}
                                     </td>
@@ -85,7 +87,7 @@
                                 </tr>
                             @endforeach
                             <tr>
-                                <td colspan="4" class="text-right h4">
+                                <td colspan="5" class="text-right h4">
                                     <strong>
                                         Total
                                     </strong>

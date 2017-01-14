@@ -21,6 +21,8 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Query\Builder|\App\Eloquent\Procurement\Ticket\Total whereCreatedAt($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Eloquent\Procurement\Ticket\Total whereUpdatedAt($value)
  * @mixin \Eloquent
+ * @property string $note
+ * @method static \Illuminate\Database\Query\Builder|\App\Eloquent\Procurement\Ticket\Total whereNote($value)
  */
 class Total extends Model
 {

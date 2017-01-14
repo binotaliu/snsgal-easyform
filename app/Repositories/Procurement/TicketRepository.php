@@ -152,7 +152,7 @@ class TicketRepository
      */
     public function getTicket(string $token)
     {
-        return $this->ticket->with('items', 'japanShipments')->token($token);
+        return $this->ticket->with('items.category', 'japanShipments')->token($token);
     }
 
     /**
@@ -248,7 +248,7 @@ class TicketRepository
      */
     public function getTickets()
     {
-        return $this->ticket->with('items', 'japanShipments')->orderBy('updated_at', 'desc')->get();
+        return $this->ticket->with('items.category', 'japanShipments')->orderBy('updated_at', 'desc')->get();
     }
 
     /**

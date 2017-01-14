@@ -30,6 +30,9 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @method static \Illuminate\Database\Query\Builder|\App\Eloquent\Procurement\Ticket\Item whereUrl($value)
  * @property int $status
  * @method static \Illuminate\Database\Query\Builder|\App\Eloquent\Procurement\Ticket\Item whereStatus($value)
+ * @property-read \App\Eloquent\Procurement\Ticket\Item\Category $category
+ * @property int $category_id
+ * @method static \Illuminate\Database\Query\Builder|\App\Eloquent\Procurement\Ticket\Item whereCategoryId($value)
  */
 class Item extends Model
 {
@@ -51,5 +54,13 @@ class Item extends Model
     public function ticket()
     {
         return $this->belongsTo('App\Eloquent\Procurement\Ticket');
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function category()
+    {
+        return $this->belongsTo('App\Eloquent\Procurement\Ticket\Item\Category', 'category_id', 'id');
     }
 }
