@@ -71,24 +71,12 @@
                                 <th></th>
                                 <th colspan="5">Total</th>
                             </tr>
-                            @foreach ($total as $item)
+                            @foreach ($ticket->totals as $item)
                                 <tr>
-                                    <td></td>
-                                    @if ($item['final'])
-                                        <td colspan="3" class="text-right h4">
-                                            <strong>
-                                                {{ $item['name'] }}
-                                            </strong>
-                                        </td>
-                                        <td class="table-price text-right h4">
-                                            <strong>NT${{ Format::number($item['price'], 0, '.', ',') }}</strong>
-                                        </td>
-                                    @else
-                                        <td colspan="3" class="text-right">{{ $item['name'] }}</td>
-                                        <td class="table-price text-right">
+                                    <td colspan="4" class="text-right">{{ $item['name'] }}</td>
+                                    <td class="table-price text-right">
                                             NT${{ Format::number($item['price'], 2, '.', ',') }}
-                                        </td>
-                                    @endif
+                                    </td>
                                     <td>
                                         <small>
                                             {{ $item['note'] }}
@@ -96,6 +84,17 @@
                                     </td>
                                 </tr>
                             @endforeach
+                            <tr>
+                                <td colspan="4" class="text-right h4">
+                                    <strong>
+                                        Total
+                                    </strong>
+                                </td>
+                                <td class="table-price text-right h4">
+                                    <strong>NT${{ Format::number($ticket->total, 0, '.', ',') }}</strong>
+                                </td>
+                                <td></td>
+                            </tr>
                         </tbody>
                     </table>
                 </div>

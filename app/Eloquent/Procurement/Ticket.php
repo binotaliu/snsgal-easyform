@@ -39,6 +39,9 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @method static \Illuminate\Database\Query\Builder|\App\Eloquent\Procurement\Ticket whereLocalShipmentPrice($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Eloquent\Procurement\Ticket whereLocalShipmentMethod($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Eloquent\Procurement\Ticket token($token)
+ * @property float $total
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Eloquent\Procurement\Ticket\Total[] $totals
+ * @method static \Illuminate\Database\Query\Builder|\App\Eloquent\Procurement\Ticket whereTotal($value)
  */
 class Ticket extends Model
 {
@@ -68,6 +71,14 @@ class Ticket extends Model
     public function japanShipments()
     {
         return $this->hasMany('App\Eloquent\Procurement\Ticket\JapanShipment');
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function totals()
+    {
+        return $this->hasMany('App\Eloquent\Procurement\Ticket\Total');
     }
 
     /**

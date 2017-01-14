@@ -4,7 +4,9 @@
 namespace App\Repositories\Procurement;
 
 
+use App\Codes\Procurement\ItemStatus;
 use App\Eloquent\Procurement\Ticket as ProcurementTicket;
+use App\Services\Procurement\Ticket\TotalService;
 use Ramsey\Uuid\Uuid;
 
 class TicketRepository
@@ -25,16 +27,48 @@ class TicketRepository
     protected $japanShipment;
 
     /**
+     * @var ProcurementTicket\Total
+     */
+    protected $total;
+
+    /**
+     * @var TotalService
+     */
+    protected $totalService;
+
+    /**
      * TicketRepository constructor.
      * @param ProcurementTicket $ticket
      * @param ProcurementTicket\Item $item
      * @param ProcurementTicket\JapanShipment $japanShipment
+     * @param ProcurementTicket\Total $total
+     * @param TotalService $totalService
      */
-    public function __construct(ProcurementTicket $ticket, ProcurementTicket\Item $item, ProcurementTicket\JapanShipment $japanShipment)
+    public function __construct(ProcurementTicket $ticket, ProcurementTicket\Item $item, ProcurementTicket\JapanShipment $japanShipment, ProcurementTicket\Total $total, TotalService $totalService)
     {
         $this->ticket = $ticket;
         $this->item = $item;
         $this->japanShipment = $japanShipment;
+        $this->total = $total;
+        $this->totalService = $totalService;
+    }
+
+    private function saveTotals(ProcurementTicket $ticket)
+    {
+        $totals = $this->totalService->getTotal($ticket);
+        $totalModels = [];
+        foreach ($totals['items'] as $total) {
+            $totalModels[] = new $this->total([
+                'name' => $total['name'],
+                'note' => $total['note'],
+                'price' => $total['price']
+            ]);
+        }
+        $ticket->totals->each(function (ProcurementTicket\Total $total) {
+            $total->delete();
+        });
+        $ticket->totals()->saveMany($totalModels);
+        $ticket->update(['total' => $totals['total']]);
     }
 
     /**
@@ -65,6 +99,7 @@ class TicketRepository
             'note' => $note,
             'status' => $status,
             'rate' => $rate,
+            'total' => 0,
             'local_shipment_method' => $localShipmentMethod,
             'local_shipment_price' => $localShipmentPrice
         ]);
@@ -73,7 +108,7 @@ class TicketRepository
         $itemModels = [];
         foreach ($items as $item) {
             $itemModels[] = new $this->item([
-                'status' => $item['status'],
+                'status' => $item['status'] ?? ItemStatus::WAITING_CHECK,
                 'url' => $item['url'],
                 'title' => $item['title'],
                 'price' => $item['price'],
@@ -92,6 +127,7 @@ class TicketRepository
         $ticket->items()->saveMany($itemModels);
         $ticket->japanShipments()->saveMany($japanShipmentModels);
 
+        $this->saveTotals($ticket);
         return $ticket;
     }
 
@@ -190,7 +226,9 @@ class TicketRepository
             $this->japanShipment->whereIn('id', $japanShipments['delete'])->delete();
         } //if count delete
 
-        $this->ticket->token($token)->update([
+        $ticket = $this->ticket->token($token);
+
+        $ticket->update([
             'name' => $name,
             'email' => $email,
             'contact' => $contact,
@@ -200,6 +238,8 @@ class TicketRepository
             'local_shipment_method' => $localShipmentMethod,
             'local_shipment_price' => $localShipmentPrice
         ]);
+
+        $this->saveTotals($ticket);
     }
 
     /**

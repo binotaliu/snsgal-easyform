@@ -106,7 +106,6 @@ class TicketController extends Controller
             'ticket' => $ticket,
             'ticket_status' => TicketStatus::getCodes(),
             'item_status' => ItemStatus::getCodes(),
-            'total' => $this->totalService->getTotal($ticket),
             'rate' => $this->currencyRepository->getRate('JPY')
         ]);
     }

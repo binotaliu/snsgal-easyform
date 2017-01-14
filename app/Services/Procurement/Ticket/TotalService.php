@@ -61,45 +61,38 @@ class TotalService
         $total += $ticket->local_shipment_price;
 
         $discount = 0 - (($total * 100) % 1000) / 100;
+        $total += $discount;
 
-        $retval = [];
-        $retval[] = [
+        $items = [];
+        $items[] = [
             'name' => trans('procurement_ticket_totals.items'),
-            'final' => false,
             'note' => trans('procurement_ticket_totals.items_note'),
             'price' => $itemTotal
         ];
-        $retval[] = [
+        $items[] = [
             'name' => trans('procurement_ticket_totals.japan_shipment'),
-            'final' => false,
             'note' => trans('procurement_ticket_totals.japan_shipment_note'),
             'price' => $shipmentTotal
         ];
-        $retval[] = [
+        $items[] = [
             'name' => trans('procurement_ticket_totals.int_payment_fee'),
-            'final' => false,
             'note' => trans('procurement_ticket_totals.int_payment_fee_note'),
             'price' => $intPaymentFee
         ];
-        $retval[] = [
+        $items[] = [
             'name' => trans('procurement_ticket_totals.local_shipment'),
-            'final' => false,
             'note' => $ticket->local_shipment_method,
             'price' => $ticket->local_shipment_price
         ];
-        $retval[] = [
+        $items[] = [
             'name' => trans('procurement_ticket_totals.discount'),
-            'final' => false,
             'note' => trans('procurement_ticket_totals.discount_note'),
             'price' => $discount
         ];
-        $retval[] = [
-            'name' => trans('procurement_ticket_totals.total'),
-            'final' => true,
-            'note' => trans('procurement_ticket_totals.total_note'),
-            'price' => $total + $discount
-        ];
 
-        return $retval;
+        return [
+            'items' => $items,
+            'total' => $total
+        ];
     }
 }
