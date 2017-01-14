@@ -64,6 +64,10 @@ Route::group(['namespace' => 'Procurement'], function () {
         Route::resource('/tickets', 'TicketController', [
             'only' => ['index', 'store', 'update']
         ]);
+
+        Route::resource('/item_categories', 'Ticket\Item\CategoryController', [
+            'only' => ['index', 'store', 'update', 'destroy']
+        ]);
     });
 });
 

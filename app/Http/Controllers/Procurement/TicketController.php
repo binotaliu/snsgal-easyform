@@ -3,14 +3,14 @@
 namespace App\Http\Controllers\Procurement;
 
 use App\Codes\Procurement\ItemStatus;
+use App\Codes\Procurement\TicketStatus;
 use App\Eloquent\Procurement\Ticket;
+use App\Http\Controllers\Controller;
 use App\Repositories\CurrencyRepository;
 use App\Repositories\Procurement\TicketRepository;
-use App\Codes\Procurement\TicketStatus;
 use App\Services\Procurement\Ticket\TotalService;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
 
 class TicketController extends Controller
 {
@@ -110,6 +110,13 @@ class TicketController extends Controller
         ]);
     }
 
+    /**
+     * @return Collection|static[]
+     */
+    public function categories()
+    {
+        return $this->ticketRepository->getCategories();
+    }
 
     /**
      * Get list view.
@@ -139,6 +146,9 @@ class TicketController extends Controller
     /**
      * Filter input into [new => [], delete => [], update => []]
      * @param array $items
+     * @param callable $onDelete
+     * @param callable $onUpdate
+     * @param callable $onCreate
      * @return array
      */
     private function filterItems(array $items, callable $onDelete, callable $onUpdate, callable $onCreate)

@@ -51,3 +51,11 @@ $factory->state(App\Eloquent\Address\Request::class, 'standard', function (Faker
         'token' => $faker->uuid
     ];
 });
+
+$factory->define(App\Eloquent\Procurement\Ticket\Item\Category::class, function (Faker\Generator $faker) {
+    return [
+        'name' => $faker->name,
+        'value' => $faker->randomFloat(2, 0, 100),
+        'lower' => $faker->numberBetween(5, 20)
+    ];
+});
