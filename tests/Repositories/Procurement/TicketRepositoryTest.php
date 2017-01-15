@@ -20,6 +20,7 @@ class TicketRepositoryTest extends TestCase
     {
         parent::setUp();
         $this->ticketRepository = app('App\Repositories\Procurement\TicketRepository');
+        Artisan::call('configs:initial');
     }
 
     /**
