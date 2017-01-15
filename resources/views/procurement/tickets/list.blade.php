@@ -192,6 +192,11 @@
                                             <label for="ticket-modal-ticket-configure-local_shipment-method" class="control-label">Local Shipment Method:</label>
                                             <input type="text" v-model="edit.localShipment.method" id="ticket-modal-ticket-configure-local_shipment-method" class="form-control">
                                         </div>
+                                        <div class="form-group">
+                                            <select v-model="edit.localShipmentSelect" class="form-control">
+                                                <option v-for="(method, index) in shipmentMethods.local" v-bind:value="index">@{{ method.name + ': ' + method.price }}</option>
+                                            </select>
+                                        </div>
                                     </div>
 
                                     <div class="col-md-6">
@@ -201,6 +206,9 @@
                                                 <div class="input-group-addon">NT$</div>
                                                 <input type="text" v-model="edit.localShipment.price" id="ticket-modal-ticket-configure-local_shipment-price" class="form-control">
                                             </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <button type="button" class="btn btn-primary" v-on:click="setEditModalLocalShipmentMethod()">Quick Set</button>
                                         </div>
                                     </div>
                                 </div>

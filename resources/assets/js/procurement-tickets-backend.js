@@ -30,6 +30,7 @@ const app = new Vue({
             contact: '',
             note: '',
             status: 100,
+            localShipmentSelect: 0,
             localShipment: {
                 price: 0,
                 method: ''
@@ -111,6 +112,10 @@ const app = new Vue({
             this.edit.japanShipments = this.tickets[index].japan_shipments.slice(0);
 
             $('#ticket-modal').modal('show');
+        },
+        setEditModalLocalShipmentMethod() {
+            this.edit.localShipment.price = this.shipmentMethods.local[this.edit.localShipmentSelect].price;
+            this.edit.localShipment.method = this.shipmentMethods.local[this.edit.localShipmentSelect].name;
         },
         updateEditRate() {
             this.edit.rate = this.rate;
