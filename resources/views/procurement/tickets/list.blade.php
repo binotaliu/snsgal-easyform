@@ -253,6 +253,14 @@
                                             </div>
                                         </div>
                                     </div>
+
+                                    <div class="row">
+                                        <div class="col-md-2 col-md-offset-1">
+                                            <select v-model="edit.items[index].category_id" class="form-control">
+                                                <option v-for="category in categories" v-bind:value="category.id">@{{ category.name }}</option>
+                                            </select>
+                                        </div>
+                                    </div>
                                 </template>
                             </div>
 

@@ -109,6 +109,7 @@ class TicketRepository
         foreach ($items as $item) {
             $itemModels[] = new $this->item([
                 'status' => $item['status'] ?? ItemStatus::WAITING_CHECK,
+                'category_id' => $item['category_id'] ?? 0, //@TODO: default value
                 'url' => $item['url'],
                 'title' => $item['title'],
                 'price' => $item['price'],
@@ -176,6 +177,7 @@ class TicketRepository
             foreach ($items['new'] as $item) {
                 $newItems[] = new $this->item([
                     'status' => $item['status'],
+                    'category_id' => $item['category_id'],
                     'url' => $item['url'],
                     'title' => $item['title'],
                     'price' => $item['price'],
@@ -189,6 +191,7 @@ class TicketRepository
             foreach ($items['update'] as $item) {
                 $this->item->find($item['id'])->update([
                     'status' => $item['status'],
+                    'category_id' => $item['category_id'],
                     'title' => $item['title'],
                     'price' => $item['price'],
                     'url' => $item['url'],

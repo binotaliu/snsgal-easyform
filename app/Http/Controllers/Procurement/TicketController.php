@@ -187,6 +187,7 @@ class TicketController extends Controller
             return [
                 'id' => $item['id'],
                 'status' => $item['status'],
+                'category_id' => $item['category_id'],
                 'title' => $item['title'],
                 'url' => $item['url'],
                 'price' => $item['price'],
@@ -195,6 +196,7 @@ class TicketController extends Controller
         }, function ($item) {
             return [
                 'status' => $item['status'],
+                'category_id' => $item['category_id'],
                 'title' => $item['title'],
                 'url' => $item['url'],
                 'price' => $item['price'],
