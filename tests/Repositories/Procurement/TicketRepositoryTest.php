@@ -16,11 +16,26 @@ class TicketRepositoryTest extends TestCase
      */
     protected $ticketRepository;
 
+    /**
+     * @var ProcurementTicket\Item\Category
+     */
+    protected $category;
+
     public function setUp()
     {
         parent::setUp();
         $this->ticketRepository = app('App\Repositories\Procurement\TicketRepository');
         Artisan::call('configs:initial');
+
+        $this->category = $this->createCategory();
+    }
+
+    /**
+     * @return ProcurementTicket\Item\Category
+     */
+    public function createCategory(): ProcurementTicket\Item\Category
+    {
+        return factory(ProcurementTicket\Item\Category::class)->create();
     }
 
     /**
@@ -33,6 +48,7 @@ class TicketRepositoryTest extends TestCase
         while ($itemCount--) {
             $items[] = [
                 'status' => ItemStatus::WAITING_CHECK,
+                'category_id' => $this->category->id,
                 'url' => 'https://www.example.com/products/' . $itemCount,
                 'title' => 'Product' . $itemCount,
                 'price' => '1750',
