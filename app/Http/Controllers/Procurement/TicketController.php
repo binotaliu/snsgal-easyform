@@ -82,7 +82,7 @@ class TicketController extends Controller
             self::DEFAULT_STATUS,
             $this->currencyRepository->getRate('JPY'),
             '',
-            0,
+            1,
             $request->get('items'),
             []
         );

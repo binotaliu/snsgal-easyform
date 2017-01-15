@@ -107,7 +107,7 @@ class TicketRepository
         foreach ($items as $item) {
             $itemModels[] = new $this->item([
                 'status' => $item['status'] ?? ItemStatus::WAITING_CHECK,
-                'category_id' => $item['category_id'] ?? 0, //@TODO: default value
+                'category_id' => $item['category_id'] ?? 1, //@TODO: default value
                 'url' => $item['url'],
                 'title' => $item['title'],
                 'price' => $item['price'],
