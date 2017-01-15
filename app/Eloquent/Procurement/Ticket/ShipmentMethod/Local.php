@@ -3,6 +3,7 @@
 namespace App\Eloquent\Procurement\Ticket\ShipmentMethod;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
  * App\Eloquent\Procurement\Ticket\ShipmentMethod\Local
@@ -27,6 +28,8 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Local extends Model
 {
+    use SoftDeletes;
+
     protected $table = 'procurement_ticket_local_shipment_methods';
 
     protected $guarded = ['id'];

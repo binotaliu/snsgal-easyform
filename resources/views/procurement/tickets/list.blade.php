@@ -4,16 +4,18 @@
 
 @section('content')
     <div class="container">
-        <div class="col-sm-6">
+        <div class="col-sm-4">
             <h3>Procurement Tickets</h3>
         </div>
 
-        <div class="col-sm-6">
+        <div class="col-sm-8">
             <p class="h4"></p>
             <div class="text-right">
                 <div class="btn-group">
-                    <a href="{{ url('procurement/tickets/new') }}" class="btn btn-default" target="_blank">New Ticket</a>
+                    <a href="{{ url('procurement/tickets/new') }}" class="btn btn-primary" target="_blank">New Ticket</a>
                     <button type="button" class="btn btn-default" v-on:click="showCategoryModal()">Item Categories</button>
+                    <button type="button" class="btn btn-default" v-on:click="showLocalShipmentModal()">Local Shipment Methods</button>
+                    <button type="button" class="btn btn-default" v-on:click="showJapanShipmentModal()">In-Japan Shipment Methods</button>
                     <button type="button" class="btn btn-default" v-on:click="showConfigModal()">Configs</button>
                 </div>
             </div>
@@ -427,6 +429,66 @@
             </div> {{-- /.modal-content --}}
         </div> {{-- /.modal-dialog --}}
     </div> {{-- /#config-modal --}}
+
+    <div id="japan_shipment-modal" class="modal fade">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    In-Japan Shipment Methods
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span>&times;</span>
+                    </button>
+                </div> {{-- /.modal-header --}}
+
+                <div class="modal-body">
+                    <div class="col-sm-12">
+                        <div class="text-right">
+                            <button type="button" class="btn btn-success" v-on:click="addJapanShipmentMethod()">Add Method</button>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-12">
+                        <hr>
+                    </div>
+
+                    <div class="col-sm-12">
+                        <table class="table">
+                            <thead><tr>
+                                <th>#</th>
+                                <th>Name</th>
+                                <th>Price</th>
+                                <th>Actions</th>
+                            </tr></thead>
+                            <tbody>
+                                <tr v-for="(method, index) in japanShipmentModal" v-bind:class="method.deleted_at ? 'danger' : ''">
+                                    <td>@{{ index + 1 }}</td>
+                                    <td>
+                                        <input type="text" v-model="japanShipmentModal[index].name" class="form-control" placeholder="Method Name">
+                                    </td>
+                                    <td>
+                                        <div class="input-group">
+                                            <input type="number" v-model="japanShipmentModal[index].price" class="form-control" placeholder="Price">
+                                            <div class="input-group-addon">¥</div>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <button v-if="method.deleted_at == null" type="button" class="btn btn-danger" v-on:click="removeJapanShipment(index)">Delete</button>
+                                        <button v-else type="button" class="btn btn-warning" v-on:click="undoRemoveJapanShipment(index)">Undo</button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="clearfix"></div>
+                </div> {{-- /.modal-body --}}
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" v-on:click="saveJapanShipment()">Save</button>
+                </div> {{-- /.modal-footer --}}
+            </div> {{-- /.modal-header --}}
+        </div> {{-- /.modal-dialog --}}
+    </div> {{-- /#japan_shipment-modal --}}
 
 @endsection
 

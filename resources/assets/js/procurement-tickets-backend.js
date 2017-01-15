@@ -7,6 +7,12 @@ const app = new Vue({
         configModal: {
             'procurement.minimum_fee': 0
         },
+        shipmentMethods: {
+            japan: [],
+            local: []
+        },
+        localShipmentModal: [],
+        japanShipmentModal: [],
         filter: {
             ticketStatus: 0,
             itemStatus: 0,
@@ -67,6 +73,16 @@ const app = new Vue({
                 return response.json();
             }).then((json) => {
                 this.$set(this, 'configs', json);
+                return json;
+            });
+        },
+        fetchShipmentMethods(type) {
+            let resource = this.$resource('/api/procurement/shipment_methods{/type}');
+
+            return resource.get({type: type}).then((response) => {
+                return response.json();
+            }).then((json) => {
+                this.shipmentMethods[type] = json;
                 return json;
             });
         },
@@ -180,9 +196,62 @@ const app = new Vue({
                     Splash.destroy();
 
                     $('#config-modal').modal('hide');
+                    return response;
                 });
                 return response;
             });
+        },
+        showJapanShipmentModal() {
+            this.japanShipmentModal = this.shipmentMethods.japan.slice(0);
+            $('#japan_shipment-modal').modal('show');
+        },
+        addJapanShipmentMethod() {
+            this.japanShipmentModal.push({
+                name: '',
+                price: 0,
+                new: true
+            });
+        },
+        saveJapanShipment() {
+            let resource = this.$resource('/api/procurement/shipment_methods/japan');
+
+            Splash.enable('windcatcher');
+            return resource.save({methods: this.japanShipmentModal}).then((response) => {
+                this.fetchShipmentMethods('japan').then((response) => {
+                    Splash.destroy();
+
+                    $('#japan_shipment-modal').modal('hide');
+                    return response;
+                });
+                return response;
+            });
+        },
+        removeJapanShipment(index) {
+            if (this.japanShipmentModal[index].new) {
+                this.japanShipmentModal.splice(index, 1);
+                return;
+            }
+
+            this.japanShipmentModal[index].deleted_at = true;
+        },
+        undoRemoveJapanShipment(index) {
+            this.japanShipmentModal[index].deleted_at = null;
+        },
+        showLocalShipmentModal() {
+            this.localShipmentModal = this.shipmentMethods.local.slice(0);
+            $('#local-modal').modal('show');
+        },
+        addLocalShipmentMethod() {
+            this.localShipmentModal.push({
+                type: 'standard',
+                name: '',
+                price: 0,
+                show: true,
+                new: true
+            });
+        },
+        saveLocalShipment() {
+            // @TODO: implement
         }
     }
 });
@@ -190,3 +259,5 @@ const app = new Vue({
 app.fetchTickets();
 app.fetchCategories();
 app.fetchConfigs();
+app.fetchShipmentMethods('japan');
+app.fetchShipmentMethods('local');

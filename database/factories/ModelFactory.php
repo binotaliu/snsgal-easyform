@@ -59,3 +59,19 @@ $factory->define(App\Eloquent\Procurement\Ticket\Item\Category::class, function 
         'lower' => $faker->numberBetween(5, 20)
     ];
 });
+
+$factory->define(App\Eloquent\Procurement\Ticket\ShipmentMethod\Japan::class, function (Faker\Generator $faker) {
+    return [
+        'name' => $faker->name,
+        'price' => $faker->numberBetween(0, 999)
+    ];
+});
+
+$factory->define(App\Eloquent\Procurement\Ticket\ShipmentMethod\Local::class, function (Faker\Generator $faker) {
+    return [
+        'name' => $faker->name,
+        'type' => $faker->boolean ? 'cvs' : 'standard',
+        'price' => $faker->numberBetween(0, 999),
+        'show' => $faker->boolean
+    ];
+});

@@ -65,6 +65,14 @@ Route::group(['namespace' => 'Procurement'], function () {
             'only' => ['index', 'store', 'update']
         ]);
 
+        Route::resource('/shipment_methods/japan', 'Ticket\ShipmentMethod\JapanController', [
+            'only' => ['index', 'store']
+        ]);
+
+        Route::resource('/shipment_methods/local', 'Ticket\ShipmentMethod\LocalController', [
+            'only' => ['index', 'store']
+        ]);
+
         Route::resource('/item_categories', 'Ticket\Item\CategoryController', [
             'only' => ['index', 'store', 'update', 'destroy']
         ]);
