@@ -251,9 +251,32 @@ const app = new Vue({
             });
         },
         saveLocalShipment() {
-            // @TODO: implement
+            let resource = this.$resource('/api/procurement/shipment_methods/local');
+
+            Splash.enable('windcatcher');
+            return resource.save({methods: this.localShipmentModal}).then((response) => {
+                this.fetchShipmentMethods('local').then((response) => {
+                    Splash.destroy();
+
+                    $('#local-modal').modal('hide');
+                    return response;
+                });
+                return response;
+            });
+        },
+        removeLocalShipment(index) {
+            if (this.localShipmentModal[index].new) {
+                this.localShipmentModal.splice(index, 1);
+                return;
+            }
+
+            this.localShipmentModal[index].deleted_at = true;
+        },
+        undoRemoveLocalShipment(index) {
+            this.localShipmentModal[index].deleted_at = null;
         }
     }
+
 });
 
 app.fetchTickets();

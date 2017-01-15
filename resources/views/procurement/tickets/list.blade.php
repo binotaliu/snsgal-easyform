@@ -460,20 +460,92 @@
                                 <th>Actions</th>
                             </tr></thead>
                             <tbody>
-                                <tr v-for="(method, index) in japanShipmentModal" v-bind:class="method.deleted_at ? 'danger' : ''">
+                            <tr v-for="(method, index) in japanShipmentModal" v-bind:class="method.deleted_at ? 'danger' : ''">
+                                <td>@{{ index + 1 }}</td>
+                                <td>
+                                    <input type="text" v-model="japanShipmentModal[index].name" class="form-control" placeholder="Method Name">
+                                </td>
+                                <td>
+                                    <div class="input-group">
+                                        <input type="number" v-model="japanShipmentModal[index].price" class="form-control" placeholder="Price">
+                                        <div class="input-group-addon">¥</div>
+                                    </div>
+                                </td>
+                                <td>
+                                    <button v-if="method.deleted_at == null" type="button" class="btn btn-danger" v-on:click="removeJapanShipment(index)">Delete</button>
+                                    <button v-else type="button" class="btn btn-warning" v-on:click="undoRemoveJapanShipment(index)">Undo</button>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="clearfix"></div>
+                </div> {{-- /.modal-body --}}
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" v-on:click="saveJapanShipment()">Save</button>
+                </div> {{-- /.modal-footer --}}
+            </div> {{-- /.modal-header --}}
+        </div> {{-- /.modal-dialog --}}
+    </div> {{-- /#japan_shipment-modal --}}
+
+    <div id="local-modal" class="modal fade">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    Local Shipment Methods
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span>&times;</span>
+                    </button>
+                </div> {{-- /.modal-header --}}
+
+                <div class="modal-body">
+                    <div class="col-sm-12">
+                        <div class="text-right">
+                            <button type="button" class="btn btn-success" v-on:click="addLocalShipmentMethod()">Add Method</button>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-12">
+                        <hr>
+                    </div>
+
+                    <div class="col-sm-12">
+                        <table class="table">
+                            <thead><tr>
+                                <th>#</th>
+                                <th>Type</th>
+                                <th>Name</th>
+                                <th>Price</th>
+                                <th>Show</th>
+                                <th>Actions</th>
+                            </tr></thead>
+                            <tbody>
+                                <tr v-for="(method, index) in localShipmentModal" v-bind:class="method.deleted_at ? 'danger' : ''">
                                     <td>@{{ index + 1 }}</td>
                                     <td>
-                                        <input type="text" v-model="japanShipmentModal[index].name" class="form-control" placeholder="Method Name">
+                                        <select class="form-control" v-model="localShipmentModal[index].type">
+                                            <option value="cvs">CVS</option>
+                                            <option value="standard">Standard</option>
+                                            <option value="none">None</option>
+                                        </select>
+                                    </td>
+                                    <td>
+                                        <input type="text" v-model="localShipmentModal[index].name" class="form-control" placeholder="Method Name">
                                     </td>
                                     <td>
                                         <div class="input-group">
-                                            <input type="number" v-model="japanShipmentModal[index].price" class="form-control" placeholder="Price">
-                                            <div class="input-group-addon">¥</div>
+                                            <div class="input-group-addon">NT$</div>
+                                            <input type="number" v-model="localShipmentModal[index].price" class="form-control" placeholder="Price">
                                         </div>
                                     </td>
                                     <td>
-                                        <button v-if="method.deleted_at == null" type="button" class="btn btn-danger" v-on:click="removeJapanShipment(index)">Delete</button>
-                                        <button v-else type="button" class="btn btn-warning" v-on:click="undoRemoveJapanShipment(index)">Undo</button>
+                                        <input type="checkbox" v-model="localShipmentModal[index].show" class="form-control">
+                                    </td>
+                                    <td>
+                                        <button v-if="method.deleted_at == null" type="button" class="btn btn-danger" v-on:click="removeLocalShipment(index)">Delete</button>
+                                        <button v-else type="button" class="btn btn-warning" v-on:click="undoRemoveLocalShipment(index)">Undo</button>
                                     </td>
                                 </tr>
                             </tbody>
@@ -484,7 +556,7 @@
 
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary" v-on:click="saveJapanShipment()">Save</button>
+                    <button type="button" class="btn btn-primary" v-on:click="saveLocalShipment()">Save</button>
                 </div> {{-- /.modal-footer --}}
             </div> {{-- /.modal-header --}}
         </div> {{-- /.modal-dialog --}}
