@@ -64,9 +64,7 @@ class TicketRepository
                 'price' => $total['price']
             ]);
         }
-        $ticket->totals->each(function (ProcurementTicket\Total $total) {
-            $total->delete();
-        });
+        $this->total->where('ticket_id', $ticket->id)->delete();
         $ticket->totals()->saveMany($totalModels);
         $ticket->update(['total' => $totals['total']]);
     }
@@ -184,12 +182,12 @@ class TicketRepository
                     'note' => $item['note']
                 ]);
             } // foreach
-            $this->ticket->token($token)->items()->saveMany($newItems);
+            $this->ticket->where('token', $token)->items()->saveMany($newItems);
         } // if count new
 
         if (count($items['update'])) {
             foreach ($items['update'] as $item) {
-                $this->item->find($item['id'])->update([
+                $this->item->where('id', $item['id'])->update([
                     'status' => $item['status'],
                     'category_id' => $item['category_id'],
                     'title' => $item['title'],
@@ -213,12 +211,12 @@ class TicketRepository
                 ]);
             }
 
-            $this->ticket->token($token)->japanShipments()->saveMany($newJapanShipments);
+            $this->ticket->where('token', $token)->japanShipments()->saveMany($newJapanShipments);
         } // if count new
 
         if (count($japanShipments['update'])) {
             foreach ($japanShipments['update'] as $japanShipment) {
-                $this->japanShipment->find($japanShipment['id'])->update([
+                $this->japanShipment->where('id', $japanShipment['id'])->update([
                     'title' => $japanShipment['title'],
                     'price' => $japanShipment['price']
                 ]);
@@ -229,7 +227,7 @@ class TicketRepository
             $this->japanShipment->whereIn('id', $japanShipments['delete'])->delete();
         } //if count delete
 
-        $ticket = $this->ticket->token($token);
+        $ticket = $this->ticket->with('items', 'japanShipments')->token($token);
 
         $ticket->update([
             'name' => $name,
