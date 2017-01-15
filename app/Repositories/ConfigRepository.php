@@ -39,7 +39,7 @@ class ConfigRepository
 
     function getConfig(string $key)
     {
-        return $this->config[$key];
+        return $this->configs[$key];
     }
 
     function updateConfig(string $key, $value)
