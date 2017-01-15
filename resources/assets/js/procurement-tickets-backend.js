@@ -36,6 +36,7 @@ const app = new Vue({
                 method: ''
             },
             items: [],
+            japanShipmentSelect: 0,
             japanShipments: [],
             price: 0,
             total: []
@@ -131,9 +132,11 @@ const app = new Vue({
             });
         },
         addEditJapanShipment() {
+            let title = this.shipmentMethods.japan[this.edit.japanShipmentSelect].name;
+            let price = this.shipmentMethods.japan[this.edit.japanShipmentSelect].price;
             this.edit.japanShipments.push({
-                title: '',
-                price: 0,
+                title: title,
+                price: price,
                 deleted: false
             });
         },

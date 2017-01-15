@@ -182,7 +182,7 @@ class TicketRepository
                     'note' => $item['note']
                 ]);
             } // foreach
-            $this->ticket->where('token', $token)->items()->saveMany($newItems);
+            $this->ticket->where('token', $token)->first()->items()->saveMany($newItems);
         } // if count new
 
         if (count($items['update'])) {
@@ -211,7 +211,7 @@ class TicketRepository
                 ]);
             }
 
-            $this->ticket->where('token', $token)->japanShipments()->saveMany($newJapanShipments);
+            $this->ticket->where('token', $token)->first()->japanShipments()->saveMany($newJapanShipments);
         } // if count new
 
         if (count($japanShipments['update'])) {

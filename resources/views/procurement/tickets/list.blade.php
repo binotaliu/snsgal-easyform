@@ -194,7 +194,7 @@
                                         </div>
                                         <div class="form-group">
                                             <select v-model="edit.localShipmentSelect" class="form-control">
-                                                <option v-for="(method, index) in shipmentMethods.local" v-bind:value="index">@{{ method.name + ': ' + method.price }}</option>
+                                                <option v-for="(method, index) in shipmentMethods.local" v-bind:value="index">@{{ method.name + ': NT$' + method.price }}</option>
                                             </select>
                                         </div>
                                     </div>
@@ -283,7 +283,14 @@
 
                             <div id="ticket-modal-ticket-japan_shipments" class="tab-pane">
                                 <div class="row">
-                                    <div class="col-sm-12 text-right">
+                                    <div class="col-sm-5 col-sm-offset-4 text-right">
+                                        <div class="form-group">
+                                            <select v-model="edit.japanShipmentSelect" class="form-control">
+                                                <option v-for="(method, index) in shipmentMethods.japan" v-bind:value="index">@{{ method.name + ': ¥' + method.price }}</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-2 text-right">
                                         <button type="button" class="btn btn-success" v-on:click="addEditJapanShipment()">Add In-Japan Shipment</button>
                                     </div>
                                 </div>

@@ -150,7 +150,8 @@ class TicketController extends Controller
         $updateItems = [];
         foreach ($items as $item) {
             switch (true) {
-                case !empty($item['deleted']) && ($item['deleted'] != true):
+                case !empty($item['deleted']) && ($item['deleted'] == true):
+                    if (empty($item['id'])) break;
                     $deleteItems[] = $onDelete($item);
                     break;
                 case !empty($item['created_at']):
