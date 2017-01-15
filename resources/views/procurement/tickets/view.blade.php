@@ -1,29 +1,29 @@
 @extends('layouts.app')
 
-@section('title', 'Procurement Ticket')
+@section('title', trans('procurement_ticket.ticket'))
 
 @section('content')
     <div class="container">
         <div class="col-md-12">
-            <h3><span class="label label-primary">{{ $ticket_status[$ticket->status] }}</span> Procurement Ticket</h3>
+            <h3><span class="label label-primary">{{ $ticket_status[$ticket->status] }}</span> {{  trans('procurement_ticket.ticket') }}</h3>
         </div>
 
         <div class="col-md-12">
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    Items
+                    {{ trans('procurement_ticket.field_items') }}
                 </div>
 
                 <div class="panel-body">
                     <table class="table table-striped">
                         <thead><tr class="active">
                             <th width="20" class="text-center">#</th>
-                            <th>Category</th>
-                            <th>Product</th>
-                            <th width="110">Extra Services</th>
-                            <th width="100" class="text-right">Price (Yen)</th>
-                            <th width="110" class="text-right table-price">Price (TWD)</th>
-                            <th width="240">Note</th>
+                            <th>{{ trans('procurement_ticket.field_category') }}</th>
+                            <th>{{ trans('procurement_ticket.field_product') }}</th>
+                            <th width="110">{{ trans('procurement_ticket.field_extra_services') }}</th>
+                            <th width="100" class="text-right">{{ trans('procurement_ticket.field_price_yen') }}</th>
+                            <th width="110" class="text-right table-price">{{ trans('procurement_ticket.field_price_twd') }}</th>
+                            <th width="240">{{ trans('procurement_ticket.field_note') }}</th>
                         </tr></thead>
 
                         <tbody>
@@ -38,7 +38,7 @@
                                             <a href="{{ $item->url }}">{{ $item->url }}</a>
                                         </small>
                                     </td>
-                                    <td>None</td>
+                                    <td>{{ trans('procurement_ticket.none') }}</td>
                                     <td class="text-right">¥{{ Format::number($item->price, 0, '.', ',') }}</td>
                                     <td class="text-right table-price">NT${{ Format::number($item->price * $ticket->rate, 2, '.', ',') }}</td>
                                     <td>{{ $item->note }}</td>
@@ -48,10 +48,10 @@
                             {{-- Shipments --}}
                             <tr class="active">
                                 <th></th>
-                                <th colspan="3">In-Japan Shipment</th>
-                                <th class="text-right">Price (Yen)</th>
-                                <th class="text-right table-price">Price (TWD)</th>
-                                <th>Note</th>
+                                <th colspan="3">{{ trans('procurement_ticket.field_japan_shipment') }}</th>
+                                <th class="text-right">{{ trans('procurement_ticket.field_price_yen') }}</th>
+                                <th class="text-right table-price">{{ trans('procurement_ticket.field_price_twd') }}</th>
+                                <th>{{ trans('procurement_ticket.field_note') }}</th>
                             </tr>
                             @foreach ($ticket->japanShipments as $item)
                                 <tr>
@@ -71,7 +71,7 @@
                             {{-- Total --}}
                             <tr class="active">
                                 <th></th>
-                                <th colspan="6">Total</th>
+                                <th colspan="6">{{ trans('procurement_ticket.field_total') }}</th>
                             </tr>
                             @foreach ($ticket->totals as $item)
                                 <tr>
@@ -89,7 +89,7 @@
                             <tr>
                                 <td colspan="5" class="text-right h4">
                                     <strong>
-                                        Total
+                                        {{ trans('procurement_ticket.field_total') }}
                                     </strong>
                                 </td>
                                 <td class="table-price text-right h4">
@@ -106,7 +106,7 @@
         <div class="col-md-6">
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    Customer
+                    {{ trans('procurement_ticket.field_customer') }}
                 </div>
 
                 <div class="panel-body">
@@ -115,7 +115,7 @@
                 </div>
 
                 <div class="panel-heading">
-                    Note
+                    {{ trans('procurement_ticket.field_note') }}
                 </div>
 
                 <div class="panel-body">
@@ -127,13 +127,13 @@
         <div class="col-md-6">
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    Ticket Information
+                    {{ trans('procurement_ticket.field_ticket_information') }}
                 </div>
 
                 <div class="panel-body">
-                    Rate: {{ $ticket->rate }} <br>
-                    Created at {{ $ticket->created_at }} <br>
-                    Last update at {{ $ticket->updated_at }} <br>
+                    {{ trans('procurement_ticket.field_rate') }}: {{ $ticket->rate }} <br>
+                    {{ trans('procurement_ticket.field_created_at') }}{{ $ticket->created_at }} <br>
+                    {{ trans('procurement_ticket.field_updated_at') }}{{ $ticket->updated_at }} <br>
                 </div>
             </div>
         </div>

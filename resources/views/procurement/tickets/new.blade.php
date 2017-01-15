@@ -3,13 +3,13 @@
 @section('content')
     <div class="container">
         <div class="col-sm-12">
-            <h2>New Procurement Ticket</h2>
+            <h2>{{ trans('procurement_ticket.new_title') }}</h2>
         </div>
 
         <div class="col-sm-12">
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    Procurement Ticket
+                    {{ trans('procurement_ticket.ticket') }}
                 </div>
 
                 <div class="panel-body">
@@ -23,34 +23,34 @@
                     <div class="col-md-12">
                         <form class="form-inline">
                             <div class="form-group">
-                                <label class="sr-only" for="new-item-url">URL</label>
-                                <input type="url" class="form-control" id="new-item-url" v-model="form.url" placeholder="URL">
+                                <label class="sr-only" for="new-item-url">{{ trans('procurement_ticket.field_url') }}</label>
+                                <input type="url" class="form-control" id="new-item-url" v-model="form.url" placeholder="{{ trans('procurement_ticket.field_url') }}">
                             </div>
                             <div class="form-group">
-                                <label class="sr-only" for="new-item-name">Product Name</label>
-                                <input type="url" class="form-control" id="new-item-name" v-model="form.title" placeholder="Product Name">
+                                <label class="sr-only" for="new-item-name">{{ trans('procurement_ticket.field_product_name') }}</label>
+                                <input type="url" class="form-control" id="new-item-name" v-model="form.title" placeholder="{{ trans('procurement_ticket.field_product_name') }}">
                             </div>
                             <div class="form-group">
-                                <label class="sr-only" for="new-item-note">Note</label>
-                                <input type="url" class="form-control" id="new-item-note" v-model="form.note" placeholder="Note">
+                                <label class="sr-only" for="new-item-note">{{ trans('procurement_ticket.field_note') }}</label>
+                                <input type="url" class="form-control" id="new-item-note" v-model="form.note" placeholder="{{ trans('procurement_ticket.field_note') }}">
                             </div>
                             <div class="form-group">
-                                <label class="sr-only" for="new-item-price">Price</label>
+                                <label class="sr-only" for="new-item-price">{{ trans('procurement_ticket.field_price') }}</label>
                                 <div class="input-group">
                                     <div class="input-group-addon">¥</div>
-                                    <input type="url" class="form-control" id="new-item-price" v-model="form.price" placeholder="Price">
+                                    <input type="url" class="form-control" id="new-item-price" v-model="form.price" placeholder="{{ trans('procurement_ticket.field_price') }}">
                                 </div>
                             </div>
-                            <button type="button" class="btn btn-primary" v-on:click="pushItem">Add</button>
+                            <button type="button" class="btn btn-primary" v-on:click="pushItem">{{ trans('procurement_ticket.button_add') }}</button>
                         </form>
 
                         <table class="table table-striped">
                             <thead><tr>
                                 <td>#</td>
-                                <td>Product</td>
-                                <td class="text-right">Price</td>
-                                <td>Note</td>
-                                <td>Extra Services</td>
+                                <td>{{ trans('procurement_ticket.field_product') }}</td>
+                                <td class="text-right">{{ trans('procurement_ticket.field_price') }}</td>
+                                <td>{{ trans('procurement_ticket.field_note') }}</td>
+                                <td>{{ trans('procurement_ticket.field_extra_services') }}</td>
                             </tr></thead>
 
                             <tbody v-if="items.length > 0">
@@ -69,13 +69,13 @@
 
                             <tfoot v-if="items.length > 0"><tr>
                                 <td></td>
-                                <td class="text-right">Summary</td>
+                                <td class="text-right">{{ trans('procurement_ticket.field_total') }}</td>
                                 <td class="text-right">@{{ summary() }}</td>
                                 <td></td>
                                 <td></td>
                             </tr></tfoot>
                             <tfoot v-else><tr>
-                                <td colspan="5" class="text-center">Items will show here once you add an item</td>
+                                <td colspan="5" class="text-center">{{ trans('procurement_ticket.new_no_item_text') }}</td>
                             </tr></tfoot>
                         </table>
 
@@ -84,25 +84,25 @@
                     <div class="col-md-8">
                         <form class="form-horizontal">
                             <div class="form-group">
-                                <label class="col-sm-2 control-label" for="ticket-contact-name">Name</label>
+                                <label class="col-sm-2 control-label" for="ticket-contact-name">{{ trans('procurement_ticket.field_name') }}</label>
                                 <div class="col-sm-10">
                                     <input type="text" class="form-control" id="ticket-contact-name" v-model="customer.name">
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label class="col-sm-2 control-label" for="ticket-contact-email">E-Mail</label>
+                                <label class="col-sm-2 control-label" for="ticket-contact-email">{{ trans('procurement_ticket.field_email') }}</label>
                                 <div class="col-sm-10">
                                     <input type="text" class="form-control" id="ticket-contact-email" v-model="customer.email">
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label class="col-sm-2 control-label" for="ticket-contact-contact">Contact</label>
+                                <label class="col-sm-2 control-label" for="ticket-contact-contact">{{ trans('procurement_ticket.field_contact') }}</label>
                                 <div class="col-sm-10">
                                     <input type="text" class="form-control" id="ticket-contact-contact" v-model="customer.contact">
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label class="col-sm-2 control-label" for="ticket-contact-shipment">Shipping Method</label>
+                                <label class="col-sm-2 control-label" for="ticket-contact-shipment">{{ trans('procurement_ticket.field_shipment_method') }}</label>
                                 <div class="col-sm-10">
                                     <select id="ticket-contact-shipment" v-model="shipment" class="form-control">
                                         @foreach ($shipments as $shipment)
@@ -114,7 +114,7 @@
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label class="col-sm-2 control-label" for="ticket-contact-note">Ticket Note</label>
+                                <label class="col-sm-2 control-label" for="ticket-contact-note">{{ trans('procurement_ticket.field_note') }}</label>
                                 <div class="col-sm-10">
                                     <textarea class="form-control" id="ticket-contact-note" v-model="note"></textarea>
                                 </div>
@@ -127,7 +127,7 @@
                     </div>
 
                     <div class="col-md-4 col-md-offset-8">
-                        <button type="button" v-on:click="store()" class="btn btn-block btn-success">Send</button>
+                        <button type="button" v-on:click="store()" class="btn btn-block btn-success">{{ trans('procurement_ticket.button_send') }}</button>
                     </div>
                 </div>
             </div>
