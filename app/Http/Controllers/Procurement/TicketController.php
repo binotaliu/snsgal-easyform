@@ -6,6 +6,7 @@ use App\Codes\Procurement\ItemStatus;
 use App\Codes\Procurement\TicketStatus;
 use App\Eloquent\Procurement\Ticket;
 use App\Http\Controllers\Controller;
+use App\Repositories\ConfigRepository;
 use App\Repositories\CurrencyRepository;
 use App\Repositories\Procurement\TicketRepository;
 use App\Services\Procurement\Ticket\TotalService;
@@ -27,9 +28,9 @@ class TicketController extends Controller
     protected $currencyRepository;
 
     /**
-     * @var TotalService
+     * @var ConfigRepository
      */
-    protected $totalService;
+    protected $configRepository;
 
     protected $ticketValidation = [
         'name' => 'required|max:256',
@@ -54,7 +55,6 @@ class TicketController extends Controller
     {
         $this->ticketRepository = $ticketRepository;
         $this->currencyRepository = $currencyRepository;
-        $this->totalService = $totalService;
     }
 
     /**
@@ -108,14 +108,6 @@ class TicketController extends Controller
             'item_status' => ItemStatus::getCodes(),
             'rate' => $this->currencyRepository->getRate('JPY')
         ]);
-    }
-
-    /**
-     * @return Collection|static[]
-     */
-    public function categories()
-    {
-        return $this->ticketRepository->getCategories();
     }
 
     /**

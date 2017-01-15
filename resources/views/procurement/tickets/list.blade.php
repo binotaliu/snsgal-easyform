@@ -14,6 +14,7 @@
                 <div class="btn-group">
                     <a href="{{ url('procurement/tickets/new') }}" class="btn btn-default" target="_blank">New Ticket</a>
                     <button type="button" class="btn btn-default" v-on:click="showCategoryModal()">Item Categories</button>
+                    <button type="button" class="btn btn-default" v-on:click="showConfigModal()">Configs</button>
                 </div>
             </div>
         </div>
@@ -194,7 +195,10 @@
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label for="ticket-modal-ticket-configure-local_shipment-price" class="control-label">Local Shipment Price:</label>
-                                            <input type="text" v-model="edit.localShipment.price" id="ticket-modal-ticket-configure-local_shipment-price" class="form-control">
+                                            <div class="input-group">
+                                                <div class="input-group-addon">NT$</div>
+                                                <input type="text" v-model="edit.localShipment.price" id="ticket-modal-ticket-configure-local_shipment-price" class="form-control">
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -243,7 +247,10 @@
 
                                         <div class="col-md-2">
                                             <div class="form-group">
-                                                <input type="number" v-model="edit.items[index].price" class="form-control" placeholder="Price">
+                                                <div class="input-group">
+                                                    <input type="number" v-model="edit.items[index].price" class="form-control" placeholder="Price">
+                                                    <div class="input-group-addon">¥</div>
+                                                </div>
                                             </div>
                                         </div>
 
@@ -291,7 +298,10 @@
 
                                         <div class="col-md-2">
                                             <div class="form-group">
-                                                <input type="number" v-model="edit.japanShipments[index].price" class="form-control" placeholder="Shipment Price">
+                                                <div class="input-group">
+                                                    <input type="number" v-model="edit.japanShipments[index].price" class="form-control" placeholder="Shipment Price">
+                                                    <div class="input-group-addon">¥</div>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -378,6 +388,45 @@
             </div> {{-- /.modal-content --}}
         </div> {{-- /.modal-dialog --}}
     </div> {{-- /#category-modal --}}
+
+    <div id="config-modal" class="modal fade">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    Edit Configs
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span>&times;</span>
+                    </button>
+                </div> {{-- /.modal-header --}}
+
+                <div class="modal-body">
+                    <table class="table">
+                        <thead><tr>
+                            <th>Name</th>
+                            <th>Value</th>
+                        </tr></thead>
+
+                        <tbody>
+                            <tr>
+                                <td>{{ trans('configs.procurement.minimum_fee') }}</td>
+                                <td>
+                                    <div class="input-group">
+                                        <div class="input-group-addon">NT$</div>
+                                        <input type="number" v-model="configModal['procurement.minimum_fee']" class="form-control">
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div> {{-- /.modal-body --}}
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" v-on:click="saveConfigs()">Save</button>
+                </div> {{-- /.modal-footer --}}
+            </div> {{-- /.modal-content --}}
+        </div> {{-- /.modal-dialog --}}
+    </div> {{-- /#config-modal --}}
 
 @endsection
 

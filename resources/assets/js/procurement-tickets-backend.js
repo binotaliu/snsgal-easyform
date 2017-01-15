@@ -3,6 +3,10 @@
 const app = new Vue({
     el: '#app',
     data: {
+        configs: {},
+        configModal: {
+            'procurement.minimum_fee': 0
+        },
         filter: {
             ticketStatus: 0,
             itemStatus: 0,
@@ -53,6 +57,16 @@ const app = new Vue({
                 return response.json();
             }).then((json) => {
                 this.$set(this, 'categories', json);
+                return json;
+            });
+        },
+        fetchConfigs() {
+            let resource = this.$resource('/api/configs');
+
+            return resource.get().then((response) => {
+                return response.json();
+            }).then((json) => {
+                this.$set(this, 'configs', json);
                 return json;
             });
         },
@@ -152,9 +166,27 @@ const app = new Vue({
                 });
                 return response;
             });
+        },
+        showConfigModal() {
+            this.configModal['procurement.minimum_fee'] = this.configs['procurement.minimum_fee'];
+            $('#config-modal').modal('show');
+        },
+        saveConfigs() {
+            let resource = this.$resource('/api/configs');
+
+            Splash.enable('windcatcher');
+            return resource.save({configs: this.configModal}).then((response) => {
+                this.fetchConfigs().then((response) => {
+                    Splash.destroy();
+
+                    $('#config-modal').modal('hide');
+                });
+                return response;
+            });
         }
     }
 });
 
 app.fetchTickets();
 app.fetchCategories();
+app.fetchConfigs();

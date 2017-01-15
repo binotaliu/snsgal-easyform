@@ -60,7 +60,7 @@ Route::group(['namespace' => 'Procurement'], function () {
         Route::get('/tickets/{token}', 'TicketController@get');
     });
 
-    Route::group(['prefix' => 'api/procurement'], function () {
+    Route::group(['prefix' => 'api/procurement', 'middleware' => ['auth', 'admin']], function () {
         Route::resource('/tickets', 'TicketController', [
             'only' => ['index', 'store', 'update']
         ]);
@@ -69,5 +69,11 @@ Route::group(['namespace' => 'Procurement'], function () {
             'only' => ['index', 'store', 'update', 'destroy']
         ]);
     });
+});
+
+Route::group(['middleware' => ['auth', 'admin']], function () {
+    Route::resource('/api/configs', 'ConfigController', [
+        'only' => ['index', 'store']
+    ]);
 });
 
