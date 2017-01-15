@@ -18,12 +18,20 @@ class ConfigRepository
      */
     protected $configs = [];
 
+    /**
+     * ConfigRepository constructor.
+     * @param Config $config
+     */
     function __construct(Config $config)
     {
         $this->config = $config;
 
+    }
+
+    private function cache()
+    {
         // cache
-        $configs = $config->all();
+        $configs = $this->config->all();
         foreach ($configs as $config) {
             $this->configs[$config->key] = unserialize($config->value);
         }
@@ -32,24 +40,41 @@ class ConfigRepository
     /**
      * @return array
      */
-    function getConfigs()
+    public function getConfigs(): array
     {
+        if (empty($this->configs)) $this->cache();
+
         return $this->configs;
     }
 
-    function getConfig(string $key)
+    /**
+     * @param string $key
+     * @return mixed
+     */
+    public function getConfig(string $key): mixed
     {
+        if (empty($this->configs)) $this->cache();
+
         return $this->configs[$key];
     }
 
-    function updateConfig(string $key, $value)
+    /**
+     * @param string $key
+     * @param $value
+     * @return bool
+     */
+    public function updateConfig(string $key, $value): bool
     {
-        $this->config->whereKey($key)->update([
+        return $this->config->whereKey($key)->update([
             'value' => serialize($value)
         ]);
     }
 
-    function addConfig(string $key, $value)
+    /**
+     * @param string $key
+     * @param $value
+     */
+    public function addConfig(string $key, $value)
     {
         $this->config->create([
             'key' => $key,
