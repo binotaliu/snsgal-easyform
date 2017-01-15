@@ -45,6 +45,7 @@
                     <ul class="nav navbar-nav">
                         @if (!Auth::guest())
                             <li><a href="{{ url('/shipment/requests') }}">{{ trans('request.list_title') }}</a></li>
+                            <li><a href="{{ url('/procurement/tickets') }}">{{ trans('procurement_ticket.ticket') }}</a></li>
                         @endif
                     </ul>
 
