@@ -18,7 +18,7 @@ elixir(mix => {
         .webpack('app.js')
         .webpack('requests.js')
         .webpack('backend-requests.js')
-        .webpack('tickets-new.js')
+        .webpack('procurement-tickets-new.js')
         .webpack('procurement-tickets-backend.js');
 
     mix.version([
@@ -26,7 +26,7 @@ elixir(mix => {
         'js/app.js',
         'js/requests.js',
         'js/backend-requests.js',
-        'js/tickets-new.js',
+        'js/procurement-tickets-new.js',
         'js/procurement-tickets-backend.js',
     ]);
 });

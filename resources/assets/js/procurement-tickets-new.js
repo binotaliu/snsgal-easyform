@@ -10,6 +10,7 @@ const app = new Vue({
             note: '',
             extraService: {}
         },
+        shipment: 0,
         note: '',
         customer: {
             name: '',
@@ -43,6 +44,7 @@ const app = new Vue({
                 name: this.customer.name,
                 email: this.customer.email,
                 contact: this.customer.contact,
+                shipment: this.shipment,
                 note: this.note,
                 items: this.items
             }).then((response) => {

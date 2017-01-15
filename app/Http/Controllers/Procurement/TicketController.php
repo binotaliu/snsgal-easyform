@@ -8,6 +8,7 @@ use App\Eloquent\Procurement\Ticket;
 use App\Http\Controllers\Controller;
 use App\Repositories\ConfigRepository;
 use App\Repositories\CurrencyRepository;
+use App\Repositories\Procurement\Ticket\ShipmentMethodRepository;
 use App\Repositories\Procurement\TicketRepository;
 use App\Services\Procurement\Ticket\TotalService;
 use Illuminate\Database\Eloquent\Collection;
@@ -32,17 +33,23 @@ class TicketController extends Controller
      */
     protected $configRepository;
 
+    /**
+     * @var ShipmentMethodRepository
+     */
+    protected $shipmentMethodRepository;
+
     protected $ticketValidation = [
         'name' => 'required|max:256',
         'email' => 'required|email|max:256',
         'contact' => 'required|max:256',
         'note' => 'max:512',
-        'items.*.url' => 'required|url|max:256',
+        'items.*.url' => 'url|max:256',
         'items.*.price' => 'required|numeric',
         'items.*.title' => 'required|max:512',
         'items.*.note' => 'max:512',
         'japanShipments.*.title' => 'max:512',
         'japanShipments.*.price' => 'numeric',
+        'shipment' => 'numeric'
     ];
 
     /**
@@ -50,11 +57,13 @@ class TicketController extends Controller
      * @param TicketRepository $ticketRepository
      * @param CurrencyRepository $currencyRepository
      * @param TotalService $totalService
+     * @param ShipmentMethodRepository $shipmentMethodRepository
      */
-    public function __construct(TicketRepository $ticketRepository, CurrencyRepository $currencyRepository, TotalService $totalService)
+    public function __construct(TicketRepository $ticketRepository, CurrencyRepository $currencyRepository, TotalService $totalService, ShipmentMethodRepository $shipmentMethodRepository)
     {
         $this->ticketRepository = $ticketRepository;
         $this->currencyRepository = $currencyRepository;
+        $this->shipmentMethodRepository = $shipmentMethodRepository;
     }
 
     /**
@@ -63,7 +72,9 @@ class TicketController extends Controller
      */
     public function new()
     {
-        return view('procurement.tickets.new');
+        return view('procurement.tickets.new', [
+            'shipments' => $this->shipmentMethodRepository->getLocalShipments()
+        ]);
     }
 
     /**
@@ -73,6 +84,7 @@ class TicketController extends Controller
     public function store(Request $request)
     {
         $this->validate($request, $this->ticketValidation);
+        $shipment = $this->shipmentMethodRepository->getLocalShipment((int)$request->get('shipment'));
 
         $ticket = $this->ticketRepository->createTicket(
             $request->get('name'),
@@ -81,8 +93,8 @@ class TicketController extends Controller
             $request->get('note'),
             self::DEFAULT_STATUS,
             $this->currencyRepository->getRate('JPY'),
-            '',
-            1,
+            $shipment->name,
+            $shipment->price,
             $request->get('items'),
             []
         );

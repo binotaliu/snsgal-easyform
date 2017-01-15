@@ -47,6 +47,24 @@ class ShipmentMethodRepository
     }
 
     /**
+     * @param int $id
+     * @return ShipmentMethod\Japan
+     */
+    public function getJapanShipment(int $id): ShipmentMethod\Japan
+    {
+        return $this->japanShipment->find($id);
+    }
+
+    /**
+     * @param int $id
+     * @return ShipmentMethod\Local
+     */
+    public function getLocalShipment(int $id): ShipmentMethod\Local
+    {
+        return $this->localShipment->find($id);
+    }
+
+    /**
      * @param string $name
      * @param int $price
      * @return ShipmentMethod\Japan

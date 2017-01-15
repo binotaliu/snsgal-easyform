@@ -102,6 +102,18 @@
                                 </div>
                             </div>
                             <div class="form-group">
+                                <label class="col-sm-2 control-label" for="ticket-contact-shipment">Shipping Method</label>
+                                <div class="col-sm-10">
+                                    <select id="ticket-contact-shipment" v-model="shipment" class="form-control">
+                                        @foreach ($shipments as $shipment)
+                                            @if ($shipment->show)
+                                                <option value="{{ $shipment->id }}">{{ $shipment->name }}: NT${{ $shipment->price }}</option>
+                                            @endif
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group">
                                 <label class="col-sm-2 control-label" for="ticket-contact-note">Ticket Note</label>
                                 <div class="col-sm-10">
                                     <textarea class="form-control" id="ticket-contact-note" v-model="note"></textarea>
@@ -124,5 +136,5 @@
 @endsection
 
 @section('footer')
-    <script src="{{ elixir('js/tickets-new.js') }}"></script>
+    <script src="{{ elixir('js/procurement-tickets-new.js') }}"></script>
 @endsection
