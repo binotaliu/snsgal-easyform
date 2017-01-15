@@ -51,7 +51,7 @@ class ConfigRepository
      * @param string $key
      * @return mixed
      */
-    public function getConfig(string $key): mixed
+    public function getConfig(string $key)
     {
         if (empty($this->configs)) $this->cache();
 
