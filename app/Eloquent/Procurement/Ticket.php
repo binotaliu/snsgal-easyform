@@ -91,4 +91,15 @@ class Ticket extends Model
     {
         return $query->where('token', $token)->first();
     }
+
+    /**
+     * Scope a query to filter archived tickets
+     * @param Builder $query
+     * @param bool $archived
+     * @return Builder
+     */
+    public function scopeArchived(Builder $query, bool $archived = true)
+    {
+        return $query->where('archived', $archived);
+    }
 }

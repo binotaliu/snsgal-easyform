@@ -12,6 +12,7 @@ return [
     'button_delete' => '刪除',
     'button_undo' => '還原',
     'button_set' => '設',
+    'button_archive' => '封存',
 
     'button_add_item' => '新增項目',
     'button_add_japan_shipment' => '新增日本國內配送',
@@ -31,6 +32,9 @@ return [
     'title_edit_local_shipment_methods' => '編輯台灣境內配送方法',
     'title_edit_japan_shipment_methods' => '編輯日本國內配送方法',
     'title_edit_configs' => '編輯設定',
+
+    'title_archive' => '封存代購單',
+    'text_archive_confirm' => '確定要封存該代購單？',
 
     'field_actions' => '操作',
 

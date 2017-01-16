@@ -249,7 +249,7 @@ class TicketRepository
      */
     public function getTickets()
     {
-        return $this->ticket->with('items.category', 'japanShipments')->orderBy('updated_at', 'desc')->get();
+        return $this->ticket->with('items.category', 'japanShipments')->archived(false)->orderBy('updated_at', 'desc')->get();
     }
 
     /**
@@ -259,6 +259,17 @@ class TicketRepository
     public function removeTicket(int $id)
     {
         return $this->ticket->find($id)->delete();
+    }
+
+    /**
+     * @param string $token
+     * @return bool
+     */
+    public function archiveTicket(string $token): bool
+    {
+        return $this->ticket->where('token', $token)->update([
+            'archived' => 1
+        ]);
     }
 
     /**

@@ -12,6 +12,7 @@ return [
     'button_delete' => 'Delete',
     'button_undo' => 'Undo',
     'button_set' => 'Set',
+    'button_archive' => 'Archive',
 
     'button_add_item' => 'Add Item',
     'button_add_japan_shipment' => 'Add In-Japan Shipment',
@@ -31,6 +32,10 @@ return [
     'title_edit_local_shipment_methods' => 'Edit Local Shipping Methods',
     'title_edit_japan_shipment_methods' => 'Edit Japan Shipping Methods',
     'title_edit_configs' => 'Edit Configs',
+
+    'title_archive' => 'Archive Ticket',
+
+    'text_archive_confirm' => 'Are you sure you want to archive this ticket?',
 
     'field_actions' => 'Actions',
 

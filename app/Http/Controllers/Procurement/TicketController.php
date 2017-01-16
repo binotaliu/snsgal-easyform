@@ -102,6 +102,13 @@ class TicketController extends Controller
         return $ticket;
     }
 
+    public function archive(string $token): array
+    {
+        $this->ticketRepository->archiveTicket($token);
+
+        return ['code' => 200, 'msg' => 'OK'];
+    }
+
     /**
      * Get ticket by token
      * @param string $token

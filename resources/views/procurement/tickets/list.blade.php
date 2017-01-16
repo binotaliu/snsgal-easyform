@@ -79,7 +79,10 @@
                                                 </a>
                                                 <button type="button" class="btn btn-primary" v-on:click="editTicket(index)">
                                                     {{ trans('procurement_ticket.button_edit') }}
-                                                </a>
+                                                </button>
+                                                <button type="button" class="btn btn-warning" v-on:click="archiveConfirm(index)">
+                                                    {{ trans('procurement_ticket.button_archive') }}
+                                                </button>
                                             </div>
                                         </td>
                                     </tr>
@@ -577,6 +580,28 @@
             </div> {{-- /.modal-header --}}
         </div> {{-- /.modal-dialog --}}
     </div> {{-- /#japan_shipment-modal --}}
+
+    <div id="archive-modal" class="modal fade">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    {{ trans('procurement_ticket.title_archive') }}
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span>&times;</span>
+                    </button>
+                </div> {{-- /.modal-header --}}
+
+                <div class="modal-body">
+                    {{ trans('procurement_ticket.text_archive_confirm') }}
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">{{ trans('procurement_ticket.button_close') }}</button>
+                    <button type="button" class="btn btn-warning" v-on:click="archiveTicket()">{{ trans('procurement_ticket.button_archive') }}</button>
+                </div>
+            </div>
+        </div>
+    </div>
 
 @endsection
 

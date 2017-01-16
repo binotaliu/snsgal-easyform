@@ -161,6 +161,18 @@ class TicketRepositoryTest extends TestCase
         $this->assertEquals($expected, $actual);
     }
 
+    public function testArchiveTicket()
+    {
+        $expected = 1; //archived
+        $ticket = $this->createTicket(2);
+
+        $this->ticketRepository->archiveTicket($ticket->token);
+
+        $actual = ProcurementTicket::token($ticket->token)->archived;
+
+        $this->assertEquals($expected, $actual);
+    }
+
     public function testAddJapanShipment()
     {
         $expected = 'Melonbooks';

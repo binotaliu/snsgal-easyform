@@ -18,6 +18,7 @@ const app = new Vue({
             itemStatus: 0,
             customer: ''
         },
+        archive: 0,
         tickets: [],
         categories: [],
         categoryModal: [],
@@ -282,6 +283,26 @@ const app = new Vue({
         },
         undoRemoveLocalShipment(index) {
             this.localShipmentModal[index].deleted_at = null;
+        },
+        archiveConfirm(index) {
+            this.archive = index;
+
+            $('#archive-modal').modal('show');
+        },
+        archiveTicket() {
+            let resource = this.$resource('/api/procurement/tickets{/token}/archive');
+
+            Splash.enable('windcatcher');
+            return resource.save({token: this.tickets[this.archive].token}, {}).then((response) => {
+                this.fetchTickets().then((response) => {
+                    Splash.destroy();
+
+                    $('#archive-modal').modal('hide');
+                    return response;
+                });
+
+                return response;
+            });
         }
     }
 

@@ -61,6 +61,8 @@ Route::group(['namespace' => 'Procurement'], function () {
     });
 
     Route::group(['prefix' => 'api/procurement', 'middleware' => ['auth', 'admin']], function () {
+        Route::post('/tickets/{token}/archive', 'TicketController@archive');
+
         Route::resource('/tickets', 'TicketController', [
             'only' => ['index', 'store', 'update']
         ]);
