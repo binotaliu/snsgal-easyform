@@ -40,7 +40,7 @@ Route::group(['namespace' => 'Shipment'], function () {
         Route::post('/requests/{token}/export', 'RequestController@export');
         Route::post('/requests/{token}/archive', 'RequestController@archive');
         Route::resource('/requests', 'RequestController', [
-            'only' => ['index', 'store', 'update', 'destroy']
+            'only' => ['index', 'store', 'update']
         ]);
 
         Route::resource('/sender_profile', 'SenderController', [

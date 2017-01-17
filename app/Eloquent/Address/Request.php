@@ -2,6 +2,7 @@
 
 namespace App\Eloquent\Address;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
@@ -33,6 +34,9 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @method static \Illuminate\Database\Query\Builder|\App\Eloquent\Address\Request whereExported($value)
  * @property-read \App\Eloquent\Address\Cvs $cvs_address
  * @property-read \App\Eloquent\Address\Standard $standard_address
+ * @property bool $archived
+ * @method static \Illuminate\Database\Query\Builder|\App\Eloquent\Address\Request whereArchived($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Eloquent\Address\Request archived($archived = true)
  */
 class Request extends Model
 {
@@ -80,5 +84,15 @@ class Request extends Model
     public function standard_address()
     {
         return $this->hasOne('App\Eloquent\Address\Standard');
+    }
+
+    /**
+     * @param Builder $query
+     * @param bool $archived
+     * @return Builder
+     */
+    public function scopeArchived(Builder $query, bool $archived = true): Builder
+    {
+        return $query->where('archived', $archived);
     }
 }

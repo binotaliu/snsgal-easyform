@@ -36,11 +36,12 @@ class RequestRepository
     /**
      * Get specified request
      * @param String $token
+     * @param bool $archived
      * @return Request
      */
-    public function getRequest(String $token)
+    public function getRequest(String $token, bool $archived = false)
     {
-        return Request::where('token', $token)->first();
+        return Request::where('token', $token)->archived($archived)->first();
     }
 
     /**
@@ -94,6 +95,17 @@ class RequestRepository
     public function removeRequest(String $token)
     {
         Request::where('token', $token)->delete();
+    }
+
+    /**
+     * @param string $token
+     * @return bool
+     */
+    public function archiveRequest(string $token): bool
+    {
+        return $this->request->where('token', $token)->update([
+            'archived' => true
+        ]);
     }
 
     /**
