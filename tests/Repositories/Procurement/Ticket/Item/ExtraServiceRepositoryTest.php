@@ -1,6 +1,6 @@
 <?php
 
-use App\Eloquent\Procurement\Ticket as ProcurementTicket;
+use App\Eloquent\Procurement;
 use Illuminate\Foundation\Testing\WithoutMiddleware;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
@@ -25,7 +25,7 @@ class ExtraServiceRepositoryTest extends TestCase
     /**
      * @return ProcurementTicket\Item\ExtraService
      */
-    public function createExtraService(): ProcurementTicket\Item\ExtraService
+    public function createExtraService(): Procurement\Item\ExtraService
     {
         return factory(ProcurementTicket\Item\ExtraService::class)->create();
     }

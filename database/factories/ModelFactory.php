@@ -76,7 +76,7 @@ $factory->define(App\Eloquent\Procurement\Ticket\ShipmentMethod\Local::class, fu
     ];
 });
 
-$factory->define(App\Eloquent\Procurement\Ticket\Item\ExtraService::class, function (Faker\Generator $faker) {
+$factory->define(App\Eloquent\Procurement\Item\ExtraService::class, function (Faker\Generator $faker) {
     return [
         'name' => $faker->name,
         'price' => $faker->randomNumber(),

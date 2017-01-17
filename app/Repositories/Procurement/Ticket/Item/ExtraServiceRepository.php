@@ -4,7 +4,7 @@
 namespace App\Repositories\Procurement\Ticket\Item;
 
 
-use App\Eloquent\Procurement\Ticket\Item\ExtraService;
+use App\Eloquent\Procurement\Item\ExtraService;
 use Illuminate\Database\Eloquent\Collection;
 
 class ExtraServiceRepository
