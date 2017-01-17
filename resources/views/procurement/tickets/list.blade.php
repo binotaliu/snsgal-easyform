@@ -16,6 +16,7 @@
                     <button type="button" class="btn btn-default" v-on:click="showCategoryModal()">{{ trans('procurement_ticket.button_item_categories') }}</button>
                     <button type="button" class="btn btn-default" v-on:click="showLocalShipmentModal()">{{ trans('procurement_ticket.button_local_shipment_methods') }}</button>
                     <button type="button" class="btn btn-default" v-on:click="showJapanShipmentModal()">{{ trans('procurement_ticket.button_japan_shipment_methods') }}</button>
+                    <button type="button" class="btn btn-default" v-on:click="showExtraServiceModal()">{{ trans('procurement_ticket.button_extra_services') }}</button>
                     <button type="button" class="btn btn-default" v-on:click="showConfigModal()">{{ trans('procurement_ticket.button_configs') }}</button>
                 </div>
             </div>
@@ -579,7 +580,7 @@
                 </div> {{-- /.modal-footer --}}
             </div> {{-- /.modal-header --}}
         </div> {{-- /.modal-dialog --}}
-    </div> {{-- /#japan_shipment-modal --}}
+    </div> {{-- /#local-modal --}}
 
     <div id="archive-modal" class="modal fade">
         <div class="modal-dialog">
@@ -603,6 +604,71 @@
         </div>
     </div>
 
+    <div id="extra_service-modal" class="modal fade">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    {{ trans('procurement_ticket.title_edit_extra_services') }}
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span>&times;</span>
+                    </button>
+                </div> {{-- /.modal-header --}}
+
+                <div class="modal-body">
+                    <div class="col-sm-12">
+                        <div class="text-right">
+                            <button type="button" class="btn btn-success" v-on:click="addExtraService()">{{ trans('procurement_ticket.button_add_service') }}</button>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-12">
+                        <hr>
+                    </div>
+
+                    <div class="col-sm-12">
+                        <table class="table">
+                            <thead><tr>
+                                <th>#</th>
+                                <th>{{ trans('procurement_ticket.field_extra_service_name') }}</th>
+                                <th>{{ trans('procurement_ticket.field_extra_service_price') }}</th>
+                                <th>{{ trans('procurement_ticket.field_extra_service_show') }}</th>
+                                <th>{{ trans('procurement_ticket.field_actions') }}</th>
+                            </tr></thead>
+
+                            <tbody>
+                            <tr v-for="(service, index) in extraServiceModal">
+                                <td>@{{ index + 1 }}</td>
+                                <td>
+                                    <input type="name" v-model="extraServiceModal[index].name" class="form-control">
+                                </td>
+                                <td>
+                                    <div class="input-group">
+                                        <div class="input-group-addon">NT$</div>
+                                        <input type="number" v-model="extraServiceModal[index].price" class="form-control">
+                                    </div>
+                                </td>
+                                <td>
+                                    <input type="checkbox" v-model="extraServiceModal[index].show" class="form-control">
+                                </td>
+                                <td>
+                                    <button v-if="service.deleted_at == null" type="button" class="btn btn-danger" v-on:click="removeExtraService(index)">{{ trans('procurement_ticket.button_delete') }}</button>
+                                    <button v-else type="button" class="btn btn-warning" v-on:click="undoRemoveExtraService(index)">{{ trans('procurement_ticket.button_undo') }}</button>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="clearfix"></div>
+                </div> {{-- /.modal-body --}}
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">{{ trans('procurement_ticket.button_close') }}</button>
+                    <button type="button" class="btn btn-primary" v-on:click="saveExtraServices()">{{ trans('procurement_ticket.button_save') }}</button>
+                </div> {{-- /.modal-footer --}}
+            </div> {{-- /.modal-content --}}
+        </div> {{-- /.modal-dialog --}}
+    </div> {{-- /#extra_services-modal --}}
 @endsection
 
 @section('footer')

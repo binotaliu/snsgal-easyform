@@ -42,6 +42,9 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property float $total
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Eloquent\Procurement\Ticket\Total[] $totals
  * @method static \Illuminate\Database\Query\Builder|\App\Eloquent\Procurement\Ticket whereTotal($value)
+ * @property bool $archived
+ * @method static \Illuminate\Database\Query\Builder|\App\Eloquent\Procurement\Ticket whereArchived($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Eloquent\Procurement\Ticket archived($archived = true)
  */
 class Ticket extends Model
 {

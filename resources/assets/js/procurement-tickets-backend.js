@@ -13,6 +13,8 @@ const app = new Vue({
         },
         localShipmentModal: [],
         japanShipmentModal: [],
+        extraServices: [],
+        extraServiceModal: [],
         filter: {
             ticketStatus: 0,
             itemStatus: 0,
@@ -95,6 +97,16 @@ const app = new Vue({
             }
 
             return false;
+        },
+        fetchExtraServices() {
+            let resource = this.$resource('/api/procurement/item_extra_services');
+
+            return resource.get().then((response) => {
+                return response.json();
+            }).then((json) => {
+                this.extraServices = json;
+                return json;
+            });
         },
         format(currency, price) {
             return moneyFormatter.format(currency, price);
@@ -303,6 +315,45 @@ const app = new Vue({
 
                 return response;
             });
+        },
+        showExtraServiceModal() {
+            this.extraServiceModal = this.extraServices;
+
+            $('#extra_service-modal').modal('show');
+        },
+        addExtraService() {
+            this.extraServiceModal.push({
+                name: '',
+                price: 0,
+                show: true,
+                new: true
+            });
+        },
+        removeExtraService(index) {
+            if (this.extraServiceModal[index].new) {
+                this.extraServiceModal.splice(index, 1);
+                return;
+            }
+
+            this.extraServiceModal[index].deleted_at = true;
+        },
+        undoRemoveExtraService(index) {
+            this.extraServiceModal[index].deleted_at = null;
+        },
+        saveExtraServices() {
+            let resource = this.$resource('/api/procurement/item_extra_services');
+
+            Splash.enable('windcatcher');
+            return resource.save({services: this.extraServiceModal}).then((response) => {
+                this.fetchExtraServices().thne((response) => {
+                    Splash.destroy();
+
+                    $('#extra_service-modal').modal('hide');
+                    return response;
+                });
+
+                return response;
+            });
         }
     }
 
@@ -313,3 +364,4 @@ app.fetchCategories();
 app.fetchConfigs();
 app.fetchShipmentMethods('japan');
 app.fetchShipmentMethods('local');
+app.fetchExtraServices();

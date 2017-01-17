@@ -19,11 +19,13 @@ return [
 
     'button_add_category' => 'Add Category',
     'button_add_method' => 'Add Method',
+    'button_add_service' => 'Add Service',
 
     'button_new_ticket' => 'New Ticket',
     'button_item_categories' => 'Item Categories',
     'button_local_shipment_methods' => 'Local Shipment Methods',
     'button_japan_shipment_methods' => 'Japan Shipment Methods',
+    'button_extra_services' => 'Extra Services',
     'button_configs' => 'Configs',
 
     'none' => 'None',
@@ -31,6 +33,7 @@ return [
     'title_edit_categories' => 'Edit Categories',
     'title_edit_local_shipment_methods' => 'Edit Local Shipping Methods',
     'title_edit_japan_shipment_methods' => 'Edit Japan Shipping Methods',
+    'title_edit_extra_services' => 'Edit Extra Services',
     'title_edit_configs' => 'Edit Configs',
 
     'title_archive' => 'Archive Ticket',
@@ -54,6 +57,10 @@ return [
 
     'field_japan_shipment_name' => 'Name',
     'field_japan_shipment_price' => 'Price',
+
+    'field_extra_service_name' => 'Name',
+    'field_extra_service_price' => 'Price',
+    'field_extra_service_show' => 'Show',
 
     'field_config_name' => 'Name',
     'field_config_value' => 'Value',
