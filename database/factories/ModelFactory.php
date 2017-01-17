@@ -22,7 +22,7 @@ $factory->define(App\User::class, function (Faker\Generator $faker) {
     ];
 });
 
-$factory->define(App\Eloquent\Address\Request::class, function (Faker\Generator $faker) {
+$factory->define(App\Eloquent\Shipment\Address\Request::class, function (Faker\Generator $faker) {
     $faker->seed(time() . random_int(1, 99999));
     return [
         'title' => $faker->company,
@@ -32,7 +32,7 @@ $factory->define(App\Eloquent\Address\Request::class, function (Faker\Generator 
     ];
 });
 
-$factory->state(App\Eloquent\Address\Request::class, 'cvs', function (Faker\Generator $faker) {
+$factory->state(App\Eloquent\Shipment\Address\Request::class, 'cvs', function (Faker\Generator $faker) {
     $faker->seed(time() . random_int(1, 99999));
     return [
         'title' => $faker->company,
@@ -42,7 +42,7 @@ $factory->state(App\Eloquent\Address\Request::class, 'cvs', function (Faker\Gene
     ];
 });
 
-$factory->state(App\Eloquent\Address\Request::class, 'standard', function (Faker\Generator $faker) {
+$factory->state(App\Eloquent\Shipment\Address\Request::class, 'standard', function (Faker\Generator $faker) {
     $faker->seed(time() . random_int(1, 99999));
     return [
         'title' => $faker->company,

@@ -1,5 +1,6 @@
 <?php
 
+use App\Eloquent\Shipment\Address\Request;
 use Illuminate\Foundation\Testing\WithoutMiddleware;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
@@ -8,14 +9,14 @@ class AddressRepositoryTest extends TestCase
 {
     use DatabaseMigrations;
     /**
-     * @var \App\Repositories\AddressRepository
+     * @var \App\Repositories\Shipment\AddressRepository
      */
     protected $addressRepository;
 
     public function setUp()
     {
         parent::setUp();
-        $this->addressRepository = resolve('\App\Repositories\AddressRepository');
+        $this->addressRepository = resolve('\App\Repositories\Shipment\AddressRepository');
     }
 
     /**
@@ -23,17 +24,17 @@ class AddressRepositoryTest extends TestCase
      * @return mixed
      */
     public function createRequest(String $state) {
-        return factory(\App\Eloquent\Address\Request::class)->states($state)->create();
+        return factory(Request::class)->states($state)->create();
     }
 
     /**
-     * @param \App\Eloquent\Address\Request $request
-     * @return \App\Eloquent\Address\Standard
+     * @param Request $request
+     * @return \App\Eloquent\Shipment\Address\Standard
      */
-    public function createStandardAddress(\App\Eloquent\Address\Request $request) {
+    public function createStandardAddress(Request $request) {
         $request->responded = true;
         $request->save();
-        return \App\Eloquent\Address\Standard::create([
+        return \App\Eloquent\Shipment\Address\Standard::create([
             'request_id' => $request->id,
             'receiver' => 'Naganohara',
             'postcode' => '12345',
@@ -47,13 +48,13 @@ class AddressRepositoryTest extends TestCase
     }
 
     /**
-     * @param \App\Eloquent\Address\Request $request
-     * @return \App\Eloquent\Address\Cvs
+     * @param Request $request
+     * @return \App\Eloquent\Shipment\Address\Cvs
      */
-    public function createCvsAddress(\App\Eloquent\Address\Request $request) {
+    public function createCvsAddress(Request $request) {
         $request->responded = true;
         $request->save();
-        return \App\Eloquent\Address\Cvs::create([
+        return \App\Eloquent\Shipment\Address\Cvs::create([
             'request_id' => $request->id,
             'receiver' => 'Naganohara Mio',
             'vendor' => 'djmart',
@@ -136,7 +137,7 @@ class AddressRepositoryTest extends TestCase
         }
 
         $expected = 1;
-        $actual = \App\Eloquent\Address\Standard::all()->count();
+        $actual = \App\Eloquent\Shipment\Address\Standard::all()->count();
         $this->assertEquals($expected, $actual);
     }
 
@@ -158,7 +159,7 @@ class AddressRepositoryTest extends TestCase
         }
 
         $expected = 1;
-        $actual = \App\Eloquent\Address\Cvs::all()->count();
+        $actual = \App\Eloquent\Shipment\Address\Cvs::all()->count();
         $this->assertEquals($expected, $actual);
     }
 
@@ -195,7 +196,7 @@ class AddressRepositoryTest extends TestCase
         $this->addressRepository->removeAddress($request->id);
 
         $expected = 0;
-        $actual = \App\Eloquent\Address\Standard::all()->count();
+        $actual = \App\Eloquent\Shipment\Address\Standard::all()->count();
         $this->assertEquals($expected, $actual);
     }
 
@@ -206,7 +207,7 @@ class AddressRepositoryTest extends TestCase
         $this->addressRepository->removeAddress($request->id);
 
         $expected = 0;
-        $actual = \App\Eloquent\Address\Cvs::all()->count();
+        $actual = \App\Eloquent\Shipment\Address\Cvs::all()->count();
         $this->assertEquals($expected, $actual);
     }
 }

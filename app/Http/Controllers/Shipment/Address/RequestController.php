@@ -4,8 +4,8 @@ namespace App\Http\Controllers\Shipment;
 
 use App\Eloquent\User\RequestProfile;
 use App\Http\Controllers\Controller;
-use App\Repositories\AddressRepository;
-use App\Repositories\RequestRepository;
+use App\Repositories\Shipment\AddressRepository;
+use App\Repositories\Shipment\Address\RequestRepository;
 use Auth;
 use Binota\ECPay\ECPay;
 use Binota\ECPay\Response as ECPayResponse;
@@ -50,7 +50,7 @@ class RequestController extends Controller
     /**
      * Store new request
      * @param Request $request
-     * @return \App\Eloquent\Address\Request
+     * @return \App\Eloquent\Shipment\Address\Request
      */
     public function store(Request $request)
     {

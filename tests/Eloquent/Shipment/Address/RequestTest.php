@@ -3,7 +3,7 @@
 use Illuminate\Foundation\Testing\WithoutMiddleware;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
-use App\Eloquent\Address\Request;
+use App\Eloquent\Shipment\Address\Request;
 use Ramsey\Uuid\Uuid;
 
 class RequestTest extends TestCase
