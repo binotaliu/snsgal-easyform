@@ -46,7 +46,11 @@ class ExtraServiceRepositoryTest extends TestCase
          $service = $this->createExtraService();
          $expected = $service->name;
 
-         $actual = $this->extraServiceRepository->getServices()[0]->name;
+         $services = $this->extraServiceRepository->getServices();
+         foreach ($services as $service) {
+             $actual = $service->name;
+             break;
+         }
 
          $this->assertEquals($expected, $actual);
     }

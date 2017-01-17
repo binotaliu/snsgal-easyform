@@ -53,7 +53,8 @@ class TicketRepositoryTest extends TestCase
                 'url' => 'https://www.example.com/products/' . $itemCount,
                 'title' => 'Product' . $itemCount,
                 'price' => '1750',
-                'note' => ''
+                'note' => '',
+                'extraServices' => []
             ];
         }
 
