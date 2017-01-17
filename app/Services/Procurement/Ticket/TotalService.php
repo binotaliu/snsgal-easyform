@@ -17,6 +17,11 @@ class TotalService
      */
     protected $configRepository;
 
+    /**
+     * @var float
+     */
+    protected $rate;
+
     function __construct(ConfigRepository $configRepository)
     {
         $this->configRepository = $configRepository;
@@ -84,7 +89,7 @@ class TotalService
             $itemFee = $item->price * ($item->category->value / 100);
             $fee += max($itemFee, $item->category->lower);
         }
-        return max($fee, $minimum);
+        return max($fee * $this->rate, $minimum);
     }
 
     private function getExtraServicesCost(Collection $items): int
@@ -106,6 +111,8 @@ class TotalService
      */
     public function getTotal(ProcurementTicket $ticket): array
     {
+        $this->rate = $ticket->rate;
+
         $itemTotal = $this->clearNumber($this->getItemTotal($ticket->items), $ticket->rate);
         $shipmentTotal = $this->clearNumber($this->getShipmentTotal($ticket->japanShipments), $ticket->rate);
         $total = $itemTotal + $shipmentTotal;
@@ -118,7 +125,7 @@ class TotalService
         $extraServicesCost = $this->getExtraServicesCost($ticket->items);
         $total += $extraServicesCost;
 
-        $serviceFee = $this->clearNumber($this->getServiceFee($ticket->items, $this->configRepository->getConfig('procurement.minimum_fee')), $ticket->rate);
+        $serviceFee = $this->clearNumber($this->getServiceFee($ticket->items, $this->configRepository->getConfig('procurement.minimum_fee')));
         $total += $serviceFee;
 
         // if total = 1089.87:
@@ -128,14 +135,9 @@ class TotalService
 
         $items = [];
         $items[] = [
-            'name' => trans('procurement_ticket_totals.items'),
-            'note' => trans('procurement_ticket_totals.items_note'),
-            'price' => $itemTotal
-        ];
-        $items[] = [
-            'name' => trans('procurement_ticket_totals.japan_shipment'),
-            'note' => trans('procurement_ticket_totals.japan_shipment_note'),
-            'price' => $shipmentTotal
+            'name' => trans('procurement_ticket_totals.summary'),
+            'note' => trans('procurement_ticket_totals.summary_note'),
+            'price' => $itemTotal + $shipmentTotal + $extraServicesCost
         ];
         $items[] = [
             'name' => trans('procurement_ticket_totals.int_payment_fee'),
@@ -146,11 +148,6 @@ class TotalService
             'name' => trans('procurement_ticket_totals.local_shipment'),
             'note' => $ticket->local_shipment_method,
             'price' => $ticket->local_shipment_price
-        ];
-        $items[] = [
-            'name' => trans('procurement_ticket_totals.extra_services'),
-            'note' => trans('procurement_ticket_totals.extra_services_note'),
-            'price' => $extraServicesCost
         ];
         $items[] = [
             'name' => trans('procurement_ticket_totals.service_fee'),
