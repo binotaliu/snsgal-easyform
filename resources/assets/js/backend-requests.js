@@ -1,3 +1,5 @@
+"use strict";
+
 const app = new Vue({
     el: '#app',
     data: {
@@ -27,12 +29,48 @@ const app = new Vue({
                 specification: '0001'
             }
         },
+        filter: {
+            title: '',
+            responded: '-1',
+            exported: '-1',
+            method: 'all'
+        },
         createForm: {
             title: '',
             description: '',
             method: 'cvs'
         },
         requests: []
+    },
+    computed: {
+        filteredRequests() {
+            console.log(this.filter);
+            let filtered = [];
+            for (let i in this.requests) {
+                let request = this.requests[i];
+                if (this.filter.title.length > 0 &&
+                    request.title.match(this.filter.title) == null)
+                    continue;
+
+                if (this.filter.responded != '-1' &&
+                    ((this.filter.responded == 'true' && !request.responded) ||
+                    (this.filter.responded == 'false' && request.responded)))
+                    continue;
+
+                if (this.filter.exported != '-1' &&
+                    ((this.filter.exported == 'true' && !request.exported) ||
+                    (this.filter.exported == 'false' && request.exported)))
+                    continue
+
+                if (this.filter.method != 'all' &&
+                    ((this.filter.method == 'cvs' && request.address_type != 'cvs') ||
+                    (this.filter.method == 'standard' && request.address_type != 'standard')))
+                    continue;
+
+                filtered.push(request);
+            }
+            return filtered;
+        },
     },
     methods: {
         fetchRequests: function () {
@@ -61,7 +99,7 @@ const app = new Vue({
             });
         },
         showRequest: function (index) {
-            this.modalContent = extend({loading: false}, this.requests[index]);
+            this.modalContent = extend({loading: false}, this.filteredRequests[index]);
 
             this.exportForm.loading = false;
 
@@ -88,7 +126,7 @@ const app = new Vue({
             let resource = this.$resource('/api/shipment/requests{/token}/archive');
 
             Splash.enable('windcatcher');
-            return resource.save({token: this.requests[this.archive].token}, {}).then((response) => {
+            return resource.save({token: this.filteredRequests[this.archive].token}, {}).then((response) => {
                 Splash.destroy();
                 $('#archive-modal').modal('hide');
 

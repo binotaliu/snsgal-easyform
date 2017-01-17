@@ -31,6 +31,7 @@ return [
     'list_title' => '地址單',
 
     'field_id' => 'ID',
+    'field_created_updated_time' => '建立/更新時間',
     'field_title' => '標題',
     'field_description' => '說明',
     'field_token' => 'Token',
@@ -87,4 +88,19 @@ return [
     'archive_title' => '封存地址單',
     'archive_confirm_text' => '確定要封存下列地址單？',
     'archive_not_exported_text' => '注意：這個地址單還未匯出',
+
+    'filter_title' => '在標題中搜尋: ',
+    'filter_title_placeholder' => '輸入關鍵字',
+    'filter_method' => '配送方式',
+    'filter_method_all' => '全部',
+    'filter_method_cvs' => '超商',
+    'filter_method_standard' => '宅配',
+    'filter_responded?' => '篩選回覆狀態',
+    'filter_responded_all' => '全部',
+    'filter_responded_true' => '已回覆',
+    'filter_responded_false' => '未回覆',
+    'filter_exported?' => '篩選匯出狀態',
+    'filter_exported_all' => '全部',
+    'filter_exported_true' => '已匯出',
+    'filter_exported_false' => '未匯出',
 ];
