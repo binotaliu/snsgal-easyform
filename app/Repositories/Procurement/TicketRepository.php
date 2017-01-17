@@ -10,6 +10,7 @@ use App\Eloquent\Procurement\Ticket as ProcurementTicket;
 use App\Exceptions\Procurement\Ticket\WrongArgumentException;
 use App\Repositories\Procurement\Item\ExtraServiceRepository;
 use App\Services\Procurement\Ticket\TotalService;
+use Illuminate\Database\Eloquent\Model;
 use Ramsey\Uuid\Uuid;
 
 class TicketRepository
@@ -206,32 +207,18 @@ class TicketRepository
      */
     public function updateTicket(string $token, string $name, string $email, string $contact, string $note, int $status, float $rate, string $localShipmentMethod, int $localShipmentPrice, array $items, array $japanShipments)
     {
+        $ticket = $this->getTicket($token);
+
         //@TODO: it's too hard to read.
         if (count($items['new'])) {
-            $newItems = [];
             foreach ($items['new'] as $item) {
-                $newItems[] = new $this->item([
-                    'status' => $item['status'],
-                    'category_id' => $item['category_id'],
-                    'url' => $item['url'],
-                    'title' => $item['title'],
-                    'price' => $item['price'],
-                    'note' => $item['note']
-                ]);
+                $this->addItem($ticket, $item['status'], $item['category_id'], $item['title'], $item['price'], $item['url'], $item['note'], $item['extraServices']);
             } // foreach
-            $this->ticket->where('token', $token)->first()->items()->saveMany($newItems);
         } // if count new
 
         if (count($items['update'])) {
             foreach ($items['update'] as $item) {
-                $this->item->where('id', $item['id'])->update([
-                    'status' => $item['status'],
-                    'category_id' => $item['category_id'],
-                    'title' => $item['title'],
-                    'price' => $item['price'],
-                    'url' => $item['url'],
-                    'note' => $item['note']
-                ]);
+                $this->updateItem($item['id'], $item['status'], $item['category_id'], $item['title'], $item['price'], $item['url'], $item['note'], $item['extraServices']);
             } // foreach
         } // if count update
 
@@ -240,31 +227,20 @@ class TicketRepository
         } // if count delete
 
         if (count($japanShipments['new'])) {
-            $newJapanShipments = [];
             foreach ($japanShipments['new'] as $japanShipment) {
-                $newJapanShipments[] = new $this->japanShipment([
-                    'title' => $japanShipment['title'],
-                    'price' => $japanShipment['price']
-                ]);
+                $this->addJapanShipment($ticket, $japanShipment['title'], $japanShipment['price']);
             }
-
-            $this->ticket->where('token', $token)->first()->japanShipments()->saveMany($newJapanShipments);
         } // if count new
 
         if (count($japanShipments['update'])) {
             foreach ($japanShipments['update'] as $japanShipment) {
-                $this->japanShipment->where('id', $japanShipment['id'])->update([
-                    'title' => $japanShipment['title'],
-                    'price' => $japanShipment['price']
-                ]);
+                $this->updateJapanShipment($japanShipment['id'], $japanShipment['title'], $japanShipment['price']);
             } // foreach
         } //if update
 
         if (count($japanShipments['delete'])) {
-            $this->japanShipment->whereIn('id', $japanShipments['delete'])->delete();
+            $this->removeJapanShipments($japanShipments['delete']);
         } //if count delete
-
-        $ticket = $this->ticket->with('items', 'japanShipments')->token($token);
 
         $ticket->update([
             'name' => $name,
@@ -286,7 +262,7 @@ class TicketRepository
      */
     public function getTickets()
     {
-        return $this->ticket->with('items.category', 'japanShipments')->archived(false)->orderBy('updated_at', 'desc')->get();
+        return $this->ticket->with('items.category', 'items.extraServices', 'japanShipments')->archived(false)->orderBy('updated_at', 'desc')->get();
     }
 
     /**
@@ -313,9 +289,9 @@ class TicketRepository
      * @param ProcurementTicket $ticket
      * @param string $title
      * @param float $price
-     * @return \Illuminate\Database\Eloquent\Model
+     * @return Model
      */
-    public function addJapanShipment(ProcurementTicket $ticket, string $title, float $price)
+    public function addJapanShipment(ProcurementTicket $ticket, string $title, float $price): Model
     {
         return $ticket->japanShipments()->save(
             new $this->japanShipment([
@@ -323,5 +299,160 @@ class TicketRepository
                 'price' => $price
             ])
         );
+    }
+
+    /**
+     * @param int $id
+     * @param string $title
+     * @param float $price
+     * @return bool
+     */
+    public function updateJapanShipment(int $id, string $title, float $price): bool
+    {
+        return $this->japanShipment->where('id', $id)->update([
+            'title' => $title,
+            'price' => $price
+        ]);
+    }
+
+    /**
+     * @param int $id
+     * @return bool
+     */
+    public function removeJapanShipment(int $id): bool
+    {
+        return $this->japanShipment->where('id', $id)->delete();
+    }
+
+    /**
+     * @param array $ids
+     * @return bool
+     */
+    public function removeJapanShipments(array $ids): bool
+    {
+        return $this->japanShipment->whereIn('id', $ids)->delete();
+    }
+
+    /**
+     * @param ProcurementTicket $ticket
+     * @param int $status
+     * @param int $category
+     * @param string $title
+     * @param int $price
+     * @param string $url
+     * @param string $note
+     * @return Model
+     */
+    public function addItem(ProcurementTicket $ticket, int $status, int $category, string $title, int $price, string $url, string $note, array $extraServices): Model
+    {
+        $item = $this->item->create([
+            'ticket_id' => $ticket->id,
+            'status' => $status,
+            'category_id' => $category,
+            'url' => $url,
+            'title' => $title,
+            'price' => $price,
+            'note' => $note
+        ]);
+        foreach ($extraServices as $service) {
+            $this->addItemExtraService($item->id, $service['name'], $service['price']);
+        }
+        return $item;
+    }
+
+    /**
+     * @param int $id
+     * @param int $status
+     * @param int $category
+     * @param string $title
+     * @param int $price
+     * @param string $url
+     * @param string $note
+     * @return bool
+     */
+    public function updateItem(int $id, int $status, int $category, string $title, int $price, string $url, string $note, array $extraServices): bool
+    {
+        $item = $this->item->where('id', $id)->update([
+            'status' => $status,
+            'category_id' => $category,
+            'url' => $url,
+            'title' => $title,
+            'price' => $price,
+            'note' => $note
+        ]);
+        foreach ($extraServices['new'] as $service) {
+            $this->addItemExtraService($id, $service['name'], $service['price']);
+        }
+        foreach ($extraServices['update'] as $service) {
+            $this->updateItemExtraService($service['id'], $service['name'], $service['price']);
+        }
+        $this->removeItemExtraServices($extraServices['delete']);
+
+        return $item;
+    }
+
+    /**
+     * @param int $id
+     * @return bool
+     */
+    public function removeItem(int $id): bool
+    {
+        return $this->item->where('id', $id)->delete();
+    }
+
+    /**
+     * @param array $ids
+     * @return bool
+     */
+    public function removeItems(array $ids): bool
+    {
+        return $this->item->whereIn('id', $ids)->delete();
+    }
+
+    /**
+     * @param int $item
+     * @param string $name
+     * @param int $price
+     * @return Model
+     */
+    public function addItemExtraService(int $item, string $name, int $price): Model
+    {
+        return $this->extraService->create([
+            'item_id' => $item,
+            'name' => $name,
+            'price' => $price
+        ]);
+    }
+
+    /**
+     * @param int $id
+     * @param string $name
+     * @param int $price
+     * @return bool
+     */
+    public function updateItemExtraService(int $id, string $name, int $price): bool
+    {
+        return $this->extraService->where('id', $id)->update([
+            'name' => $name,
+            'price' => $price
+        ]);
+    }
+
+    /**
+     * @param int $id
+     * @return bool
+     */
+    public function removeItemExtraService(int $id): bool
+    {
+        return $this->extraService->where('id', $id)->delete();
+    }
+
+    /**
+     * @param array $ids
+     * @return bool
+     */
+    public function removeItemExtraServices(array $ids): bool
+    {
+        return $this->extraService->whereIn('id', $ids)->delete();
     }
 }

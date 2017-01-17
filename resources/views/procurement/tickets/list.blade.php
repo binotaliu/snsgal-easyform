@@ -106,6 +106,10 @@
                                                 <td>@{{ format('JPY', item.price) }}</td>
                                                 <td></td>
                                             </tr>
+                                            <tr v-for="(service, sindex) in item.extra_services" class="table-extra-service">
+                                                <td colspan="7" class="text-right">@{{ sindex + 1 }}</td>
+                                                <td colspan="3">@{{ service.name }}</td>
+                                            </tr>
                                         </template> {{-- /v-if itemStatus --}}
                                     </template> {{-- /v-for items --}}
                                 </template> {{-- /v-if ticketStatus --}}
@@ -278,9 +282,34 @@
 
                                     <div class="row">
                                         <div class="col-md-2 col-md-offset-1">
-                                            <select v-model="edit.items[index].category_id" class="form-control">
-                                                <option v-for="category in categories" v-bind:value="category.id">@{{ category.name }}</option>
-                                            </select>
+                                            <div class="form-group">
+                                                <select v-model="edit.items[index].category_id" class="form-control">
+                                                    <option v-for="category in categories" v-bind:value="category.id">@{{ category.name }}</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3 col-md-offset-6">
+                                            <button type="button" class="btn btn-success btn-block" v-on:click="addEditItemExtraService(index)">{{ trans('procurement_ticket.button_add_service') }}</button>
+                                        </div>
+                                    </div>
+
+                                    <div v-for="(service, sindex) in item.extra_services" class="row">
+                                        <div class="col-md-1 col-md-offset-1 text-right">
+                                            @{{ sindex + 1 }}
+                                        </div>
+                                        <div class="col-md-1">
+                                            <label><input type="checkbox" v-model="edit.items[index].extra_services[sindex].deleted"> {{ trans('procurement_ticket.field_del') }}</label>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <input type="text" v-model="edit.items[index].extra_services[sindex].name" class="form-control">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="input-group">
+                                                <div class="input-group-addon">NT$</div>
+                                                <input type="text" v-model="edit.items[index].extra_services[sindex].price" class="form-control">
+                                            </div>
                                         </div>
                                     </div>
                                 </template>

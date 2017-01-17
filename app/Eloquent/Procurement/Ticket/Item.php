@@ -30,7 +30,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @method static \Illuminate\Database\Query\Builder|\App\Eloquent\Procurement\Ticket\Item whereUrl($value)
  * @property int $status
  * @method static \Illuminate\Database\Query\Builder|\App\Eloquent\Procurement\Ticket\Item whereStatus($value)
- * @property-read \App\Eloquent\Procurement\Ticket\Item\Category $category
+ * @property-read \App\Eloquent\Procurement\Item\Category $category
  * @property int $category_id
  * @method static \Illuminate\Database\Query\Builder|\App\Eloquent\Procurement\Ticket\Item whereCategoryId($value)
  */

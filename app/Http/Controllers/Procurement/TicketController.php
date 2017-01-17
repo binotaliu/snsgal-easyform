@@ -201,9 +201,26 @@ class TicketController extends Controller
     {
         $this->validate($request, $this->ticketValidation);
 
+        $filterExtraService = function ($extraServices) {
+            return $this->filterItems($extraServices, function ($service) {
+                return $service['id'];
+            }, function ($service) {
+                return [
+                    'id' => $service['id'],
+                    'name' => $service['name'],
+                    'price' => $service['price']
+                ];
+            }, function ($service) {
+                return [
+                    'name' => $service['name'],
+                    'price' => $service['price']
+                ];
+            });
+        };
+
         $items = $this->filterItems($request->get('items'), function ($item) {
             return $item['id'];
-        }, function ($item) {
+        }, function ($item) use ($filterExtraService) {
             return [
                 'id' => $item['id'],
                 'status' => $item['status'],
@@ -211,16 +228,18 @@ class TicketController extends Controller
                 'title' => $item['title'],
                 'url' => $item['url'],
                 'price' => $item['price'],
-                'note' => $item['note']
+                'note' => $item['note'],
+                'extraServices' => $filterExtraService($item['extra_services'])
             ];
-        }, function ($item) {
+        }, function ($item) use ($filterExtraService) {
             return [
                 'status' => $item['status'],
                 'category_id' => $item['category_id'],
                 'title' => $item['title'],
                 'url' => $item['url'],
                 'price' => $item['price'],
-                'note' => $item['note']
+                'note' => $item['note'],
+                'extraServices' => $filterExtraService($item['extra_services'])['new']
             ];
         });
         $japanShipments = $this->filterItems($request->get('japanShipments'), function ($item) {

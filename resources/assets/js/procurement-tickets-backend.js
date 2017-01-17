@@ -153,8 +153,14 @@ const app = new Vue({
                 deleted: false
             });
         },
+        addEditItemExtraService(index) {
+            this.edit.items[index].extra_services.push({
+                name: '',
+                price: 0,
+                new: true
+            });
+        },
         saveEdit() {
-            //@TODO: implement saveEdit method
             let resource = this.$resource('/api/procurement/tickets{/token}');
 
             Splash.enable('windcatcher');
