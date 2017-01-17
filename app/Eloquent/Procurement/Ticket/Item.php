@@ -33,6 +33,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property-read \App\Eloquent\Procurement\Item\Category $category
  * @property int $category_id
  * @method static \Illuminate\Database\Query\Builder|\App\Eloquent\Procurement\Ticket\Item whereCategoryId($value)
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Eloquent\Procurement\Ticket\Item\ExtraService[] $extraServices
  */
 class Item extends Model
 {
