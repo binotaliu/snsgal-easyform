@@ -1,8 +1,7 @@
 <?php
 
-namespace App\Http\Controllers\Shipment;
+namespace App\Http\Controllers\Shipment\Address;
 
-use App\Eloquent\User\RequestProfile;
 use App\Http\Controllers\Controller;
 use App\Repositories\Shipment\AddressRepository;
 use App\Repositories\Shipment\Address\RequestRepository;
