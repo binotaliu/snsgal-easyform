@@ -13,7 +13,8 @@ class Kernel extends ConsoleKernel
      * @var array
      */
     protected $commands = [
-        //
+        Commands\UpdateCurrencyRates::class,
+        Commands\InitialConfigs::class,
     ];
 
     /**
@@ -24,8 +25,10 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        // $schedule->command('inspire')
-        //          ->hourly();
+        $schedule->command('currency:update')
+            ->twiceDaily(11, 18)
+            ->weekdays()
+            ->timezone('Asia/Taipei');
     }
 
     /**

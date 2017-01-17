@@ -51,3 +51,35 @@ $factory->state(App\Eloquent\Address\Request::class, 'standard', function (Faker
         'token' => $faker->uuid
     ];
 });
+
+$factory->define(App\Eloquent\Procurement\Item\Category::class, function (Faker\Generator $faker) {
+    return [
+        'name' => $faker->name,
+        'value' => $faker->randomFloat(2, 0, 100),
+        'lower' => $faker->numberBetween(5, 20)
+    ];
+});
+
+$factory->define(App\Eloquent\Procurement\Ticket\ShipmentMethod\Japan::class, function (Faker\Generator $faker) {
+    return [
+        'name' => $faker->name,
+        'price' => $faker->numberBetween(0, 999)
+    ];
+});
+
+$factory->define(App\Eloquent\Procurement\Ticket\ShipmentMethod\Local::class, function (Faker\Generator $faker) {
+    return [
+        'name' => $faker->name,
+        'type' => $faker->boolean ? 'cvs' : 'standard',
+        'price' => $faker->numberBetween(0, 999),
+        'show' => $faker->boolean
+    ];
+});
+
+$factory->define(App\Eloquent\Procurement\Item\ExtraService::class, function (Faker\Generator $faker) {
+    return [
+        'name' => $faker->name,
+        'price' => $faker->randomNumber(),
+        'show' => $faker->boolean
+    ];
+});

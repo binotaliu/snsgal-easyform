@@ -17,12 +17,16 @@ elixir(mix => {
     mix.sass('app.scss')
         .webpack('app.js')
         .webpack('requests.js')
-        .webpack('backend-requests.js');
+        .webpack('backend-requests.js')
+        .webpack('procurement-tickets-new.js')
+        .webpack('procurement-tickets-backend.js');
 
     mix.version([
         'css/app.css',
         'js/app.js',
         'js/requests.js',
         'js/backend-requests.js',
+        'js/procurement-tickets-new.js',
+        'js/procurement-tickets-backend.js',
     ]);
 });

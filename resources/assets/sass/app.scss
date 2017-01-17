@@ -21,3 +21,16 @@
 .pagination {
   margin: 0;
 }
+
+.table-price {
+  border-left: 2px solid #ddd;
+}
+
+.table > tbody > tr.table-extra-service > td {
+  border-top: none;
+  font-size: .9em;
+}
+
+.tab-content {
+  padding-top: 10px;
+}

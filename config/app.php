@@ -167,7 +167,7 @@ return [
          * Package Service Providers...
          */
 
-        //
+        Matriphe\Format\FormatServiceProvider::class,
 
         /*
          * Application Service Providers...
@@ -226,6 +226,7 @@ return [
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
 
+        'Format' => Matriphe\Format\Facades\FormatFacade::class,
     ],
 
 ];
