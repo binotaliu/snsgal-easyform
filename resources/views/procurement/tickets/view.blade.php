@@ -20,7 +20,6 @@
                             <th width="20" class="text-center">#</th>
                             <th>{{ trans('procurement_ticket.field_category') }}</th>
                             <th>{{ trans('procurement_ticket.field_product') }}</th>
-                            <th width="110">{{ trans('procurement_ticket.field_extra_services') }}</th>
                             <th width="100" class="text-right">{{ trans('procurement_ticket.field_price_yen') }}</th>
                             <th width="110" class="text-right table-price">{{ trans('procurement_ticket.field_price_twd') }}</th>
                             <th width="240">{{ trans('procurement_ticket.field_note') }}</th>
@@ -38,17 +37,26 @@
                                             <a href="{{ $item->url }}">{{ $item->url }}</a>
                                         </small>
                                     </td>
-                                    <td>{{ trans('procurement_ticket.none') }}</td>
                                     <td class="text-right">¥{{ Format::number($item->price, 0, '.', ',') }}</td>
                                     <td class="text-right table-price">NT${{ Format::number($item->price * $ticket->rate, 2, '.', ',') }}</td>
                                     <td>{{ $item->note }}</td>
                                 </tr>
+                                @if ($item->extraServices)
+                                    @foreach ($item->extraServices as $service)
+                                        <tr class="table-extra-service">
+                                            <td colspan="2"></td>
+                                            <td colspan="2">- {{ $service->name }}</td>
+                                            <td class="text-right table-price">NT${{ Format::number($service->price, 2, '.', ',') }}</td>
+                                            <td></td>
+                                        </tr>
+                                    @endforeach
+                                @endif
                             @endforeach
 
                             {{-- Shipments --}}
                             <tr class="active">
                                 <th></th>
-                                <th colspan="3">{{ trans('procurement_ticket.field_japan_shipment') }}</th>
+                                <th colspan="2">{{ trans('procurement_ticket.field_japan_shipment') }}</th>
                                 <th class="text-right">{{ trans('procurement_ticket.field_price_yen') }}</th>
                                 <th class="text-right table-price">{{ trans('procurement_ticket.field_price_twd') }}</th>
                                 <th>{{ trans('procurement_ticket.field_note') }}</th>
@@ -56,7 +64,7 @@
                             @foreach ($ticket->japanShipments as $item)
                                 <tr>
                                     <td></td>
-                                    <td colspan="3">
+                                    <td colspan="2">
                                         {{ $item->title }}<br>
                                         <small>
                                             <a href="{{ $item->url }}">{{ $item->url }}</a>
@@ -71,11 +79,12 @@
                             {{-- Total --}}
                             <tr class="active">
                                 <th></th>
-                                <th colspan="6">{{ trans('procurement_ticket.field_total') }}</th>
+                                <th colspan="5">{{ trans('procurement_ticket.field_total') }}</th>
                             </tr>
                             @foreach ($ticket->totals as $item)
+                                <?php if ($item->price == 0) continue; ?>
                                 <tr>
-                                    <td colspan="5" class="text-right">{{ $item['name'] }}</td>
+                                    <td colspan="4" class="text-right">{{ $item['name'] }}</td>
                                     <td class="table-price text-right">
                                             NT${{ Format::number($item['price'], 2, '.', ',') }}
                                     </td>
@@ -87,7 +96,7 @@
                                 </tr>
                             @endforeach
                             <tr>
-                                <td colspan="5" class="text-right h4">
+                                <td colspan="4" class="text-right h4">
                                     <strong>
                                         {{ trans('procurement_ticket.field_total') }}
                                     </strong>

@@ -7,9 +7,9 @@ const app = new Vue({
             url: '',
             title: '',
             price: '',
-            note: '',
-            extraService: {}
+            note: ''
         },
+        extraServices: ExtraServices,
         shipment: 0,
         note: '',
         customer: {
@@ -21,13 +21,19 @@ const app = new Vue({
     },
     methods: {
         pushItem() {
+            let extraServicesFields = {};
+            for (let i in this.extraServices) {
+                extraServicesFields[this.extraServices[i].id] = false;
+            }
+            console.log(extraServicesFields);
             this.items.push({
                 url: this.form.url,
                 title: this.form.title,
                 price: parseInt(this.form.price),
                 note: this.form.note,
-                extraService: {}
+                extraServices: extraServicesFields
             });
+            console.log(this.items);
             this.form.url = '';
             this.form.title = '';
             this.form.price = '';

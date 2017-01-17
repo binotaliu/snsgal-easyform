@@ -165,7 +165,7 @@
                                             <input type="text" v-model="edit.email" id="ticket-modal-ticket-configure-email" class="form-control">
                                         </div>
                                         <div class="form-group">
-                                            <label for="ticket-modal-ticket-configure-contact" class="control-label">{{ trans('procuremen_ticket.field_contact') }}</label>
+                                            <label for="ticket-modal-ticket-configure-contact" class="control-label">{{ trans('procurement_ticket.field_contact') }}</label>
                                             <input type="text" v-model="edit.contact" id="ticket-modal-ticket-configure-contact" class="form-control">
                                         </div>
                                         <div class="form-group">

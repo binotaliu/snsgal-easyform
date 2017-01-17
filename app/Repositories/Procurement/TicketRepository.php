@@ -5,7 +5,10 @@ namespace App\Repositories\Procurement;
 
 
 use App\Codes\Procurement\ItemStatus;
+use App\Eloquent\Procurement;
 use App\Eloquent\Procurement\Ticket as ProcurementTicket;
+use App\Exceptions\Procurement\Ticket\WrongArgumentException;
+use App\Repositories\Procurement\Item\ExtraServiceRepository;
 use App\Services\Procurement\Ticket\TotalService;
 use Ramsey\Uuid\Uuid;
 
@@ -37,20 +40,34 @@ class TicketRepository
     protected $totalService;
 
     /**
+     * @var ExtraServiceRepository
+     */
+    protected $extraServiceRepository;
+
+    /**
+     * @var ProcurementTicket\Item\ExtraService
+     */
+    protected $extraService;
+
+    /**
      * TicketRepository constructor.
      * @param ProcurementTicket $ticket
      * @param ProcurementTicket\Item $item
      * @param ProcurementTicket\JapanShipment $japanShipment
      * @param ProcurementTicket\Total $total
      * @param TotalService $totalService
+     * @param ProcurementTicket\Item\ExtraService $extraService
+     * @param ExtraServiceRepository $extraServiceRepository
      */
-    public function __construct(ProcurementTicket $ticket, ProcurementTicket\Item $item, ProcurementTicket\JapanShipment $japanShipment, ProcurementTicket\Total $total, TotalService $totalService)
+    public function __construct(ProcurementTicket $ticket, ProcurementTicket\Item $item, ProcurementTicket\JapanShipment $japanShipment, ProcurementTicket\Total $total, TotalService $totalService, ProcurementTicket\Item\ExtraService $extraService, ExtraServiceRepository $extraServiceRepository)
     {
         $this->ticket = $ticket;
         $this->item = $item;
         $this->japanShipment = $japanShipment;
         $this->total = $total;
         $this->totalService = $totalService;
+        $this->extraService = $extraService;
+        $this->extraServiceRepository = $extraServiceRepository;
     }
 
     private function saveTotals(ProcurementTicket $ticket)
@@ -81,6 +98,7 @@ class TicketRepository
      * @param int $localShipmentPrice
      * @param array $items
      * @param array $japanShipments
+     * @throws WrongArgumentException
      * @return ProcurementTicket
      */
     public function createTicket(string $name, string $email, string $contact, string $note, int $status, float $rate, string $localShipmentMethod, int $localShipmentPrice, array $items, array $japanShipments)
@@ -104,8 +122,12 @@ class TicketRepository
         $ticket->save();
 
         $itemModels = [];
+        $extraServices = $this->extraServiceRepository->getServices();
+
         foreach ($items as $item) {
-            $itemModels[] = new $this->item([
+            /** @var ProcurementTicket\Item $query */
+            $query = new $this->item([
+                'ticket_id' => $ticket->id,
                 'status' => $item['status'] ?? ItemStatus::WAITING_CHECK,
                 'category_id' => $item['category_id'] ?? 1, //@TODO: default value
                 'url' => $item['url'],
@@ -113,6 +135,22 @@ class TicketRepository
                 'price' => $item['price'],
                 'note' => $item['note']
             ]);
+            $query->save();
+
+            // for extra services
+            $itemExtraServices = [];
+            foreach ($item['extraServices'] as $id => $service) {
+                if ($service != true) continue;
+
+                if (!array_has($extraServices, $id)) throw new WrongArgumentException("ExtraService: {$id} not found.");
+
+                $itemExtraServices[] = new $this->extraService([
+                    'name' => $extraServices[$id]->name,
+                    'price' => $extraServices[$id]->price
+                ]);
+            }
+
+            $query->extraServices()->saveMany($itemExtraServices);
         }
 
         $japanShipmentModels = [];
@@ -123,7 +161,6 @@ class TicketRepository
             ]);
         }
 
-        $ticket->items()->saveMany($itemModels);
         $ticket->japanShipments()->saveMany($japanShipmentModels);
 
         $this->saveTotals($ticket);
@@ -151,7 +188,7 @@ class TicketRepository
      */
     public function getTicket(string $token)
     {
-        return $this->ticket->with('items.category', 'japanShipments')->token($token);
+        return $this->ticket->with('items.category', 'items.extraServices', 'japanShipments')->token($token);
     }
 
     /**

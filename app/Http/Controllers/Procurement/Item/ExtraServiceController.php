@@ -33,9 +33,9 @@ class ExtraServiceController extends Controller
     }
 
     /**
-     * @return Collection
+     * @return array
      */
-    public function index(): Collection
+    public function index(): array
     {
         return $this->extraServiceRepository->getServices();
     }

@@ -61,9 +61,17 @@
                                             <a v-bind:href="item.url" target="_blank">@{{ item.url }}</a>
                                         </small>
                                     </td>
-                                    <td class="text-right">@{{ format(item.price) }}</tdc>
+                                    <td class="text-right">@{{ format(item.price) }}</td>
                                     <td>@{{ item.note }}</td>
-                                    <td></td>
+                                    <td>
+                                        @foreach ($extraServices as $service)
+                                            <label>
+                                                <input type="checkbox" v-model="items[index].extraServices[{{ $service->id }}]">
+                                                {{ $service->name }} (NT${{$service->price}})
+                                            </label>
+                                            <br>
+                                        @endforeach
+                                    </td>
                                 </tr>
                             </tbody>
 
@@ -136,5 +144,8 @@
 @endsection
 
 @section('footer')
+    <script>
+        var ExtraServices = {!! json_encode($extraServices) !!};
+    </script>
     <script src="{{ elixir('js/procurement-tickets-new.js') }}"></script>
 @endsection

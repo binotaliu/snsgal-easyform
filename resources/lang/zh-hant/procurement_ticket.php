@@ -19,11 +19,13 @@ return [
 
     'button_add_category' => '新增分類',
     'button_add_method' => '新增配送方法',
+    'button_add_service' => '新增加值服務',
 
     'button_new_ticket' => '新代購單',
     'button_item_categories' => '商品分類',
     'button_local_shipment_methods' => '台灣境內配送方法',
     'button_japan_shipment_methods' => '日本國內配送方法',
+    'button_extra_services' => '加值服務',
     'button_configs' => '設定',
 
     'none' => '無',
@@ -31,6 +33,7 @@ return [
     'title_edit_categories' => '編輯商品分類',
     'title_edit_local_shipment_methods' => '編輯台灣境內配送方法',
     'title_edit_japan_shipment_methods' => '編輯日本國內配送方法',
+    'title_edit_extra_services' => '編輯加值服務',
     'title_edit_configs' => '編輯設定',
 
     'title_archive' => '封存代購單',
@@ -53,6 +56,10 @@ return [
 
     'field_japan_shipment_name' => '名稱',
     'field_japan_shipment_price' => '價格',
+
+    'field_extra_service_name' => '名稱',
+    'field_extra_service_price' => '價格',
+    'field_extra_service_show' => '顯示？',
 
     'field_config_name' => '名稱',
     'field_config_value' => '值',

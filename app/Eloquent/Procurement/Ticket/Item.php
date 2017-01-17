@@ -63,4 +63,9 @@ class Item extends Model
     {
         return $this->belongsTo('App\Eloquent\Procurement\Item\Category', 'category_id', 'id');
     }
+
+    public function extraServices()
+    {
+        return $this->hasMany('App\Eloquent\Procurement\Ticket\Item\ExtraService');
+    }
 }

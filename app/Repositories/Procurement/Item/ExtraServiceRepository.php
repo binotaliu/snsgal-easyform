@@ -40,11 +40,23 @@ class ExtraServiceRepository
     }
 
     /**
-     * @return Collection
+     * @param bool $filterShowOnly
+     * @return array
      */
-    public function getServices(): Collection
+    public function getServices(bool $filterShowOnly = false): array
     {
-        return $this->extraService->all();
+        if ($filterShowOnly) {
+            $services = $this->extraService->where('show', true)->get();
+        } else {
+            $services = $this->extraService->all();
+        }
+
+        $retval = [];
+        foreach ($services as $service) {
+            $retval[$service->id] = $service;
+        }
+
+        return $retval;
     }
 
     /**

@@ -87,6 +87,18 @@ class TotalService
         return max($fee, $minimum);
     }
 
+    private function getExtraServicesCost(Collection $items): int
+    {
+        $cost = 0;
+        foreach ($items as $item) {
+            foreach ($item->extraServices as $service) {
+                $cost += $service->price;
+            }
+        }
+
+        return $cost;
+    }
+
     /**
      * Get total price
      * @param ProcurementTicket $ticket
@@ -102,6 +114,9 @@ class TotalService
         $total += $intPaymentFee;
 
         $total += $ticket->local_shipment_price;
+
+        $extraServicesCost = $this->getExtraServicesCost($ticket->items);
+        $total += $extraServicesCost;
 
         $serviceFee = $this->clearNumber($this->getServiceFee($ticket->items, $this->configRepository->getConfig('procurement.minimum_fee')), $ticket->rate);
         $total += $serviceFee;
@@ -131,6 +146,11 @@ class TotalService
             'name' => trans('procurement_ticket_totals.local_shipment'),
             'note' => $ticket->local_shipment_method,
             'price' => $ticket->local_shipment_price
+        ];
+        $items[] = [
+            'name' => trans('procurement_ticket_totals.extra_services'),
+            'note' => trans('procurement_ticket_totals.extra_services_note'),
+            'price' => $extraServicesCost
         ];
         $items[] = [
             'name' => trans('procurement_ticket_totals.service_fee'),
