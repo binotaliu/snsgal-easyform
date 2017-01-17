@@ -1,5 +1,6 @@
 <?php
 
+use App\Eloquent\Procurement;
 use App\Eloquent\Procurement\Ticket as ProcurementTicket;
 use App\Codes\Procurement\TicketStatus;
 use App\Codes\Procurement\ItemStatus;
@@ -31,11 +32,11 @@ class TicketRepositoryTest extends TestCase
     }
 
     /**
-     * @return ProcurementTicket\Item\Category
+     * @return Procurement\Item\Category
      */
-    public function createCategory(): ProcurementTicket\Item\Category
+    public function createCategory(): Procurement\Item\Category
     {
-        return factory(ProcurementTicket\Item\Category::class)->create();
+        return factory(Procurement\Item\Category::class)->create();
     }
 
     /**

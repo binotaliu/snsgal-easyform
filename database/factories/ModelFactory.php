@@ -52,7 +52,7 @@ $factory->state(App\Eloquent\Address\Request::class, 'standard', function (Faker
     ];
 });
 
-$factory->define(App\Eloquent\Procurement\Ticket\Item\Category::class, function (Faker\Generator $faker) {
+$factory->define(App\Eloquent\Procurement\Item\Category::class, function (Faker\Generator $faker) {
     return [
         'name' => $faker->name,
         'value' => $faker->randomFloat(2, 0, 100),

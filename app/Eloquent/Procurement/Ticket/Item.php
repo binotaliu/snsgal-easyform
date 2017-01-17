@@ -61,6 +61,6 @@ class Item extends Model
      */
     public function category()
     {
-        return $this->belongsTo('App\Eloquent\Procurement\Ticket\Item\Category', 'category_id', 'id');
+        return $this->belongsTo('App\Eloquent\Procurement\Item\Category', 'category_id', 'id');
     }
 }

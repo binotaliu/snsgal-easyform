@@ -1,6 +1,6 @@
 <?php
 
-use App\Eloquent\Procurement\Ticket\Item\Category;
+use App\Eloquent\Procurement\Item\Category;
 use App\Repositories\Procurement\Item\CategoryRepository;
 use Illuminate\Foundation\Testing\WithoutMiddleware;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
@@ -23,8 +23,8 @@ class CategoryRepositoryTest extends TestCase
     public function setUp()
     {
         parent::setUp();
-        $this->categoryRepository = app('App\Repositories\Procurement\Ticket\Item\CategoryRepository');
-        $this->category = app('App\Eloquent\Procurement\Ticket\Item\Category');
+        $this->categoryRepository = app('App\Repositories\Procurement\Item\CategoryRepository');
+        $this->category = app('App\Eloquent\Procurement\Item\Category');
     }
 
     /**

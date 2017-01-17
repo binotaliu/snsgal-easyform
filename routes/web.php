@@ -79,7 +79,7 @@ Route::group(['namespace' => 'Procurement'], function () {
             'only' => ['index', 'store']
         ]);
 
-        Route::resource('/item_extra_services', 'Ticket\Item\ExtraServiceController', [
+        Route::resource('/item_extra_services', 'Item\ExtraServiceController', [
             'only' => ['index', 'store']
         ]);
     });

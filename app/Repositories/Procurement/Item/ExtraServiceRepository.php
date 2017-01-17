@@ -1,7 +1,7 @@
 <?php
 
 
-namespace App\Repositories\Procurement\Ticket\Item;
+namespace App\Repositories\Procurement\Item;
 
 
 use App\Eloquent\Procurement\Item\ExtraService;

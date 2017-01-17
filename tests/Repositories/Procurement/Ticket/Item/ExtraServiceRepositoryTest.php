@@ -11,7 +11,7 @@ class ExtraServiceRepositoryTest extends TestCase
     use DatabaseMigrations;
 
     /**
-     * @var \App\Repositories\Procurement\Ticket\Item\ExtraServiceRepository
+     * @var \App\Repositories\Procurement\Item\ExtraServiceRepository
      */
     protected $extraServiceRepository;
 
@@ -19,15 +19,15 @@ class ExtraServiceRepositoryTest extends TestCase
     {
         parent::setUp();
 
-        $this->extraServiceRepository = app('App\Repositories\Procurement\Ticket\Item\ExtraServiceRepository');
+        $this->extraServiceRepository = app('App\Repositories\Procurement\Item\ExtraServiceRepository');
     }
 
     /**
-     * @return ProcurementTicket\Item\ExtraService
+     * @return Procurement\Item\ExtraService
      */
     public function createExtraService(): Procurement\Item\ExtraService
     {
-        return factory(ProcurementTicket\Item\ExtraService::class)->create();
+        return factory(Procurement\Item\ExtraService::class)->create();
     }
 
     public function testAddService()
@@ -37,7 +37,7 @@ class ExtraServiceRepositoryTest extends TestCase
             $this->extraServiceRepository->addService('日拍競標', 50, true);
         }
 
-        $actual = ProcurementTicket\Item\ExtraService::all()->count();
+        $actual = Procurement\Item\ExtraService::all()->count();
         $this->assertEquals($expected, $actual);
     }
 
@@ -57,7 +57,7 @@ class ExtraServiceRepositoryTest extends TestCase
         $service = $this->createExtraService();
         $this->extraServiceRepository->updateService($service->id, $expected, $service->price, $service->show);
 
-        $actual = ProcurementTicket\Item\ExtraService::find($service->id)->name;
+        $actual = Procurement\Item\ExtraService::find($service->id)->name;
 
         $this->assertEquals($expected, $actual);
     }
@@ -71,7 +71,7 @@ class ExtraServiceRepositoryTest extends TestCase
         }
         $this->extraServiceRepository->removeService($service->id);
 
-        $actual = ProcurementTicket\Item\ExtraService::all()->count();
+        $actual = Procurement\Item\ExtraService::all()->count();
         $this->assertEquals($expected, $actual);
     }
 }
