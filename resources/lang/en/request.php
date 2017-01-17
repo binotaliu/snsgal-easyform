@@ -31,6 +31,7 @@ return [
     'list_title' => 'Requests',
 
     'field_id' => 'ID',
+    'field_created_updated_time' => 'Created/Updated At',
     'field_title' => 'Title',
     'field_description' => 'Description',
     'field_token' => 'Token',
@@ -87,4 +88,19 @@ return [
     'archive_title' => 'Archive Request',
     'archive_confirm_text' => 'Are you sure you want to archive following request?',
     'archive_not_exported_text' => 'Note: The request haven\'t been exported.',
+
+    'filter_title' => 'Search in title: ',
+    'filter_title_placeholder' => 'Type in the keyword',
+    'filter_method' => 'Shipping Method',
+    'filter_method_all' => 'All',
+    'filter_method_cvs' => 'CVS',
+    'filter_method_standard' => 'Standard',
+    'filter_responded?' => 'Responded?',
+    'filter_responded_all' => 'All',
+    'filter_responded_true' => 'Yes',
+    'filter_responded_false' => 'No',
+    'filter_exported?' => 'Exported?',
+    'filter_exported_all' => 'All',
+    'filter_exported_true' => 'Yes',
+    'filter_exported_false' => 'No',
 ];

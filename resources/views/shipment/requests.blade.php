@@ -4,50 +4,100 @@
 
 @section('content')
 
-    <div class="col-sm-12">
-        <div class="panel panel-default">
-            <div class="panel-heading">
-                {{ trans('request.list_title') }}
+    <div class="container">
+        <div class="col-sm-6">
+            <h3>{{ trans('request.list_title') }}</h3>
+        </div>
+        <div class="col-sm-6">
+            <p class="h4"></p>
+            <div class="text-right">
+                <div class="btn-group">
+                    <button type="button" v-on:click="showSender()" class="btn btn-default">{{ trans('request.profile_btn') }}</button>
+                    <button type="button" v-on:click="showCreate()" class="btn btn-primary">{{ trans('request.create_btn') }}</button>
+                </div>
             </div>
+        </div>
 
-            <div class="panel-body">
-                <button type="button" v-on:click="showSender()" class="btn btn-success">{{ trans('request.profile_btn') }}</button>
-                <button type="button" v-on:click="showCreate()" class="btn btn-primary">{{ trans('request.create_btn') }}</button>
-                <div class="clearfix"></div>
-                <table class="table table-bordered">
-                    <thead><tr>
-                        <td>#</td>
-                        <td>{{ trans('request.field_title') }}</td>
-                        <td>{{ trans('request.field_token') }}</td>
-                        <td>{{ trans('request.field_type') }}</td>
-                        <td>{{ trans('request.field_responded?') }}</td>
-                        <td>{{ trans('request.field_exported?') }}</td>
-                        <td>{{ trans('request.field_actions') }}</td>
-                    </tr></thead>
-                    <tbody>
-                        <tr v-for="(request, index) in requests">
-                            <td>@{{ request.id }}</td>
-                            <td>@{{ request.title }}</td>
-                            <td>
-                                <a v-bind:href="'{{ url('shipment/requests') }}/' + request.token" target="_blank">
-                                    @{{ request.token }}
-                                </a>
-                            </td>
-                            <td v-if="request.address_type == 'cvs'">{{ trans('request.type_cvs') }}</td>
-                                <td v-if="request.address_type == 'standard'">{{ trans('request.type_standard') }}</td>
-                            <td v-if="request.responded">{{ trans('request.status_yes') }}</td>
-                                <td v-else>{{ trans('request.status_no') }}</td>
-                            <td v-if="request.exported">{{ trans('request.status_yes') }}</td>
-                                <td v-else>{{ trans('request.status_no') }}</td>
-                            <td>
-                                <div class="btn-group">
-                                    <button class="btn btn-primary" v-on:click="showRequest(index)">{{ trans('request.detail_btn') }}</button>
-                                    <button class="btn btn-warning" v-on:click="confirmArchive(index)">{{ trans('request.archive_btn') }}</button>
-                                </div>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
+        <div class="col-sm-12">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    {{ trans('request.list_title') }}
+                </div>
+
+                <div class="panel-body">
+                    <div class="clearfix"></div>
+
+                    <div class="row">
+                        <div class="col-sm-3 form-group">
+                            <label class="control-label">{{ trans('request.filter_title') }}</label>
+                            <input type="text" class="form-control" v-model="filter.title" placeholder="{{ trans('request.filter_title_placeholder') }}">
+                        </div>
+                        <div class="col-sm-3 form-group">
+                            <label class="control-label">{{ trans('request.filter_method') }}</label>
+                            <select class="form-control" v-model="filter.method">
+                                <option value="all">{{ trans('request.filter_method_all') }}</option>
+                                <option value="cvs">{{ trans('request.filter_method_cvs') }}</option>
+                                <option value="standard">{{ trans('request.filter_method_standard') }}</option>
+                            </select>
+                        </div>
+                        <div class="col-sm-3 form-group">
+                            <label class="control-label">{{ trans('request.filter_responded?') }}</label>
+                            <select class="form-control" v-model="filter.responded">
+                                <option value="-1">{{ trans('request.filter_responded_all') }}</option>
+                                <option value="true">{{ trans('request.filter_responded_true') }}</option>
+                                <option value="false">{{ trans('request.filter_responded_false') }}</option>
+                            </select>
+                        </div>
+                        <div class="col-sm-3 form-group">
+                            <label class="control-label">{{ trans('request.filter_exported?') }}</label>
+                            <select class="form-control" v-model="filter.exported">
+                                <option value="-1">{{ trans('request.filter_exported_all') }}</option>
+                                <option value="true">{{ trans('request.filter_exported_true') }}</option>
+                                <option value="false">{{ trans('request.filter_exported_false') }}</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-12">
+                        <table class="table table-striped">
+                            <thead><tr>
+                                <td width="50" class="text-center">#</td>
+                                <td width=160">{{ trans('request.field_created_updated_time') }}</td>
+                                <td>{{ trans('request.field_title') }}</td>
+                                <td width="60" class="text-center">{{ trans('request.field_type') }}</td>
+                                <td width="80" class="text-center">{{ trans('request.field_responded?') }}</td>
+                                <td width="80" class="text-center">{{ trans('request.field_exported?') }}</td>
+                                <td width="140">{{ trans('request.field_actions') }}</td>
+                            </tr></thead>
+                            <tbody>
+                            <tr v-for="(request, index) in filteredRequests">
+                                <td class="text-center">@{{ request.id }}</td>
+                                <td>@{{ request.created_at }}<br>
+                                    @{{ request.updated_at }}</td>
+                                <td>@{{ request.title }}<br>
+                                    <small>
+                                        <a v-bind:href="'{{ url('shipment/requests') }}/' + request.token" target="_blank">
+                                            @{{ request.token }}
+                                        </a>
+                                    </small>
+                                </td>
+                                <td v-if="request.address_type == 'cvs'" class="text-center">{{ trans('request.type_cvs') }}</td>
+                                <td v-if="request.address_type == 'standard'" class="text-center">{{ trans('request.type_standard') }}</td>
+                                <td v-if="request.responded" class="success text-center">{{ trans('request.status_yes') }}</td>
+                                <td v-else class="warning text-center">{{ trans('request.status_no') }}</td>
+                                <td v-if="request.exported" class="success text-center">{{ trans('request.status_yes') }}</td>
+                                <td v-else class="warning text-center">{{ trans('request.status_no') }}</td>
+                                <td>
+                                    <div class="btn-group">
+                                        <button class="btn btn-primary" v-on:click="showRequest(index)">{{ trans('request.detail_btn') }}</button>
+                                        <button class="btn btn-warning" v-on:click="confirmArchive(index)">{{ trans('request.archive_btn') }}</button>
+                                    </div>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

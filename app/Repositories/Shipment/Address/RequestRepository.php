@@ -30,7 +30,7 @@ class RequestRepository
      */
     public function getRequests()
     {
-        return Request::with(['cvs_address', 'standard_address'])->orderBy('id', 'desc')->get();
+        return Request::with(['cvs_address', 'standard_address'])->archived(false)->orderBy('id', 'desc')->get();
     }
 
     /**
@@ -41,7 +41,7 @@ class RequestRepository
      */
     public function getRequest(String $token, bool $archived = false)
     {
-        return Request::where('token', $token)->archived($archived)->first();
+        return Request::where('token', $token)->first();
     }
 
     /**
