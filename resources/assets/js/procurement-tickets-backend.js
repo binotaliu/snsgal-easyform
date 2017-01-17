@@ -345,7 +345,7 @@ const app = new Vue({
 
             Splash.enable('windcatcher');
             return resource.save({services: this.extraServiceModal}).then((response) => {
-                this.fetchExtraServices().thne((response) => {
+                this.fetchExtraServices().then((response) => {
                     Splash.destroy();
 
                     $('#extra_service-modal').modal('hide');
