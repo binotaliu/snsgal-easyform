@@ -229,7 +229,7 @@ class TicketController extends Controller
                 'url' => $item['url'],
                 'price' => $item['price'],
                 'note' => $item['note'],
-                'extraServices' => $filterExtraService($item['extra_services'])
+                'extraServices' => $filterExtraService($item['extra_services'] ?? [])
             ];
         }, function ($item) use ($filterExtraService) {
             return [
@@ -239,7 +239,7 @@ class TicketController extends Controller
                 'url' => $item['url'],
                 'price' => $item['price'],
                 'note' => $item['note'],
-                'extraServices' => $filterExtraService($item['extra_services'])['new']
+                'extraServices' => $filterExtraService($item['extra_services'] ?? [])['new']
             ];
         });
         $japanShipments = $this->filterItems($request->get('japanShipments'), function ($item) {
