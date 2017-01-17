@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Http\Controllers\Procurement\Ticket\Item;
+namespace App\Http\Controllers\Procurement\Item;
 
-use App\Repositories\Procurement\Ticket\Item\CategoryRepository;
+use App\Repositories\Procurement\Item\CategoryRepository;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 

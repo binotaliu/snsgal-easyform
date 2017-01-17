@@ -1,11 +1,11 @@
 <?php
 
 
-namespace App\Repositories\Procurement\Ticket\Item;
+namespace App\Repositories\Procurement\Item;
 
 
 
-use App\Eloquent\Procurement\Ticket\Item\Category;
+use App\Eloquent\Procurement\Item\Category;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class CategoryRepository

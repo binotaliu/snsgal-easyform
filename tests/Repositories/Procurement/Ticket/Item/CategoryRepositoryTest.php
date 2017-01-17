@@ -1,7 +1,7 @@
 <?php
 
 use App\Eloquent\Procurement\Ticket\Item\Category;
-use App\Repositories\Procurement\Ticket\Item\CategoryRepository;
+use App\Repositories\Procurement\Item\CategoryRepository;
 use Illuminate\Foundation\Testing\WithoutMiddleware;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\DatabaseTransactions;

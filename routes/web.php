@@ -75,7 +75,7 @@ Route::group(['namespace' => 'Procurement'], function () {
             'only' => ['index', 'store']
         ]);
 
-        Route::resource('/item_categories', 'Ticket\Item\CategoryController', [
+        Route::resource('/item_categories', 'Item\CategoryController', [
             'only' => ['index', 'store']
         ]);
 
