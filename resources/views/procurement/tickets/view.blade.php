@@ -18,9 +18,9 @@
                     <table class="table table-striped">
                         <thead><tr class="active">
                             <th width="20" class="text-center">#</th>
-                            <th>{{ trans('procurement_ticket.field_category') }}</th>
+                            <th width="60">{{ trans('procurement_ticket.field_category') }}</th>
                             <th>{{ trans('procurement_ticket.field_product') }}</th>
-                            <th width="100" class="text-right">{{ trans('procurement_ticket.field_price_yen') }}</th>
+                            <th width="110" class="text-right">{{ trans('procurement_ticket.field_price_yen') }}</th>
                             <th width="110" class="text-right table-price">{{ trans('procurement_ticket.field_price_twd') }}</th>
                             <th width="240">{{ trans('procurement_ticket.field_note') }}</th>
                         </tr></thead>
