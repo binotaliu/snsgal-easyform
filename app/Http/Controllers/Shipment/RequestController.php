@@ -159,7 +159,7 @@ class RequestController extends Controller
      */
     public function archive(string $token)
     {
-        $this->requestRepository->removeRequest($token);
+        $this->requestRepository->archiveRequest($token);
 
         return ['status' => 200];
     }
