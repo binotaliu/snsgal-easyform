@@ -26,20 +26,20 @@ Route::get('/home', 'HomeController@index');
 Route::group(['namespace' => 'Shipment'], function () {
     // /shipment/requests
     Route::group(['prefix' => 'shipment'], function () {
-        Route::get('/requests/{token}', 'RequestController@get');
-        Route::post('/requests/{token}/address', 'RequestController@addAddress');
-        Route::post('/requests/{token}/notify', 'RequestController@notify');
+        Route::get('/requests/{token}', 'Address\RequestController@get');
+        Route::post('/requests/{token}/address', 'Address\RequestController@addAddress');
+        Route::post('/requests/{token}/notify', 'Address\RequestController@notify');
 
         Route::group(['middleware' => ['auth', 'admin']], function () {
-            Route::get('/requests', 'RequestController@view'); // vue handle
+            Route::get('/requests', 'Address\RequestController@view'); // vue handle
         });
     });
 
     // /api/shipment
     Route::group(['prefix' => 'api/shipment', 'middleware' => ['auth', 'admin']], function () {
-        Route::post('/requests/{token}/export', 'RequestController@export');
-        Route::post('/requests/{token}/archive', 'RequestController@archive');
-        Route::resource('/requests', 'RequestController', [
+        Route::post('/requests/{token}/export', 'Address\RequestController@export');
+        Route::post('/requests/{token}/archive', 'Address\RequestController@archive');
+        Route::resource('/requests', 'Address\RequestController', [
             'only' => ['index', 'store', 'update']
         ]);
 

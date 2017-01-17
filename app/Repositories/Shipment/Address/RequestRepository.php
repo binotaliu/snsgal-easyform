@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Repositories;
+namespace App\Repositories\Shipment\Address;
 
-use App\Eloquent\Address\Request;
+use App\Eloquent\Shipment\Address\Request;
 use App\Eloquent\User\RequestProfile;
 use Ramsey\Uuid\Uuid;
 

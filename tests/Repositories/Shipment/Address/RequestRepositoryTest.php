@@ -9,7 +9,7 @@ class RequestRepositoryTest extends TestCase
     use DatabaseMigrations;
 
     /**
-     * @var App\Repositories\RequestRepository
+     * @var App\Repositories\Shipment\Address\RequestRepository
      */
     protected $requestRepository;
 
@@ -17,16 +17,16 @@ class RequestRepositoryTest extends TestCase
     {
         parent::setUp();
 
-        $this->requestRepository = resolve('App\Repositories\RequestRepository');
+        $this->requestRepository = resolve('App\Repositories\Shipment\Address\RequestRepository');
     }
 
     /**
      * @param Int $times
-     * @return \App\Eloquent\Address\Request
+     * @return \App\Eloquent\Shipment\Address\Request
      */
     public function createRequests($times = 1)
     {
-        return factory(App\Eloquent\Address\Request::class, $times)->create();
+        return factory(App\Eloquent\Shipment\Address\Request::class, $times)->create();
     }
 
     public function testGetRequests()
@@ -71,7 +71,7 @@ class RequestRepositoryTest extends TestCase
         $request = $this->createRequests(); // create one more
 
         $this->requestRepository->removeRequest($request->token);
-        $actual = App\Eloquent\Address\Request::all()->count();
+        $actual = App\Eloquent\Shipment\Address\Request::all()->count();
 
         $this->assertEquals($expected, $actual);
     }

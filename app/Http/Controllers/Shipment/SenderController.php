@@ -2,8 +2,7 @@
 
 namespace App\Http\Controllers\Shipment;
 
-use App\Eloquent\User\RequestProfile;
-use App\Repositories\RequestRepository;
+use App\Repositories\Shipment\Address\RequestRepository;
 use Auth;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;

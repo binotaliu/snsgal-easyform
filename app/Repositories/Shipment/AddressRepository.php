@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Repositories;
+namespace App\Repositories\Shipment;
 
-use App\Eloquent\Address\Cvs as CvsAddress;
-use App\Eloquent\Address\Request;
-use App\Eloquent\Address\Standard as StandardAddress;
+use App\Eloquent\Shipment\Address\Cvs as CvsAddress;
+use App\Eloquent\Shipment\Address\Request;
+use App\Eloquent\Shipment\Address\Standard as StandardAddress;
 
 class AddressRepository
 {

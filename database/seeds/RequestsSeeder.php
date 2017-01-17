@@ -11,6 +11,6 @@ class RequestsSeeder extends Seeder
      */
     public function run()
     {
-        factory(\App\Eloquent\Address\Request::class, 50)->create();
+        factory(\App\Eloquent\Shipment\Address\Request::class, 50)->create();
     }
 }
