@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Procurement Tickets')
+@section('title', trans('procurement_ticket.tickets'))
 
 @section('content')
     <div class="container">
@@ -48,11 +48,11 @@
 
                     <table class="table">
                         <thead><tr>
-                            <td>#</td>
-                            <td colspan="6">{{ trans('procurement_ticket.field_status') }}</td>
+                            <td width="20" class="text-center">#</td>
+                            <td width="180" colspan="6">{{ trans('procurement_ticket.field_status') }}</td>
                             <td>{{ trans('procurement_ticket.field_customer') }}</td>
-                            <td>{{ trans('procurement_ticket.field_rate') }}</td>
-                            <td>{{ trans('procurement_ticket.field_actions') }}</td>
+                            <td width="80">{{ trans('procurement_ticket.field_rate') }}</td>
+                            <td width="180">{{ trans('procurement_ticket.field_actions') }}</td>
                         </tr></thead>
 
                         <tbody>
@@ -60,7 +60,7 @@
                                 <template v-if="(filter.ticketStatus == '0' || ticket.status == filter.ticketStatus) &&
                                                 (filter.itemStatus == '0' || checkItemsStatus(ticket.items))">
                                     <tr class="active">
-                                        <td>@{{ ticket.id }}</td>
+                                        <td width="20" class="text-center">@{{ ticket.id }}</td>
                                         <td colspan="6">@{{ status.ticket[ticket.status] }}<br>
                                             <small>
                                                 @{{ ticket.updated_at }}
@@ -91,7 +91,7 @@
                                         <template v-if="filter.itemStatus == '0' || filter.itemStatus == item.status">
                                             <tr>
                                                 <td></td>
-                                                <td colspan="1">@{{ index + 1 }}</td>
+                                                <td colspan="1" class="text-center">@{{ index + 1 }}</td>
                                                 <td colspan="5">
                                                     @{{ status.item[item.status] }}<br>
                                                     <small>

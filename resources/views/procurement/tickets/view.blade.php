@@ -18,7 +18,7 @@
                     <table class="table table-striped">
                         <thead><tr class="active">
                             <th width="20" class="text-center">#</th>
-                            <th width="60">{{ trans('procurement_ticket.field_category') }}</th>
+                            <th width="60" class="text-center">{{ trans('procurement_ticket.field_category') }}</th>
                             <th>{{ trans('procurement_ticket.field_product') }}</th>
                             <th width="110" class="text-right">{{ trans('procurement_ticket.field_price_yen') }}</th>
                             <th width="110" class="text-right table-price">{{ trans('procurement_ticket.field_price_twd') }}</th>
@@ -29,7 +29,7 @@
                             @foreach ($ticket->items as $i => $item)
                                 <tr>
                                     <td class="text-center">{{ $i + 1 }}</td>
-                                    <td>{{ $item->category->name }}</td>
+                                    <td class="text-center">{{ $item->category->name }}</td>
                                     <td>
                                         <span class="label label-primary">{{ $item_status[$item->status] }}</span>
                                         {{ $item->title }}<br>
@@ -77,9 +77,9 @@
                             @endforeach
 
                             {{-- Total --}}
-                            <tr class="active">
-                                <th></th>
-                                <th colspan="5">{{ trans('procurement_ticket.field_total') }}</th>
+                            <tr class="table-total">
+                                <td colspan="4"></td>
+                                <td colspan="2" class="table-price"></td>
                             </tr>
                             @foreach ($ticket->totals as $item)
                                 <?php if ($item->price == 0) continue; ?>
