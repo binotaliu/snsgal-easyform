@@ -89,7 +89,8 @@
                                         <td v-if="request.address_type == 'standard'" class="text-center">{{ trans('request.type_standard') }}</td>
                                         <td v-if="request.responded" class="success text-center">{{ trans('request.status_yes') }}</td>
                                         <td v-else class="warning text-center">{{ trans('request.status_no') }}</td>
-                                        <td v-if="request.exported" class="success text-center">{{ trans('request.status_yes') }}</td>
+                                        <td v-if="request.exported" class="success text-center">{{ trans('request.status_yes') }} <br>
+                                            <small>(@{{ request.exported }})</small></td>
                                         <td v-else class="warning text-center">{{ trans('request.status_no') }}</td>
                                         <td>
                                             <div class="btn-group">
