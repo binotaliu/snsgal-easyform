@@ -54,7 +54,7 @@ class TicketStatus implements CodesInterface
             ],
             self::INVALID => [
                 'name' => trans('codes.procurement.ticket.invalid'),
-                'color' => 'active'
+                'color' => 'default'
             ],
             self::DISPUTED => [
                 'name' => trans('codes.procurement.ticket.disputed'),
