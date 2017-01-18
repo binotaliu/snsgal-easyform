@@ -57,8 +57,9 @@ const app = new Vue({
     computed: {
         filteredTickets() {
             let retval = [];
-            for (let i in this.tickets) {
-                let ticket = this.tickets[i];
+            let tickets = _.clone(this.tickets); //copy original data, not vue's data
+            for (let i in tickets) {
+                let ticket = _.clone(tickets[i]);
 
                 if (this.filter.ticketStatus != '0' &&
                     (this.filter.ticketStatus != ticket.status))
@@ -70,7 +71,7 @@ const app = new Vue({
 
                 let items = [];
                 for (let j in ticket.items) {
-                    let item = ticket.items[j];
+                    let item = _.clone(ticket.items[j]);
 
                     if (this.filter.itemStatus != '0' &&
                         (this.filter.itemStatus != item.status))
@@ -86,22 +87,9 @@ const app = new Vue({
                 if (!this.filter.allowEmptyItem && items.length <= 0)
                     continue;
 
-                retval.push({
-                    id: ticket.id,
-                    status: ticket.status,
-                    token: ticket.token,
-                    name: ticket.name,
-                    email: ticket.email,
-                    contact: ticket.contact,
-                    rate: ticket.rate,
-                    local_shipment_method: ticket.local_shipment_method,
-                    local_shipment_price: ticket.local_shipment_price,
-                    note: ticket.note,
-                    items: items,
-                    japan_shipments: ticket.japan_shipments,
-                    created_at: ticket.created_at,
-                    updated_at: ticket.updated_at,
-                });
+                let pushTicket = ticket;
+                pushTicket.items = items;
+                retval.push(pushTicket);
             }
 
             console.log(retval);
@@ -163,18 +151,15 @@ const app = new Vue({
             return moneyFormatter.format(currency, price);
         },
         editTicket(index) {
-            this.edit.id = this.filteredTickets[index].id;
-            this.edit.token = this.filteredTickets[index].token;
-            this.edit.status = this.filteredTickets[index].status;
-            this.edit.rate = this.filteredTickets[index].rate;
-            this.edit.name = this.filteredTickets[index].name;
-            this.edit.email = this.filteredTickets[index].email;
-            this.edit.contact = this.filteredTickets[index].contact;
-            this.edit.note = this.filteredTickets[index].note;
-            this.edit.localShipment.price = this.filteredTickets[index].local_shipment_price;
-            this.edit.localShipment.method = this.filteredTickets[index].local_shipment_method;
-            this.edit.items = this.filteredTickets[index].items.slice(0);
-            this.edit.japanShipments = this.filteredTickets[index].japan_shipments.slice(0);
+            let ticket = this.filteredTickets[index];
+            this.edit = extend(this.edit, _.clone(ticket));
+            this.edit.localShipment.price = ticket.local_shipment_price;
+            this.edit.localShipment.method = ticket.local_shipment_method;
+            this.edit.items = [];
+            for (let i in ticket.items) {
+                this.edit.items.push(_.clone(ticket.items[i]));
+            }
+            this.edit.japanShipments = _.slice(ticket.japan_shipments, 0);
 
             $('#ticket-modal').modal('show');
         },
@@ -205,6 +190,7 @@ const app = new Vue({
             });
         },
         addEditItemExtraService(index) {
+            this.edit.items[index].extra_services = _.clone(this.edit.items[index].extra_services);
             this.edit.items[index].extra_services.push({
                 name: this.extraServices[this.edit.extraServiceSelects[index]].name,
                 price: this.extraServices[this.edit.extraServiceSelects[index]].price,
