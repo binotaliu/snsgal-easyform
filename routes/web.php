@@ -56,9 +56,12 @@ Route::group(['namespace' => 'Shipment'], function () {
 Route::group(['namespace' => 'Procurement'], function () {
     // /procurement/tickets
     Route::group(['prefix' => 'procurement'], function () {
-        Route::get('/tickets', 'TicketController@view');
         Route::get('/tickets/new', 'TicketController@new');
         Route::get('/tickets/{token}', 'TicketController@get');
+
+        Route::group(['middleware' => ['auth', 'admin']], function () {
+            Route::get('/tickets', 'TicketController@view'); // vue handle
+        });
     });
 
     Route::group(['prefix' => 'api/procurement', 'middleware' => ['auth', 'admin']], function () {
