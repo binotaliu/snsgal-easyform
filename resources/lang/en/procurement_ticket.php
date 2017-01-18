@@ -117,6 +117,11 @@ return [
     'filter_ticket_status' => 'Ticket Status: ',
     'filter_item_status' => 'Item Status: ',
     'filter_all_status' => 'All Status',
+    'filter_allow_empty_item' => 'Allow Empty Item?',
+    'filter_item' => 'Search in Items: ',
+    'filter_item_placeholder' => 'Search Title or URL',
+    'filter_customer' => 'Search in Customer: ',
+    'filter_customer_placeholder' => 'Search Name, E-Mail, or Contact',
 
     'edit_title' => 'Edit Ticket',
     'edit_tab_ticket_configure' => 'Ticket Configure',

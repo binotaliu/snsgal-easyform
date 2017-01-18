@@ -16,8 +16,11 @@ const app = new Vue({
         extraServices: [],
         extraServiceModal: [],
         filter: {
+            customerSearch: '',
+            itemSearch: '',
             ticketStatus: 0,
             itemStatus: 0,
+            allowEmptyItem: true,
             customer: ''
         },
         archive: 0,
@@ -48,6 +51,60 @@ const app = new Vue({
         status: {
             ticket: TicketStatus,
             item: ItemStatus,
+        }
+    },
+    computed: {
+        filteredTickets() {
+            let retval = [];
+            for (let i in this.tickets) {
+                let ticket = this.tickets[i];
+
+                if (this.filter.ticketStatus != '0' &&
+                    (this.filter.ticketStatus != ticket.status))
+                    continue;
+
+                if (this.filter.customerSearch.trim().length > 0 &&
+                    (ticket.name + ticket.email + ticket.contact).match(this.filter.customerSearch.trim()) == null)
+                    continue;
+
+                let items = [];
+                for (let j in ticket.items) {
+                    let item = ticket.items[j];
+
+                    if (this.filter.itemStatus != '0' &&
+                        (this.filter.itemStatus != item.status))
+                        continue;
+
+                    if (this.filter.itemSearch.trim().length > 0 &&
+                        (item.title + item.url).match(this.filter.itemSearch.trim()) == null)
+                        continue;
+
+                    items.push(item);
+                }
+
+                if (!this.filter.allowEmptyItem && items.length <= 0)
+                    continue;
+
+                retval.push({
+                    id: ticket.id,
+                    status: ticket.status,
+                    token: ticket.token,
+                    name: ticket.name,
+                    email: ticket.email,
+                    contact: ticket.contact,
+                    rate: ticket.rate,
+                    local_shipment_method: ticket.local_shipment_method,
+                    local_shipment_price: ticket.local_shipment_price,
+                    note: ticket.note,
+                    items: items,
+                    japan_shipments: ticket.japan_shipments,
+                    created_at: ticket.created_at,
+                    updated_at: ticket.updated_at,
+                });
+            }
+
+            console.log(retval);
+            return retval;
         }
     },
     methods: {
@@ -91,13 +148,6 @@ const app = new Vue({
                 return json;
             });
         },
-        checkItemsStatus(items) {
-            for (let i in items) {
-                if (items[i].status == this.filter.itemStatus) return true;
-            }
-
-            return false;
-        },
         fetchExtraServices() {
             let resource = this.$resource('/api/procurement/item_extra_services');
 
@@ -112,18 +162,18 @@ const app = new Vue({
             return moneyFormatter.format(currency, price);
         },
         editTicket(index) {
-            this.edit.id = this.tickets[index].id;
-            this.edit.token = this.tickets[index].token;
-            this.edit.status = this.tickets[index].status;
-            this.edit.rate = this.tickets[index].rate;
-            this.edit.name = this.tickets[index].name;
-            this.edit.email = this.tickets[index].email;
-            this.edit.contact = this.tickets[index].contact;
-            this.edit.note = this.tickets[index].note;
-            this.edit.localShipment.price = this.tickets[index].local_shipment_price;
-            this.edit.localShipment.method = this.tickets[index].local_shipment_method;
-            this.edit.items = this.tickets[index].items.slice(0);
-            this.edit.japanShipments = this.tickets[index].japan_shipments.slice(0);
+            this.edit.id = this.filteredTickets[index].id;
+            this.edit.token = this.filteredTickets[index].token;
+            this.edit.status = this.filteredTickets[index].status;
+            this.edit.rate = this.filteredTickets[index].rate;
+            this.edit.name = this.filteredTickets[index].name;
+            this.edit.email = this.filteredTickets[index].email;
+            this.edit.contact = this.filteredTickets[index].contact;
+            this.edit.note = this.filteredTickets[index].note;
+            this.edit.localShipment.price = this.filteredTickets[index].local_shipment_price;
+            this.edit.localShipment.method = this.filteredTickets[index].local_shipment_method;
+            this.edit.items = this.filteredTickets[index].items.slice(0);
+            this.edit.japanShipments = this.filteredTickets[index].japan_shipments.slice(0);
 
             $('#ticket-modal').modal('show');
         },
@@ -311,7 +361,7 @@ const app = new Vue({
             let resource = this.$resource('/api/procurement/tickets{/token}/archive');
 
             Splash.enable('windcatcher');
-            return resource.save({token: this.tickets[this.archive].token}, {}).then((response) => {
+            return resource.save({token: this.filteredTickets[this.archive].token}, {}).then((response) => {
                 this.fetchTickets().then((response) => {
                     Splash.destroy();
 
