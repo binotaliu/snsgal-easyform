@@ -15,6 +15,7 @@ class Kernel extends ConsoleKernel
     protected $commands = [
         Commands\UpdateCurrencyRates::class,
         Commands\InitialConfigs::class,
+        Commands\SetConfig::class,
     ];
 
     /**
