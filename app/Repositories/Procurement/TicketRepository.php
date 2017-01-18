@@ -8,6 +8,7 @@ use App\Codes\Procurement\ItemStatus;
 use App\Eloquent\Procurement;
 use App\Eloquent\Procurement\Ticket as ProcurementTicket;
 use App\Exceptions\Procurement\Ticket\WrongArgumentException;
+use App\Repositories\ConfigRepository;
 use App\Repositories\Procurement\Item\ExtraServiceRepository;
 use App\Services\Procurement\Ticket\TotalService;
 use Illuminate\Database\Eloquent\Model;
@@ -51,6 +52,11 @@ class TicketRepository
     protected $extraService;
 
     /**
+     * @var ConfigRepository
+     */
+    protected $configRepository;
+
+    /**
      * TicketRepository constructor.
      * @param ProcurementTicket $ticket
      * @param ProcurementTicket\Item $item
@@ -59,8 +65,9 @@ class TicketRepository
      * @param TotalService $totalService
      * @param ProcurementTicket\Item\ExtraService $extraService
      * @param ExtraServiceRepository $extraServiceRepository
+     * @param ConfigRepository $configRepository
      */
-    public function __construct(ProcurementTicket $ticket, ProcurementTicket\Item $item, ProcurementTicket\JapanShipment $japanShipment, ProcurementTicket\Total $total, TotalService $totalService, ProcurementTicket\Item\ExtraService $extraService, ExtraServiceRepository $extraServiceRepository)
+    public function __construct(ProcurementTicket $ticket, ProcurementTicket\Item $item, ProcurementTicket\JapanShipment $japanShipment, ProcurementTicket\Total $total, TotalService $totalService, ProcurementTicket\Item\ExtraService $extraService, ExtraServiceRepository $extraServiceRepository, ConfigRepository $configRepository)
     {
         $this->ticket = $ticket;
         $this->item = $item;
@@ -69,6 +76,7 @@ class TicketRepository
         $this->totalService = $totalService;
         $this->extraService = $extraService;
         $this->extraServiceRepository = $extraServiceRepository;
+        $this->configRepository = $configRepository;
     }
 
     private function saveTotals(ProcurementTicket $ticket)
@@ -130,7 +138,7 @@ class TicketRepository
             $query = new $this->item([
                 'ticket_id' => $ticket->id,
                 'status' => $item['status'] ?? ItemStatus::WAITING_CHECK,
-                'category_id' => $item['category_id'] ?? 1, //@TODO: default value
+                'category_id' => $item['category_id'] ?? $this->configRepository->getConfig('procurement.default_category'),
                 'url' => $item['url'],
                 'title' => $item['title'],
                 'price' => $item['price'],

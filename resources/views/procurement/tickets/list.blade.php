@@ -485,6 +485,14 @@
                                     </div>
                                 </td>
                             </tr>
+                            <tr>
+                                <td>{{ trans('configs.procurement.default_category') }}</td>
+                                <td>
+                                    <select class="form-control" v-model="configModal['procurement.default_category']">
+                                        <option v-for="category in categories" v-bind:value="category.id">@{{ category.name }}</option>
+                                    </select>
+                                </td>
+                            </tr>
                         </tbody>
                     </table>
                 </div> {{-- /.modal-body --}}
