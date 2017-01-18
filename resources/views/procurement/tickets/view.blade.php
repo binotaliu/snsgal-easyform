@@ -4,28 +4,31 @@
 
 @section('content')
     <div class="container">
-        <div class="col-md-12">
-            <h3><span class="label label-{{ $ticket_status[$ticket->status]['color'] }}">{{ $ticket_status[$ticket->status]['name'] }}</span> {{  trans('procurement_ticket.ticket') }}</h3>
+        <div class="row">
+            <div class="col-md-12">
+                <h3><span class="label label-{{ $ticket_status[$ticket->status]['color'] }}">{{ $ticket_status[$ticket->status]['name'] }}</span> {{  trans('procurement_ticket.ticket') }}</h3>
+            </div>
         </div>
 
-        <div class="col-md-12">
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    {{ trans('procurement_ticket.field_items') }}
-                </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        {{ trans('procurement_ticket.field_items') }}
+                    </div>
 
-                <div class="panel-body">
-                    <table class="table table-striped">
-                        <thead><tr class="active">
-                            <th width="20" class="text-center">#</th>
-                            <th width="60" class="text-center">{{ trans('procurement_ticket.field_category') }}</th>
-                            <th>{{ trans('procurement_ticket.field_product') }}</th>
-                            <th width="110" class="text-right">{{ trans('procurement_ticket.field_price_yen') }}</th>
-                            <th width="110" class="text-right table-price">{{ trans('procurement_ticket.field_price_twd') }}</th>
-                            <th width="240">{{ trans('procurement_ticket.field_note') }}</th>
-                        </tr></thead>
+                    <div class="panel-body">
+                        <table class="table table-striped">
+                            <thead><tr class="active">
+                                <th width="20" class="text-center">#</th>
+                                <th width="60" class="text-center">{{ trans('procurement_ticket.field_category') }}</th>
+                                <th>{{ trans('procurement_ticket.field_product') }}</th>
+                                <th width="110" class="text-right">{{ trans('procurement_ticket.field_price_yen') }}</th>
+                                <th width="110" class="text-right table-price">{{ trans('procurement_ticket.field_price_twd') }}</th>
+                                <th width="240">{{ trans('procurement_ticket.field_note') }}</th>
+                            </tr></thead>
 
-                        <tbody>
+                            <tbody>
                             @foreach ($ticket->items as $i => $item)
                                 <tr>
                                     <td class="text-center">{{ $i + 1 }}</td>
@@ -83,7 +86,7 @@
                                 <tr>
                                     <td colspan="4" class="text-right">{{ $item['name'] }}</td>
                                     <td class="table-price text-right">
-                                            NT${{ Format::number($item['price'], 2, '.', ',') }}
+                                        NT${{ Format::number($item['price'], 2, '.', ',') }}
                                     </td>
                                     <td>
                                         <small>
@@ -103,43 +106,46 @@
                                 </td>
                                 <td></td>
                             </tr>
-                        </tbody>
-                    </table>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
         </div>
 
-        <div class="col-md-6">
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    {{ trans('procurement_ticket.field_customer') }}
-                </div>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        {{ trans('procurement_ticket.field_customer') }}
+                    </div>
 
-                <div class="panel-body">
-                    {{ $ticket->name }} &lt;{{ $ticket->email }}&gt;<br>
-                    {{ $ticket->contact }}<br>
-                </div>
+                    <div class="panel-body">
+                        {{ $ticket->name }} &lt;{{ $ticket->email }}&gt;<br>
+                        {{ $ticket->contact }}<br>
+                    </div>
 
-                <div class="panel-heading">
-                    {{ trans('procurement_ticket.field_note') }}
-                </div>
+                    <div class="panel-heading">
+                        {{ trans('procurement_ticket.field_note') }}
+                    </div>
 
-                <div class="panel-body">
-                    {{ $ticket->note }}
+                    <div class="panel-body">
+                        {{ $ticket->note }}
+                    </div>
                 </div>
             </div>
-        </div>
 
-        <div class="col-md-6">
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    {{ trans('procurement_ticket.field_ticket_information') }}
-                </div>
+            <div class="col-md-6">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        {{ trans('procurement_ticket.field_ticket_information') }}
+                    </div>
 
-                <div class="panel-body">
-                    {{ trans('procurement_ticket.field_rate') }}: {{ $ticket->rate }} <br>
-                    {{ trans('procurement_ticket.field_created_at') }}{{ $ticket->created_at }} <br>
-                    {{ trans('procurement_ticket.field_updated_at') }}{{ $ticket->updated_at }} <br>
+                    <div class="panel-body">
+                        {{ trans('procurement_ticket.field_rate') }}: {{ $ticket->rate }} <br>
+                        {{ trans('procurement_ticket.field_created_at') }}{{ $ticket->created_at }} <br>
+                        {{ trans('procurement_ticket.field_updated_at') }}{{ $ticket->updated_at }} <br>
+                    </div>
                 </div>
             </div>
         </div>
