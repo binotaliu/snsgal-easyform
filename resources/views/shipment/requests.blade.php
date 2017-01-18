@@ -7,10 +7,10 @@
     <div class="container">
         <div class="row">
             <div class="col-sm-6">
-                <h3>{{ trans('request.list_title') }}</h3>
+                <h2>{{ trans('request.list_title') }}</h2>
             </div>
             <div class="col-sm-6">
-                <p class="h4"></p>
+                <p class="h3"></p>
                 <div class="text-right">
                     <div class="btn-group">
                         <button type="button" v-on:click="showSender()" class="btn btn-default">{{ trans('request.profile_btn') }}</button>

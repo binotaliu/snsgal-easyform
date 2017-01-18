@@ -6,7 +6,7 @@
     <div class="container">
         <div class="row">
             <div class="col-md-12">
-                <h3><span class="label label-{{ $ticket_status[$ticket->status]['color'] }}">{{ $ticket_status[$ticket->status]['name'] }}</span> {{  trans('procurement_ticket.ticket') }}</h3>
+                <h2><span class="label label-{{ $ticket_status[$ticket->status]['color'] }}">{{ $ticket_status[$ticket->status]['name'] }}</span> {{  trans('procurement_ticket.ticket') }}</h2>
             </div>
         </div>
 

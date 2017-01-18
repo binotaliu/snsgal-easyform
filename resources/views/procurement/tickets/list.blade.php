@@ -6,11 +6,11 @@
     <div class="container">
         <div class="row">
             <div class="col-sm-4">
-                <h3>{{ trans('procurement_ticket.tickets') }}</h3>
+                <h2>{{ trans('procurement_ticket.tickets') }}</h2>
             </div>
 
             <div class="col-sm-8">
-                <p class="h4"></p>
+                <p class="h3"></p>
                 <div class="text-right">
                     <div class="btn-group">
                         <a href="{{ url('procurement/tickets/new') }}" class="btn btn-primary" target="_blank">{{ trans('procurement_ticket.button_new_ticket') }}</a>
