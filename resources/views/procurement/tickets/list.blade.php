@@ -34,14 +34,14 @@
                             <label class="control-label">{{ trans('procurement_ticket.filter_ticket_status') }} </label>
                             <select v-model="filter.ticketStatus" class="form-control">
                                 <option value="0">{{ trans('procurement_ticket.filter_all_status') }}</option>
-                                <option v-for="(text, code) in status.ticket" v-bind:value="code">@{{ text }}</option>
+                                <option v-for="(text, code) in status.ticket" v-bind:value="code">@{{ text.name }}</option>
                             </select>
                         </div>
                         <div class="col-sm-3 form-group">
                             <label class="control-label">{{ trans('procurement_ticket.filter_item_status') }} </label>
                             <select v-model="filter.itemStatus" class="form-control">
                                 <option value="0">{{ trans('procurement_ticket.filter_all_status') }}</option>
-                                <option v-for="(text, code) in status.item" v-bind:value="code">@{{ text }}</option>
+                                <option v-for="(text, code) in status.item" v-bind:value="code">@{{ text.name }}</option>
                             </select>
                         </div>
                     </div>
@@ -61,7 +61,8 @@
                                                 (filter.itemStatus == '0' || checkItemsStatus(ticket.items))">
                                     <tr class="active">
                                         <td width="20" class="text-center">@{{ ticket.id }}</td>
-                                        <td colspan="6">@{{ status.ticket[ticket.status] }}<br>
+                                        <td colspan="6">
+                                            <span v-bind:class="'h4 label label-' + status.ticket[ticket.status].color">@{{ status.ticket[ticket.status].name }}</span><br>
                                             <small>
                                                 @{{ ticket.updated_at }}
                                             </small>
@@ -93,7 +94,7 @@
                                                 <td></td>
                                                 <td colspan="1" class="text-center">@{{ index + 1 }}</td>
                                                 <td colspan="5">
-                                                    @{{ status.item[item.status] }}<br>
+                                                    <span v-bind:class="'h4 label label-' + status.item[item.status].color">@{{ status.item[item.status].name }}</span><br>
                                                     <small>
                                                         @{{ item.updated_at }}
                                                     </small>
@@ -189,7 +190,7 @@
                                         <div class="form-group">
                                             <label for="ticket-modal-ticket-configure-status" class="control-label">{{ trans('procurement_ticket.field_ticket_status') }}</label>
                                             <select v-model="edit.status" class="form-control">
-                                                <option v-for="(text, code) in status.ticket" v-bind:value="code">@{{ text }}</option>
+                                                <option v-for="(text, code) in status.ticket" v-bind:value="code">@{{ text.name }}</option>
                                             </select>
                                         </div>
                                     </div>
@@ -240,7 +241,7 @@
                                         <div class="col-md-3 col-md-offset-1">
                                             <div class="form-group">
                                                 <select v-model="edit.items[index].status" class="form-control">
-                                                    <option v-for="(text, code) in status.item" v-bind:value="code">@{{ text }}</option>
+                                                    <option v-for="(text, code) in status.item" v-bind:value="code">@{{ text.name }}</option>
                                                 </select>
                                             </div>
                                         </div>
