@@ -48,8 +48,8 @@ Route::group(['namespace' => 'Shipment'], function () {
         ]);
     });
 
-    Route::get('/map/cvs', 'RequestController@cvsmap');
-    Route::post('/map/cvs/response', 'RequestController@cvsmapResponse');
+    Route::get('/map/cvs', 'Address\RequestController@cvsmap');
+    Route::post('/map/cvs/response', 'Address\RequestController@cvsmapResponse');
 });
 
 
