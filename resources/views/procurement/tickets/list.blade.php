@@ -120,7 +120,7 @@
                                             <td></td>
                                         </tr>
                                         <tr v-for="(service, sindex) in item.extra_services" class="table-extra-service">
-                                            <td colspan="7" class="text-right">@{{ sindex + 1 }}</td>
+                                            <td colspan="3" class="text-right">@{{ sindex + 1 }}</td>
                                             <td colspan="3">@{{ service.name }}</td>
                                         </tr>
                                     </template> {{-- /v-for items --}}
@@ -299,7 +299,14 @@
                                                 </select>
                                             </div>
                                         </div>
-                                        <div class="col-md-3 col-md-offset-6">
+                                        <div class="col-md-4 col-md-offset-2">
+                                            <div class="form-group">
+                                                <select v-model="edit.extraServiceSelects[index]" class="form-control">
+                                                    <option v-for="service in extraServices" v-bind:value="service.id">@{{ service.name }}</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
                                             <button type="button" class="btn btn-success btn-block" v-on:click="addEditItemExtraService(index)">{{ trans('procurement_ticket.button_add_service') }}</button>
                                         </div>
                                     </div>
