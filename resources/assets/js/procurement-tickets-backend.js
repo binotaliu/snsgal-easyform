@@ -42,6 +42,7 @@ const app = new Vue({
                 method: ''
             },
             items: [],
+            extraServiceSelects: [],
             japanShipmentSelect: 0,
             japanShipments: [],
             price: 0,
@@ -205,8 +206,8 @@ const app = new Vue({
         },
         addEditItemExtraService(index) {
             this.edit.items[index].extra_services.push({
-                name: '',
-                price: 0,
+                name: this.extraServices[this.edit.extraServiceSelects[index]].name,
+                price: this.extraServices[this.edit.extraServiceSelects[index]].price,
                 new: true
             });
         },
