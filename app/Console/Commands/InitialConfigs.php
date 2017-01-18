@@ -44,5 +44,6 @@ class InitialConfigs extends Command
     public function handle()
     {
         $this->configRepository->addConfig('procurement.minimum_fee', 40);
+        $this->configRepository->addConfig('procurement.default_category', 1);
     }
 }
