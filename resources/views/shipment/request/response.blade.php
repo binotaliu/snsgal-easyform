@@ -23,7 +23,7 @@
                             </div>
                         @endif
 
-                        <div class="well well-sm">
+                        <div class="alert alert-info">
                             {!! nl2br(htmlspecialchars($request->description)) !!}
                         </div>
 

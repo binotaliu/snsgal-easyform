@@ -4,58 +4,61 @@
 
 @section('content')
     <div class="container">
-        <div class="col-sm-4">
-            <h3>{{ trans('procurement_ticket.tickets') }}</h3>
-        </div>
+        <div class="row">
+            <div class="col-sm-4">
+                <h3>{{ trans('procurement_ticket.tickets') }}</h3>
+            </div>
 
-        <div class="col-sm-8">
-            <p class="h4"></p>
-            <div class="text-right">
-                <div class="btn-group">
-                    <a href="{{ url('procurement/tickets/new') }}" class="btn btn-primary" target="_blank">{{ trans('procurement_ticket.button_new_ticket') }}</a>
-                    <button type="button" class="btn btn-default" v-on:click="showCategoryModal()">{{ trans('procurement_ticket.button_item_categories') }}</button>
-                    <button type="button" class="btn btn-default" v-on:click="showLocalShipmentModal()">{{ trans('procurement_ticket.button_local_shipment_methods') }}</button>
-                    <button type="button" class="btn btn-default" v-on:click="showJapanShipmentModal()">{{ trans('procurement_ticket.button_japan_shipment_methods') }}</button>
-                    <button type="button" class="btn btn-default" v-on:click="showExtraServiceModal()">{{ trans('procurement_ticket.button_extra_services') }}</button>
-                    <button type="button" class="btn btn-default" v-on:click="showConfigModal()">{{ trans('procurement_ticket.button_configs') }}</button>
+            <div class="col-sm-8">
+                <p class="h4"></p>
+                <div class="text-right">
+                    <div class="btn-group">
+                        <a href="{{ url('procurement/tickets/new') }}" class="btn btn-primary" target="_blank">{{ trans('procurement_ticket.button_new_ticket') }}</a>
+                        <button type="button" class="btn btn-default" v-on:click="showCategoryModal()">{{ trans('procurement_ticket.button_item_categories') }}</button>
+                        <button type="button" class="btn btn-default" v-on:click="showLocalShipmentModal()">{{ trans('procurement_ticket.button_local_shipment_methods') }}</button>
+                        <button type="button" class="btn btn-default" v-on:click="showJapanShipmentModal()">{{ trans('procurement_ticket.button_japan_shipment_methods') }}</button>
+                        <button type="button" class="btn btn-default" v-on:click="showExtraServiceModal()">{{ trans('procurement_ticket.button_extra_services') }}</button>
+                        <button type="button" class="btn btn-default" v-on:click="showConfigModal()">{{ trans('procurement_ticket.button_configs') }}</button>
+                    </div>
                 </div>
             </div>
         </div>
 
-        <div class="col-sm-12">
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                   {{ trans('procurement_ticket.tickets') }}
-                </div>
-
-                <div class="panel-body">
-                    <div id="procurement-ticket-filter">
-                        <div class="col-sm-3 form-group">
-                            <label class="control-label">{{ trans('procurement_ticket.filter_ticket_status') }} </label>
-                            <select v-model="filter.ticketStatus" class="form-control">
-                                <option value="0">{{ trans('procurement_ticket.filter_all_status') }}</option>
-                                <option v-for="(text, code) in status.ticket" v-bind:value="code">@{{ text.name }}</option>
-                            </select>
-                        </div>
-                        <div class="col-sm-3 form-group">
-                            <label class="control-label">{{ trans('procurement_ticket.filter_item_status') }} </label>
-                            <select v-model="filter.itemStatus" class="form-control">
-                                <option value="0">{{ trans('procurement_ticket.filter_all_status') }}</option>
-                                <option v-for="(text, code) in status.item" v-bind:value="code">@{{ text.name }}</option>
-                            </select>
-                        </div>
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        {{ trans('procurement_ticket.tickets') }}
                     </div>
 
-                    <table class="table">
-                        <thead><tr>
-                            <td width="20" class="text-center">#</td>
-                            <td width="180" colspan="6">{{ trans('procurement_ticket.field_status') }}</td>
-                            <td>{{ trans('procurement_ticket.field_customer') }}</td>
-                            <td width="80">{{ trans('procurement_ticket.field_rate') }}</td>
-                            <td width="180">{{ trans('procurement_ticket.field_actions') }}</td>
-                        </tr></thead>
+                    <div class="panel-body">
+                        <div id="procurement-ticket-filter" class="row">
+                            <div class="col-sm-3 form-group">
+                                <label class="control-label">{{ trans('procurement_ticket.filter_ticket_status') }} </label>
+                                <select v-model="filter.ticketStatus" class="form-control">
+                                    <option value="0">{{ trans('procurement_ticket.filter_all_status') }}</option>
+                                    <option v-for="(text, code) in status.ticket" v-bind:value="code">@{{ text.name }}</option>
+                                </select>
+                            </div>
+                            <div class="col-sm-3 form-group">
+                                <label class="control-label">{{ trans('procurement_ticket.filter_item_status') }} </label>
+                                <select v-model="filter.itemStatus" class="form-control">
+                                    <option value="0">{{ trans('procurement_ticket.filter_all_status') }}</option>
+                                    <option v-for="(text, code) in status.item" v-bind:value="code">@{{ text.name }}</option>
+                                </select>
+                            </div>
+                        </div>
 
-                        <tbody>
+                        <table class="table">
+                            <thead><tr>
+                                <td width="20" class="text-center">#</td>
+                                <td width="180" colspan="6">{{ trans('procurement_ticket.field_status') }}</td>
+                                <td>{{ trans('procurement_ticket.field_customer') }}</td>
+                                <td width="80">{{ trans('procurement_ticket.field_rate') }}</td>
+                                <td width="180">{{ trans('procurement_ticket.field_actions') }}</td>
+                            </tr></thead>
+
+                            <tbody>
                             <template v-for="(ticket, index) in tickets">
                                 <template v-if="(filter.ticketStatus == '0' || ticket.status == filter.ticketStatus) &&
                                                 (filter.itemStatus == '0' || checkItemsStatus(ticket.items))">
@@ -115,11 +118,11 @@
                                     </template> {{-- /v-for items --}}
                                 </template> {{-- /v-if ticketStatus --}}
                             </template>
-                        </tbody>
-                    </table>
-                </div> {{-- /.panel-body --}}
-
-            </div> {{-- /.panel --}}
+                            </tbody>
+                        </table>
+                    </div> {{-- /.panel-body --}}
+                </div> {{-- /.panel --}}
+            </div>
         </div>
 
     </div> {{-- /.container --}}
