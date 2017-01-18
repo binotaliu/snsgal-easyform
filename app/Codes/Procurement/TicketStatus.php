@@ -24,15 +24,42 @@ class TicketStatus implements CodesInterface
     static public function getCodes()
     {
         return [
-            self::WAITING_CHECK => trans('codes.procurement.ticket.waiting_check'),
-            self::WAITING_FIRST_PAY => trans('codes.procurement.ticket.waiting_first_pay'),
-            self::ORDERING => trans('codes.procurement.ticket.ordering'),
-            self::TRANSFERRING => trans('codes.procurement.ticket.transferring'),
-            self::WAITING_LAST_PAY => trans('codes.procurement.ticket.waiting_last_pay'),
-            self::SHIPPING => trans('codes.procurement.ticket.shipping'),
-            self::COMPLETED => trans('codes.procurement.ticket.completed'),
-            self::INVALID => trans('codes.procurement.ticket.invalid'),
-            self::DISPUTED => trans('codes.procurement.ticket.disputed')
+            self::WAITING_CHECK => [
+                'name' => trans('codes.procurement.ticket.waiting_check'),
+                'color' => 'warning'
+            ],
+            self::WAITING_FIRST_PAY => [
+                'name' => trans('codes.procurement.ticket.waiting_first_pay'),
+                'color' => 'info'
+            ],
+            self::ORDERING => [
+                'name' => trans('codes.procurement.ticket.ordering'),
+                'color' => 'warning'
+            ],
+            self::TRANSFERRING => [
+                'name' => trans('codes.procurement.ticket.transferring'),
+                'color' => 'warning'
+            ],
+            self::WAITING_LAST_PAY => [
+                'name' => trans('codes.procurement.ticket.waiting_last_pay'),
+                'color' => 'info'
+            ],
+            self::SHIPPING => [
+                'name' => trans('codes.procurement.ticket.shipping'),
+                'color' => 'info'
+            ],
+            self::COMPLETED => [
+                'name' => trans('codes.procurement.ticket.completed'),
+                'color' => 'success'
+            ],
+            self::INVALID => [
+                'name' => trans('codes.procurement.ticket.invalid'),
+                'color' => 'active'
+            ],
+            self::DISPUTED => [
+                'name' => trans('codes.procurement.ticket.disputed'),
+                'color' => 'danger'
+            ]
         ];
     }
 

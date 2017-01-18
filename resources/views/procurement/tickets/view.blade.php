@@ -5,7 +5,7 @@
 @section('content')
     <div class="container">
         <div class="col-md-12">
-            <h3><span class="label label-primary">{{ $ticket_status[$ticket->status] }}</span> {{  trans('procurement_ticket.ticket') }}</h3>
+            <h3><span class="label label-{{ $ticket_status[$ticket->status]['color'] }}">{{ $ticket_status[$ticket->status]['name'] }}</span> {{  trans('procurement_ticket.ticket') }}</h3>
         </div>
 
         <div class="col-md-12">
@@ -31,7 +31,7 @@
                                     <td class="text-center">{{ $i + 1 }}</td>
                                     <td class="text-center">{{ $item->category->name }}</td>
                                     <td>
-                                        <span class="label label-primary">{{ $item_status[$item->status] }}</span>
+                                        <span class="label label-{{ $item_status[$item->status]['color'] }}">{{ $item_status[$item->status]['name'] }}</span>
                                         {{ $item->title }}<br>
                                         <small>
                                             <a href="{{ $item->url }}">{{ $item->url }}</a>
@@ -65,10 +65,7 @@
                                 <tr>
                                     <td></td>
                                     <td colspan="2">
-                                        {{ $item->title }}<br>
-                                        <small>
-                                            <a href="{{ $item->url }}">{{ $item->url }}</a>
-                                        </small>
+                                        {{ $item->title }}
                                     </td>
                                     <td class="text-right">¥{{ Format::number($item->price, 0, '.', ',') }}</td>
                                     <td class="text-right table-price">NT${{ Format::number($item->price * $ticket->rate, 2, '.', ',') }}</td>
