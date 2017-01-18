@@ -33,14 +33,26 @@
 
                     <div class="panel-body">
                         <div id="procurement-ticket-filter" class="row">
+                            <div class="col-sm-2 form-group">
+                                <label class="control-label">{{ trans('procurement_ticket.filter_allow_empty_item') }}
+                                    <input type="checkbox" class="form-control" v-model="filter.allowEmptyItem"></label>
+                            </div>
                             <div class="col-sm-3 form-group">
+                                <label class="control-label">{{ trans('procurement_ticket.filter_customer') }} </label>
+                                <input type="text" class="form-control" placeholder="{{ trans('procurement_ticket.filter_customer_placeholder') }}" v-model="filter.customerSearch">
+                            </div>
+                            <div class="col-sm-3 form-group">
+                                <label class="control-label">{{ trans('procurement_ticket.filter_item') }} </label>
+                                <input type="text" class="form-control" placeholder="{{ trans('procurement_ticket.filter_item_placeholder') }}" v-model="filter.itemSearch">
+                            </div>
+                            <div class="col-sm-2 form-group">
                                 <label class="control-label">{{ trans('procurement_ticket.filter_ticket_status') }} </label>
                                 <select v-model="filter.ticketStatus" class="form-control">
                                     <option value="0">{{ trans('procurement_ticket.filter_all_status') }}</option>
                                     <option v-for="(text, code) in status.ticket" v-bind:value="code">@{{ text.name }}</option>
                                 </select>
                             </div>
-                            <div class="col-sm-3 form-group">
+                            <div class="col-sm-2 form-group">
                                 <label class="control-label">{{ trans('procurement_ticket.filter_item_status') }} </label>
                                 <select v-model="filter.itemStatus" class="form-control">
                                     <option value="0">{{ trans('procurement_ticket.filter_all_status') }}</option>
@@ -52,19 +64,17 @@
                         <table class="table">
                             <thead><tr>
                                 <td width="20" class="text-center">#</td>
-                                <td width="180" colspan="6">{{ trans('procurement_ticket.field_status') }}</td>
+                                <td width="150" colspan="2">{{ trans('procurement_ticket.field_status') }}</td>
                                 <td>{{ trans('procurement_ticket.field_customer') }}</td>
-                                <td width="80">{{ trans('procurement_ticket.field_rate') }}</td>
+                                <td width="80" class="text-right">{{ trans('procurement_ticket.field_rate') }}</td>
                                 <td width="180">{{ trans('procurement_ticket.field_actions') }}</td>
                             </tr></thead>
 
                             <tbody>
-                            <template v-for="(ticket, index) in tickets">
-                                <template v-if="(filter.ticketStatus == '0' || ticket.status == filter.ticketStatus) &&
-                                                (filter.itemStatus == '0' || checkItemsStatus(ticket.items))">
+                                <template v-for="(ticket, index) in filteredTickets">
                                     <tr class="active">
-                                        <td width="20" class="text-center">@{{ ticket.id }}</td>
-                                        <td colspan="6">
+                                        <td class="text-center">@{{ ticket.id }}</td>
+                                        <td colspan="2">
                                             <span v-bind:class="'h4 label label-' + status.ticket[ticket.status].color">@{{ status.ticket[ticket.status].name }}</span><br>
                                             <small>
                                                 @{{ ticket.updated_at }}
@@ -76,7 +86,7 @@
                                                 <a v-bind:href="'/procurement/tickets/' + ticket.token" target="_blank">@{{ ticket.token }}</a>
                                             </small>
                                         </td>
-                                        <td>@{{ ticket.rate }}</td>
+                                        <td class="text-right">@{{ ticket.rate }}</td>
                                         <td>
                                             <div class="btn-group">
                                                 <a v-bind:href="'/procurement/tickets/' + ticket.token" target="_blank" class="btn btn-default">
@@ -92,32 +102,29 @@
                                         </td>
                                     </tr>
                                     <template v-for="(item, index) in ticket.items">
-                                        <template v-if="filter.itemStatus == '0' || filter.itemStatus == item.status">
-                                            <tr>
-                                                <td></td>
-                                                <td colspan="1" class="text-center">@{{ index + 1 }}</td>
-                                                <td colspan="5">
-                                                    <span v-bind:class="'h4 label label-' + status.item[item.status].color">@{{ status.item[item.status].name }}</span><br>
-                                                    <small>
-                                                        @{{ item.updated_at }}
-                                                    </small>
-                                                </td>
-                                                <td>@{{ item.title }}<br>
-                                                    <small>
-                                                        <a v-bind:href="item.url" target="_blank">@{{ item.url }}</a>
-                                                    </small>
-                                                </td>
-                                                <td>@{{ format('JPY', item.price) }}</td>
-                                                <td></td>
-                                            </tr>
-                                            <tr v-for="(service, sindex) in item.extra_services" class="table-extra-service">
-                                                <td colspan="7" class="text-right">@{{ sindex + 1 }}</td>
-                                                <td colspan="3">@{{ service.name }}</td>
-                                            </tr>
-                                        </template> {{-- /v-if itemStatus --}}
+                                        <tr>
+                                            <td></td>
+                                            <td class="text-center" width="20">@{{ index + 1 }}</td>
+                                            <td width="130">
+                                                <span v-bind:class="'h4 label label-' + status.item[item.status].color">@{{ status.item[item.status].name }}</span><br>
+                                                <small>
+                                                    @{{ item.updated_at }}
+                                                </small>
+                                            </td>
+                                            <td>@{{ item.title }}<br>
+                                                <small>
+                                                    <a v-bind:href="item.url" target="_blank">@{{ item.url }}</a>
+                                                </small>
+                                            </td>
+                                            <td class="text-right">@{{ format('JPY', item.price) }}</td>
+                                            <td></td>
+                                        </tr>
+                                        <tr v-for="(service, sindex) in item.extra_services" class="table-extra-service">
+                                            <td colspan="7" class="text-right">@{{ sindex + 1 }}</td>
+                                            <td colspan="3">@{{ service.name }}</td>
+                                        </tr>
                                     </template> {{-- /v-for items --}}
-                                </template> {{-- /v-if ticketStatus --}}
-                            </template>
+                                </template>
                             </tbody>
                         </table>
                     </div> {{-- /.panel-body --}}

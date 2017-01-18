@@ -116,6 +116,11 @@ return [
     'filter_ticket_status' => '代購單狀態: ',
     'filter_item_status' => '商品狀態: ',
     'filter_all_status' => '所有狀態',
+    'filter_allow_empty_item' => '顯示空商品',
+    'filter_item' => '在商品中搜尋: ',
+    'filter_item_placeholder' => '搜尋商品名稱或網址',
+    'filter_customer' => '在客戶資料中搜尋: ',
+    'filter_customer_placeholder' => '搜尋姓名、E-Mail、或聯絡方式',
 
     'edit_title' => '編輯代購單',
     'edit_tab_ticket_configure' => '代購單設定',
