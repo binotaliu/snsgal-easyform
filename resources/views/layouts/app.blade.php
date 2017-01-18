@@ -8,12 +8,9 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>@yield('title') - {{ config('app.name', 'Yubin Terminator') }}</title>
+    <title>@yield('title') - {{ config('app.name', '穹ノ空') }}</title>
 
-    <!-- Styles -->
     <link href="{{ elixir('css/app.css') }}" rel="stylesheet">
-
-    <!-- Scripts -->
     <script>
         window.Snsgal = <?php echo json_encode([
             'csrfToken' => csrf_token(),
@@ -36,14 +33,14 @@
 
                     <!-- Branding Image -->
                     <a class="navbar-brand" href="{{ url('/') }}">
-                        {{ config('app.name', 'Yubin Terminator') }}
+                        {{ config('app.name', '穹ノ空') }}
                     </a>
                 </div>
 
                 <div class="collapse navbar-collapse" id="app-navbar-collapse">
                     <!-- Left Side Of Navbar -->
                     <ul class="nav navbar-nav">
-                        @if (!Auth::guest())
+                        @if (!Auth::guest() && Auth::user()->is_admin)
                             <li><a href="{{ url('/shipment/requests') }}">{{ trans('request.list_title') }}</a></li>
                             <li><a href="{{ url('/procurement/tickets') }}">{{ trans('procurement_ticket.ticket') }}</a></li>
                         @endif
@@ -79,9 +76,18 @@
         </nav>
 
         @yield('content')
+
     </div>
 
-    <!-- Scripts -->
+
+    <footer class="container">
+        <div class="row">
+            <div class="col-sm-12">
+                <p class="active">{{ date('Y') }} &copy; snsgal.com, all rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+    {{-- Scripts --}}
     <script src="{{ elixir('js/app.js') }}"></script>
     @yield('footer')
 </body>

@@ -1,6 +1,6 @@
 
 // Fonts
-@import url(https://fonts.googleapis.com/css?family=Raleway:300,400,600);
+@import url(https://fonts.googleapis.com/css?family=Source+Sans+Pro);
 
 // Variables
 @import "variables";
@@ -13,6 +13,15 @@
 
 // Splash
 @import "node_modules/splash-screen/dist/splash.min";
+
+.navbar-default {
+  box-shadow: inset 12px 0 0 #10516f;
+}
+
+.navbar-brand {
+  padding: 29px 25px;
+  text-align: center;
+}
 
 .splash {
   z-index: 1060;
