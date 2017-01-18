@@ -43,6 +43,10 @@ class SetConfig extends Command
      */
     public function handle()
     {
-        $this->configRepository->updateConfig($this->argument('key'), $this->argument('value'));
+        if (array_key_exists($this->argument('key'), $this->configRepository->getConfigs())) {
+            $this->configRepository->updateConfig($this->argument('key'), $this->argument('value'));
+        } else {
+            $this->configRepository->addConfig($this->argument('key'), $this->argument('value'));
+        }
     }
 }
