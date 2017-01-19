@@ -12,7 +12,7 @@ return [
     | any other location as required by the application or its packages.
     */
 
-    'name' => '穹ノ空',
+    'name' => env('APP_NAME', '穹ノ空'),
 
     /*
     |--------------------------------------------------------------------------
