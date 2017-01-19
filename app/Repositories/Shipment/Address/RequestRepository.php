@@ -4,6 +4,7 @@ namespace App\Repositories\Shipment\Address;
 
 use App\Eloquent\Shipment\Address\Request;
 use App\Eloquent\User\RequestProfile;
+use App\Exceptions\Shipment\Address\InvalidTypeException;
 use Ramsey\Uuid\Uuid;
 
 class RequestRepository
@@ -16,53 +17,59 @@ class RequestRepository
     protected $request;
 
     /**
+     * @var RequestProfile
+     */
+    protected $requestProfile;
+
+    /**
      * RequestRepository constructor.
      * @param Request $request
+     * @param RequestProfile $requestProfile
      */
-    public function __construct(Request $request)
+    public function __construct(Request $request, RequestProfile $requestProfile)
     {
         $this->request = $request;
+        $this->requestProfile = $requestProfile;
     }
 
     /**
      * Get all requests
+     * @param bool $archived
      * @return \Illuminate\Database\Eloquent\Collection|static[]
      */
-    public function getRequests()
+    public function getRequests(bool $archived = false)
     {
-        return Request::with(['cvs_address', 'standard_address'])->archived(false)->orderBy('id', 'desc')->get();
+        return $this->request->with(['cvs_address', 'standard_address'])
+            ->archived($archived)
+            ->orderBy('id', 'desc')->get();
     }
 
     /**
      * Get specified request
-     * @param String $token
+     * @param string $token
      * @param bool $archived
      * @return Request
      */
-    public function getRequest(String $token, bool $archived = false)
+    public function getRequest(string $token, bool $archived = false)
     {
-        return Request::where('token', $token)->first();
+        return $this->request->where('token', $token)->archived($archived)->first();
     }
 
     /**
      * Create new request
-     * @param String $title
-     * @param String $description
-     * @param String $type
+     * @param string $title
+     * @param string $description
+     * @param string $type
      * @return Request
+     * @throws InvalidTypeException
      */
-    public function createRequest(String $title, String $description, String $type)
+    public function createRequest(string $title, string $description, string $type)
     {
-        Switch ($type) {
-            case 'cvs':
-            case 'standard':
-                break;
-            default:
-                return abort(500, 'Address Type Error');
-                break;
+        if (!in_array($type, ['cvs', 'standard'])) {
+            throw new InvalidTypeException();
         }
 
-        return Request::create([
+        return $this->request->create([
             'title' => $title,
             'description' => $description,
             'address_type' => $type,
@@ -73,15 +80,15 @@ class RequestRepository
 
     /**
      * Update request
-     * @param String $token
-     * @param String $title
-     * @param String $description
-     * @param Int $ecpayId
-     * @return Request
+     * @param string $token
+     * @param string $title
+     * @param string $description
+     * @param int $ecpayId
+     * @return bool
      */
-    public function updateRequest(String $token, String $title, String $description, Int $ecpayId)
+    public function updateRequest(string $token, string $title, string $description, int $ecpayId)
     {
-        Request::where('token', $token)->update([
+        return $this->request->where('token', $token)->update([
             'title' => $title,
             'description' => $description,
             'exported' => $ecpayId
@@ -90,11 +97,11 @@ class RequestRepository
 
     /**
      * Remove specified request
-     * @param String $token
+     * @param string $token
      */
-    public function removeRequest(String $token)
+    public function removeRequest(string $token)
     {
-        Request::where('token', $token)->delete();
+        $this->request->where('token', $token)->delete();
     }
 
     /**
@@ -110,10 +117,10 @@ class RequestRepository
 
     /**
      * Update user's profile
-     * @param Int $user
+     * @param int $user
      * @param array $data
      */
-    public function updateProfile(Int $user, Array $data)
+    public function updateProfile(int $user, array $data)
     {
         $updateData = [];
         if ($data['name']) $updateData['name'] = $data['name'];
@@ -122,11 +129,11 @@ class RequestRepository
         if ($data['address']) $updateData['address'] = $data['address'];
 
         // check whether the profile already exists
-        if (RequestProfile::where('user_id', $user)->exists()) {
-            RequestProfile::where('user_id', $user)->update($updateData);
+        if ($this->requestProfile->where('user_id', $user)->exists()) {
+            $this->requestProfile->where('user_id', $user)->update($updateData);
         } else {
             $updateData['user_id'] = $user;
-            RequestProfile::create($updateData);
+            $this->requestProfile->create($updateData);
         }
     }
 }

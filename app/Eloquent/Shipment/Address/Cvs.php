@@ -29,7 +29,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @method static \Illuminate\Database\Query\Builder|\App\Eloquent\Shipment\Address\Cvs whereUpdatedAt($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Eloquent\Shipment\Address\Cvs whereDeletedAt($value)
  */
-class Cvs extends Model
+class Cvs extends Model implements AddressTypeInterface
 {
     use SoftDeletes;
 
