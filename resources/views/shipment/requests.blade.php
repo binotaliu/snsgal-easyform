@@ -13,8 +13,12 @@
                 <p class="h3"></p>
                 <div class="text-right">
                     <div class="btn-group">
-                        <button type="button" v-on:click="showSender()" class="btn btn-default">{{ trans('request.profile_btn') }}</button>
-                        <button type="button" v-on:click="showCreate()" class="btn btn-primary">{{ trans('request.create_btn') }}</button>
+                        <button type="button" v-on:click="showCreate()" class="btn btn-primary">
+                            <i class="fa fa-plus"></i> {{ trans('request.create_btn') }}
+                        </button>
+                        <button type="button" v-on:click="showSender()" class="btn btn-default">
+                            <i class="fa fa-address-card"></i> {{ trans('request.profile_btn') }}
+                        </button>
                     </div>
                 </div>
             </div>
@@ -71,7 +75,7 @@
                                         <td width="60" class="text-center">{{ trans('request.field_type') }}</td>
                                         <td width="80" class="text-center">{{ trans('request.field_responded?') }}</td>
                                         <td width="80" class="text-center">{{ trans('request.field_exported?') }}</td>
-                                        <td width="140">{{ trans('request.field_actions') }}</td>
+                                        <td width="160">{{ trans('request.field_actions') }}</td>
                                     </tr></thead>
                                     <tbody>
                                     <tr v-for="(request, index) in filteredRequests">
@@ -85,17 +89,35 @@
                                                 </a>
                                             </small>
                                         </td>
-                                        <td v-if="request.address_type == 'cvs'" class="text-center">{{ trans('request.type_cvs') }}</td>
-                                        <td v-if="request.address_type == 'standard'" class="text-center">{{ trans('request.type_standard') }}</td>
-                                        <td v-if="request.responded" class="success text-center">{{ trans('request.status_yes') }}</td>
-                                        <td v-else class="warning text-center">{{ trans('request.status_no') }}</td>
-                                        <td v-if="request.exported" class="success text-center">{{ trans('request.status_yes') }} <br>
+                                        <td v-if="request.address_type == 'cvs'" class="text-center">
+                                            {{ trans('request.type_cvs') }}
+                                        </td>
+                                        <td v-if="request.address_type == 'standard'" class="text-center">
+                                            {{ trans('request.type_standard') }}
+                                        </td>
+
+                                        <td v-if="request.responded" class="text-success text-center">
+                                            <i class="fa fa-check"></i> {{ trans('request.status_yes') }}
+                                        </td>
+                                        <td v-else class="text-warning text-center">
+                                            <i class="fa fa-close"></i> {{ trans('request.status_no') }}
+                                        </td>
+
+                                        <td v-if="request.exported" class="text-success text-center">
+                                            <i class="fa fa-check"></i> {{ trans('request.status_yes') }} <br>
                                             <small>(@{{ request.exported }})</small></td>
-                                        <td v-else class="warning text-center">{{ trans('request.status_no') }}</td>
+                                        <td v-else class="text-warning text-center">
+                                            <i class="fa fa-close"></i> {{ trans('request.status_no') }}
+                                        </td>
+
                                         <td>
                                             <div class="btn-group">
-                                                <button class="btn btn-primary" v-on:click="showRequest(index)">{{ trans('request.detail_btn') }}</button>
-                                                <button class="btn btn-warning" v-on:click="confirmArchive(index)">{{ trans('request.archive_btn') }}</button>
+                                                <button class="btn btn-default" v-on:click="showRequest(index)">
+                                                    <i class="fa fa-eye"></i> {{ trans('request.detail_btn') }}
+                                                </button>
+                                                <button class="btn btn-warning" v-on:click="confirmArchive(index)">
+                                                    <i class="fa fa-archive"></i> {{ trans('request.archive_btn') }}
+                                                </button>
                                             </div>
                                         </td>
                                     </tr>
