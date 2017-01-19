@@ -37,7 +37,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @method static \Illuminate\Database\Query\Builder|\App\Eloquent\Shipment\Address\Standard whereUpdatedAt($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Eloquent\Shipment\Address\Standard whereDeletedAt($value)
  */
-class Standard extends Model
+class Standard extends Model implements AddressTypeInterface
 {
     use SoftDeletes;
 

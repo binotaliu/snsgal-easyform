@@ -2,9 +2,12 @@
 
 namespace App\Repositories\Shipment;
 
+use App\Eloquent\Shipment\Address\AddressTypeInterface;
 use App\Eloquent\Shipment\Address\Cvs as CvsAddress;
 use App\Eloquent\Shipment\Address\Request;
 use App\Eloquent\Shipment\Address\Standard as StandardAddress;
+use App\Exceptions\Shipment\Address\InvalidTypeException;
+use App\Exceptions\Shipment\Address\RequestNotFoundException;
 
 class AddressRepository
 {
@@ -38,14 +41,16 @@ class AddressRepository
 
     /**
      * Get the address of the request
-     * @param String $token
-     * @return StandardAddress|CvsAddress
+     * @param string $token
+     * @return AddressTypeInterface
+     * @throws RequestNotFoundException
+     * @throws InvalidTypeException
      */
-    public function getAddress(String $token)
+    public function getAddress(string $token): AddressTypeInterface
     {
-        $request = Request::where('token', $token)
+        $request = $this->request->where('token', $token)
             ->where('responded', true)->first();
-        if (is_null($request)) abort(404, 'Request Not Found');
+        if (is_null($request)) throw new RequestNotFoundException();
 
         switch ($request->address_type) {
             case 'cvs':
@@ -54,30 +59,36 @@ class AddressRepository
             case 'standard':
                 return $request->standard_address;
                 break;
+            default:
+                throw new InvalidTypeException();
         }
     }
 
     /**
      * Create an address for the request
-     * @param String $token
+     * @param string $token
      * @param array $data
-     * @return StandardAddress|CvsAddress|null
+     * @return AddressTypeInterface
+     * @throws RequestNotFoundException
+     * @throws InvalidTypeException
      */
-    public function createAddress(String $token, Array $data)
+    public function createAddress(string $token, array $data): AddressTypeInterface
     {
-        $request = Request::where('token', $token)
+        $request = $this->request->where('token', $token)
             ->where('responded', false)->first();
-        if (is_null($request)) abort(404, 'Request Not Found');
+        if (is_null($request)) throw new RequestNotFoundException();
 
         $data['request_id'] = $request->id;
 
-        $retval = null;
         switch ($request->address_type) {
             case 'cvs':
-                $retval = CvsAddress::create($data);
+                $retval = $this->cvsAddress->create($data);
                 break;
             case 'standard':
-                $retval = StandardAddress::create($data);
+                $retval = $this->standardAddress->create($data);
+                break;
+            default:
+                throw new InvalidTypeException();
                 break;
         }
 
@@ -91,12 +102,14 @@ class AddressRepository
      * Update an address
      * @param Int $id
      * @param array $data
+     * @throws RequestNotFoundException
+     * @throws InvalidTypeException
      */
-    public function updateAddress(Int $id, Array $data)
+    public function updateAddress(int $id, array $data)
     {
-        $request = Request::where('id', $id)
+        $request = $this->request->where('id', $id)
             ->where('responded', true)->first();
-        if (is_null($request)) abort(500, 'Address Request Not Found');
+        if (is_null($request)) throw new RequestNotFoundException();
 
         switch ($request->address_type) {
             case 'cvs':
@@ -105,19 +118,24 @@ class AddressRepository
             case 'standard':
                 $request->standard_address->update($data);
                 break;
+            default:
+                throw new InvalidTypeException();
+                break;
         }
         return;
     }
 
     /**
      * Remove address
-     * @param Int $id
+     * @param int $id
+     * @throws RequestNotFoundException
+     * @throws InvalidTypeException
      */
-    public function removeAddress(Int $id)
+    public function removeAddress(int $id)
     {
-        $request = Request::where('id', $id)
+        $request = $this->request->where('id', $id)
             ->where('responded', true)->first();
-        if (is_null($request)) abort(500, 'Address Request Not Found');
+        if (is_null($request)) throw new RequestNotFoundException();
 
         switch ($request->address_type) {
             case 'cvs':
@@ -125,6 +143,9 @@ class AddressRepository
                 break;
             case 'standard':
                 $request->standard_address->delete();
+                break;
+            default:
+                throw new InvalidTypeException();
                 break;
         }
         $request->responded = false;
