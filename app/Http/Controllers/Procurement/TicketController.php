@@ -80,6 +80,7 @@ class TicketController extends Controller
     public function new()
     {
         return view('procurement.tickets.new', [
+            'rate' => $this->currencyRepository->getRate('JPY'),
             'shipments' => $this->shipmentMethodRepository->getLocalShipments(),
             'extraServices' => $this->extraServiceRepository->getServices(true)
         ]);

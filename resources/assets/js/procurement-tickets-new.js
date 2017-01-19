@@ -1,3 +1,4 @@
+"use strict";
 
 const app = new Vue({
     el: '#app',
@@ -9,6 +10,7 @@ const app = new Vue({
             price: '',
             note: ''
         },
+        rate: Rate,
         extraServices: ExtraServices,
         shipment: 0,
         note: '',
@@ -17,7 +19,23 @@ const app = new Vue({
             email: '',
             contact: ''
         },
+        edit: 0,
         errors: []
+    },
+    computed: {
+        summary() {
+            let total = 0;
+            for (let i in this.items) {
+                let item = this.items[i];
+                total += item.price * this.rate;
+                for (let j in item.extraServices) {
+                    let service = item.extraServices[j];
+                    if (!service) continue;
+                    total += this.extraServices[j].price;
+                }
+            }
+            return total;
+        }
     },
     methods: {
         pushItem() {
@@ -25,7 +43,6 @@ const app = new Vue({
             for (let i in this.extraServices) {
                 extraServicesFields[this.extraServices[i].id] = false;
             }
-            console.log(extraServicesFields);
             this.items.push({
                 url: this.form.url,
                 title: this.form.title,
@@ -33,14 +50,23 @@ const app = new Vue({
                 note: this.form.note,
                 extraServices: extraServicesFields
             });
-            console.log(this.items);
             this.form.url = '';
             this.form.title = '';
             this.form.price = '';
             this.form.note = '';
         },
-        format(price) {
-            return moneyFormatter.format('JPY', price);
+        removeItem(index) {
+            this.items.splice(index, 1);
+        },
+        format(currency = 'JPY', price, fraction = 0) {
+            return moneyFormatter.format(currency, price, fraction);
+        },
+        toTwd(price) {
+            return (price * this.rate).toFixed(2);
+        },
+        showEdit(index) {
+            this.edit = index;
+            $('#edit-modal').modal('show');
         },
         store() {
             let resource = this.$resource('/api/procurement/tickets');
@@ -69,13 +95,6 @@ const app = new Vue({
                 Splash.destroy();
                 return json;
             });
-        },
-        summary() {
-            let total = 0;
-            for (let i in this.items) {
-                total += this.items[i].price;
-            }
-            return this.format(total);
         }
     }
 });

@@ -46,6 +46,10 @@
 .table > tbody > tr.table-extra-service > td {
   border-top: none;
   font-size: .9em;
+
+  label {
+    font-weight: normal;
+  }
 }
 
 .tab-content {
