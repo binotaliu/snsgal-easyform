@@ -21,6 +21,8 @@ elixir(mix => {
         .webpack('procurement-tickets-new.js')
         .webpack('procurement-tickets-backend.js');
 
+    mix.copy('node_modules/font-awesome/fonts', 'public/fonts');
+
     mix.version([
         'css/app.css',
         'js/app.js',
