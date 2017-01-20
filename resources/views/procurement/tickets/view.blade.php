@@ -6,7 +6,13 @@
     <div class="container">
         <div class="row">
             <div class="col-md-12">
-                <h2><span class="label label-{{ $ticket_status[$ticket->status]['color'] }}">{{ $ticket_status[$ticket->status]['name'] }}</span> {{  trans('procurement_ticket.ticket') }}</h2>
+                <h2>
+                    {{ trans('procurement_ticket.ticket') }}
+                    <small>
+                        <span class="text-{{ $ticket_status[$ticket->status]['color'] }}"><i class="fa fa-circle"></i></span>
+                        {{ $ticket_status[$ticket->status]['name'] }}
+                    </small>
+                </h2>
             </div>
         </div>
 
@@ -34,7 +40,10 @@
                                     <td class="text-center">{{ $i + 1 }}</td>
                                     <td class="text-center">{{ $item->category->name }}</td>
                                     <td>
-                                        <span class="label label-{{ $item_status[$item->status]['color'] }}">{{ $item_status[$item->status]['name'] }}</span>
+                                        <small>
+                                            <span class="text-{{ $item_status[$item->status]['color'] }}"><i class="fa fa-circle"></i></span>
+                                            {{ $item_status[$item->status]['name'] }}
+                                        </small>
                                         {{ $item->title }}<br>
                                         <small>
                                             <a href="{{ $item->url }}">{{ $item->url }}</a>

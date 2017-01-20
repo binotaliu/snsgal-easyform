@@ -75,7 +75,8 @@
                                     <tr class="active">
                                         <td class="text-center">@{{ ticket.id }}</td>
                                         <td colspan="2">
-                                            <span v-bind:class="'h4 label label-' + status.ticket[ticket.status].color">@{{ status.ticket[ticket.status].name }}</span><br>
+                                            <span v-bind:class="'text-' + status.ticket[ticket.status].color"><i class="fa fa-circle"></i></span>
+                                                @{{ status.ticket[ticket.status].name }}<br>
                                             <small>
                                                 @{{ ticket.updated_at }}
                                             </small>
@@ -106,7 +107,8 @@
                                             <td></td>
                                             <td class="text-center" width="20">@{{ index + 1 }}</td>
                                             <td width="130">
-                                                <span v-bind:class="'h4 label label-' + status.item[item.status].color">@{{ status.item[item.status].name }}</span><br>
+                                                <span v-bind:class="'text-' + status.item[item.status].color"><i class="fa fa-circle"></i></span>
+                                                    @{{ status.item[item.status].name }}<br>
                                                 <small>
                                                     @{{ item.updated_at }}
                                                 </small>
