@@ -96,18 +96,18 @@
                                             {{ trans('request.type_standard') }}
                                         </td>
 
-                                        <td v-if="request.responded" class="text-success text-center">
-                                            <i class="fa fa-check"></i> {{ trans('request.status_yes') }}
+                                        <td v-if="request.responded" class="text-center">
+                                            <span class="label label-success"><i class="fa fa-check"></i></span>
                                         </td>
-                                        <td v-else class="text-warning text-center">
-                                            <i class="fa fa-close"></i> {{ trans('request.status_no') }}
+                                        <td v-else class="text-center">
+                                            <span class="label label-warning"><i class="fa fa-close"></i></span>
                                         </td>
 
-                                        <td v-if="request.exported" class="text-success text-center">
-                                            <i class="fa fa-check"></i> {{ trans('request.status_yes') }} <br>
+                                        <td v-if="request.exported" class="text-center">
+                                            <span class="label label-success"><i class="fa fa-check"></i></span> <br>
                                             <small>(@{{ request.exported }})</small></td>
-                                        <td v-else class="text-warning text-center">
-                                            <i class="fa fa-close"></i> {{ trans('request.status_no') }}
+                                        <td v-else class="text-center">
+                                            <span class="label label-warning"><i class="fa fa-close"></i></span>
                                         </td>
 
                                         <td>
@@ -132,7 +132,7 @@
     </div>
 
     <div id="request-modal" class="modal fade" role="dialog">
-        <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -143,34 +143,43 @@
                 </div>
 
                 <div class="modal-body">
-                    <table class="table table-bordered">
+                    <table class="table table-striped">
                         <tbody>
                             <tr>
-                                <td>{{ trans('request.field_id') }}</td>
+                                <th width="90" class="text-right">{{ trans('request.field_id') }}</th>
                                 <td>@{{ modalContent.id }}</td>
                             </tr>
                             <tr>
-                                <td>{{ trans('request.field_title') }}</td>
+                                <th class="text-right">{{ trans('request.field_title') }}</th>
                                 <td>@{{ modalContent.title }}</td>
                             </tr>
                             <tr>
-                                <td>{{ trans('request.field_description') }}</td>
+                                <th class="text-right">{{ trans('request.field_description') }}</th>
                                 <td>@{{ modalContent.description}}</td>
                             </tr>
                             <tr>
-                                <td>{{ trans('request.field_responded?') }}</td>
-                                <td v-if="modalContent.responded">{{ trans('request.status_yes') }}</td>
-                                <td v-else>{{ trans('request.status_no') }}</td>
+                                <th class="text-right">{{ trans('request.field_responded?') }}</th>
+                                <td v-if="modalContent.responded">
+                                    <span class="label label-success"><i class="fa fa-check"></i></span>
+                                </td>
+                                <td v-else>
+                                    <span class="label label-warning"><i class="fa fa-close"></i></span>
+                                </td>
                             </tr>
                             <tr>
-                                <td>{{ trans('request.field_exported?') }}</td>
-                                <td v-if="modalContent.exportFormed">{{ trans('request.status_yes') }}</td>
-                                    <td v-else>{{ trans('request.status_no') }}</td>
+                                <th class="text-right">{{ trans('request.field_exported?') }}</th>
+                                <td v-if="modalContent.exported">
+                                    <span class="label label-success"><i class="fa fa-check"></i></span>
+                                    (@{{ modalContent.exported }})
+                                </td>
+                                <td v-else>
+                                    <span class="label label-warning"><i class="fa fa-close"></i></span>
+                                </td>
                             </tr>
                         </tbody>
                     </table>
 
-                    <div v-if="modalContent.responded" class="well well-sm">
+                    <div v-if="modalContent.responded" class="alert alert-info">
                         <div v-if="modalContent.address_type == 'cvs'">
                             @{{ modalContent.cvs_address.receiver }} @{{ modalContent.cvs_address.phone }} <br>
                             @{{ modalContent.cvs_address.vendor }} @{{ modalContent.cvs_address.store }} <br>
@@ -185,10 +194,6 @@
                         </div>
                     </div>
 
-                    <div v-if="modalContent.loading">
-                        <h3 class="text-center"><span class="loading dots"></span> {{ trans('request.loading') }}</h3>
-                    </div>
-
                     <div v-if="modalContent.responded && !modalContent.exported">
                         <form class="form-horizontal">
                             <div class="form-group">
@@ -198,13 +203,13 @@
                             </div>
                             <div class="form-group">
                                 <label for="exportForm-product-name" class="col-sm-2 col-sm-offset-1 control-label">{{ trans('request.field_product_name') }}</label>
-                                <div class="col-sm-5">
+                                <div class="col-sm-9">
                                     <textarea class="form-control" id="exportForm-product-name" v-model="exportForm.package.products" maxlength="60" required></textarea>
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label for="exportForm-amount" class="col-sm-2 col-sm-offset-1 control-label">{{ trans('request.field_product_amount') }}</label>
-                                <div class="col-sm-5">
+                                <div class="col-sm-9">
                                     <div class="input-group">
                                         <div class="input-group-addon">NT$</div>
                                         <input type="number" class="form-control" id="exportForm-amount" v-model="exportForm.package.amount" required>
@@ -213,7 +218,7 @@
                             </div>
                             <div class="form-group">
                                 <label for="exportForm-collect" class="col-sm-2 col-sm-offset-1 control-label">{{ trans('request.field_collect?') }}</label>
-                                <div class="col-sm-5">
+                                <div class="col-sm-9">
                                     <select class="form-control" id="exportForm-collect" v-model="exportForm.package.collect">
                                         <option value="false">{{ trans('request.status_no') }}</option>
                                         <option value="true">{{ trans('request.status_yes') }}</option>
@@ -224,7 +229,7 @@
                             <div v-if="modalContent.address_type == 'standard'">
                                 <div class="form-group">
                                     <label for="exportForm-vendor" class="col-sm-2 col-sm-offset-1 control-label">{{ trans('request.field_vendor') }}</label>
-                                    <div class="col-sm-5">
+                                    <div class="col-sm-9">
                                         <select class="form-control" id="exportForm-vendor" v-model="exportForm.package.vendor">
                                             <option value="TCAT">{{ trans('request.vendor_tcat') }}</option>
                                             <option value="ECAN">{{ trans('request.vendor_ecan') }}</option>
@@ -233,7 +238,7 @@
                                 </div>
                                 <div class="form-group">
                                     <label for="exportForm-temperature" class="col-sm-2 col-sm-offset-1 control-label">{{ trans('request.field_temperature') }}</label>
-                                    <div class="col-sm-5">
+                                    <div class="col-sm-9">
                                         <select class="form-control" id="exportForm-temperature" v-model="exportForm.package.temperature">
                                             <option value="normal">{{ trans('request.temperature_normal') }}</option>
                                             <option value="refrigeration">{{ trans('request.temperature_refrigeration') }}</option>
@@ -243,7 +248,7 @@
                                 </div>
                                 <div class="form-group">
                                     <label for="exportForm-distance" class="col-sm-2 col-sm-offset-1 control-label">{{ trans('request.field_distance') }}</label>
-                                    <div class="col-sm-5">
+                                    <div class="col-sm-9">
                                         <select class="form-control" id="exportForm-distance" v-model="exportForm.package.distance">
                                             <option value="other">{{ trans('request.distance_difference_county') }}</option>
                                             <option value="same">{{ trans('request.distance_local') }}</option>
@@ -253,7 +258,7 @@
                                 </div>
                                 <div class="form-group">
                                     <label for="exportForm-specification" class="col-sm-2 col-sm-offset-1 control-label">{{ trans('request.field_specification') }}</label>
-                                    <div class="col-sm-5">
+                                    <div class="col-sm-9">
                                         <select class="form-control" id="exportForm-specification" v-model="exportForm.package.specification">
                                             <option value="60">60cm</option>
                                             <option value="90">90cm</option>
@@ -271,13 +276,13 @@
                             </div>
                             <div class="form-group">
                                 <label for="exportForm-sender" class="col-sm-2 col-sm-offset-1 control-label">{{ trans('request.field_sender_name') }}</label>
-                                <div class="col-sm-5">
+                                <div class="col-sm-9">
                                     <input type="text" class="form-control" id="exportForm-sender" v-model="exportForm.sender.name" required>
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label for="exportForm-sender-phone" class="col-sm-2 col-sm-offset-1 control-label">{{ trans('request.field_sender_phone') }}</label>
-                                <div class="col-sm-5">
+                                <div class="col-sm-9">
                                     <input type="text" class="form-control" id="exportForm-sender-phone" v-model="exportForm.sender.phone" required>
                                 </div>
                             </div>
@@ -285,20 +290,20 @@
                             <div v-if="modalContent.address_type == 'standard'">
                                 <div class="form-group">
                                     <label for="exportForm-sender-postcode" class="col-sm-2 col-sm-offset-1 control-label">{{ trans('request.field_sender_postcode') }}</label>
-                                    <div class="col-sm-5">
+                                    <div class="col-sm-9">
                                         <input type="number" class="form-control" id="exportForm-sender-postcode" max="999" v-model="exportForm.sender.postcode" required>
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <label for="exportForm-sender-address" class="col-sm-2 col-sm-offset-1 control-label">{{ trans('request.field_sender_address') }}</label>
-                                    <div class="col-sm-5">
+                                    <div class="col-sm-9">
                                         <input type="text" class="form-control" id="exportForm-sender-address" name="sender_address" v-model="exportForm.sender.address" required>
                                     </div>
                                 </div>
                             </div> <!-- /v-if(type == standard) -->
 
                             <div class="form-group">
-                                <div class="col-sm-5 col-sm-offset-3">
+                                <div class="col-sm-9 col-sm-offset-3">
                                     <button type="button" class="btn btn-md btn-primary" v-on:click="exportTicket()">{{ trans('request.export_btn') }}</button>
                                 </div>
                             </div>
