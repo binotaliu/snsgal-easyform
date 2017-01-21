@@ -2,6 +2,7 @@
 
 namespace App\Console\Commands;
 
+use App\Repositories\ConfigRepository;
 use App\Repositories\CurrencyRepository;
 use App\Services\CurrencyService;
 use Illuminate\Console\Command;
@@ -33,16 +34,22 @@ class UpdateCurrencyRates extends Command
     protected $currencyRepository;
 
     /**
+     * @var ConfigRepository
+     */
+    protected $configRepository;
+
+    /**
      * Create a new command instance.
      * @param CurrencyService $currencyService
      * @param CurrencyRepository $currencyRepository
      */
-    public function __construct(CurrencyService $currencyService, CurrencyRepository $currencyRepository)
+    public function __construct(CurrencyService $currencyService, CurrencyRepository $currencyRepository, ConfigRepository $configRepository)
     {
         parent::__construct();
 
         $this->currencyService = $currencyService;
         $this->currencyRepository = $currencyRepository;
+        $this->configRepository = $configRepository;
     }
 
     /**
@@ -52,9 +59,11 @@ class UpdateCurrencyRates extends Command
      */
     public function handle()
     {
-        $rate = $this->currencyService->getLatestRate('JPY');
+        $rate = (float)$this->currencyService->getLatestRate('JPY');
+        $this->info("Un-modded rate: {$rate}");
+        $rate += $this->configRepository->getConfig('currency.jpy_mod');
         $this->currencyRepository->updateRate('JPY', $rate);
-        $this->info("Rate: {$rate}");
+        $this->info("Modded rate: {$rate}, updated");
         return;
     }
 }
