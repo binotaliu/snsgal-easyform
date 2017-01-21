@@ -360,17 +360,19 @@ const app = new Vue({
             });
         },
         showExtraServiceModal() {
-            this.extraServiceModal = this.extraServices;
+            this.extraServiceModal = _.clone(this.extraServices);
 
             $('#extra_service-modal').modal('show');
         },
         addExtraService() {
-            this.extraServiceModal.push({
+            let newService = {};
+            newService[Date.now()] = {
                 name: '',
                 price: 0,
                 show: true,
                 new: true
-            });
+            };
+            this.extraServiceModal = _.extend(newService, this.extraServiceModal);
         },
         removeExtraService(index) {
             if (this.extraServiceModal[index].new) {

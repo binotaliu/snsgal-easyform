@@ -700,7 +700,7 @@
 
                             <tbody>
                             <tr v-for="(service, index) in extraServiceModal">
-                                <td>@{{ index + 1 }}</td>
+                                <td>@{{ index }}</td>
                                 <td>
                                     <input type="name" v-model="extraServiceModal[index].name" class="form-control">
                                 </td>
