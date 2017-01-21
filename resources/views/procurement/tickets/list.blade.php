@@ -495,6 +495,12 @@
                                     </select>
                                 </td>
                             </tr>
+                            <tr>
+                                <td>{{ trans('configs.currency.jpy_mod') }}</td>
+                                <td>
+                                    <input type="number" v-model="configModal['currency.jpy_mod']" class="form-control">
+                                </td>
+                            </tr>
                         </tbody>
                     </table>
                 </div> {{-- /.modal-body --}}

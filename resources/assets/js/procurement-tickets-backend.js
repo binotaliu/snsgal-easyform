@@ -248,7 +248,7 @@ const app = new Vue({
             });
         },
         showConfigModal() {
-            this.configModal['procurement.minimum_fee'] = this.configs['procurement.minimum_fee'];
+            this.configModal = _.clone(this.configs);
             $('#config-modal').modal('show');
         },
         saveConfigs() {

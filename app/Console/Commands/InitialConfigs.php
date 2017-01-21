@@ -45,5 +45,6 @@ class InitialConfigs extends Command
     {
         $this->configRepository->addConfig('procurement.minimum_fee', 40);
         $this->configRepository->addConfig('procurement.default_category', 1);
+        $this->configRepository->addConfig('currency.jpy_mod', 0.01);
     }
 }
