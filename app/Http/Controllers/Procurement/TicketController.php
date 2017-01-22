@@ -45,15 +45,15 @@ class TicketController extends Controller
     protected $extraServiceRepository;
 
     protected $ticketValidation = [
-        'name' => 'required|max:256',
-        'email' => 'required|email|max:256',
-        'contact' => 'required|max:256',
-        'note' => 'max:512',
-        'items.*.url' => 'url|max:256',
+        'name' => 'required|max:255',
+        'email' => 'required|email|max:255',
+        'contact' => 'required|max:255',
+        'note' => 'max:255',
+        'items.*.url' => 'url|max:1023',
         'items.*.price' => 'required|numeric',
-        'items.*.title' => 'required|max:512',
-        'items.*.note' => 'max:512',
-        'japanShipments.*.title' => 'max:512',
+        'items.*.title' => 'required|max:255',
+        'items.*.note' => 'max:255',
+        'japanShipments.*.title' => 'max:255',
         'japanShipments.*.price' => 'numeric',
         'shipment' => 'numeric'
     ];
