@@ -77,7 +77,7 @@
                                                 <td width="20" class="text-center">@{{ index + 1 }}</td>
                                                 <td>@{{ item.title }}<br>
                                                     <small>
-                                                        <a v-bind:href="item.url" target="_blank">@{{ item.url }}</a>
+                                                        <a v-bind:href="item.url" target="_blank">@{{ item.url.substring(0, 70) + (item.url.length > 70 ? '...' : '') }}</a>
                                                     </small>
                                                 </td>
                                                 <td>@{{ item.note }}</td>

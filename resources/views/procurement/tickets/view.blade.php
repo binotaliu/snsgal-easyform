@@ -46,7 +46,7 @@
                                         </small>
                                         {{ $item->title }}<br>
                                         <small>
-                                            <a href="{{ $item->url }}">{{ $item->url }}</a>
+                                            <a href="{{ $item->url }}">{{ substr($item->url, 0, 70) . (strlen($item->url) > 70 ? '...' : '') }}</a>
                                         </small>
                                     </td>
                                     <td class="text-right">¥{{ Format::number($item->price, 0, '.', ',') }}</td>
