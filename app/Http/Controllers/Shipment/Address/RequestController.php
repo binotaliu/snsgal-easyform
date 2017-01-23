@@ -225,6 +225,16 @@ class RequestController extends Controller
         }
     }
 
+    public function print(string $token)
+    {
+
+        $request = $this->requestRepository->getRequest($token);
+        if (!$request) return abort(404, 'Request Not Found');
+        if (!$request->exported) return abort(500, 'Request Haven\'t been exported.');
+
+        return $this->ecpayLogisticsService->printTicket($request->cvs_address->vendor, $request->exported, $request->shipment_ticket_id, $request->shipment_validation);
+    }
+
     /**
      * Save the address user responded
      * @param String $token

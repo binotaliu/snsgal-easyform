@@ -5,6 +5,7 @@ return [
     'status_no' => '否',
     'submit' => '送出',
     'cancel' => '取消',
+    'btn_print' => '列印',
 
     'type_cvs' => '超商',
     'type_standard' => '宅配',

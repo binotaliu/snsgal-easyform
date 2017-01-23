@@ -32,6 +32,7 @@ Route::group(['namespace' => 'Shipment'], function () {
 
         Route::group(['middleware' => ['auth', 'admin']], function () {
             Route::get('/requests', 'Address\RequestController@view'); // vue handle
+            Route::get('/requests/{token}/print', 'Address\RequestController@print');
         });
     });
 

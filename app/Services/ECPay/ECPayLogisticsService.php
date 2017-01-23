@@ -21,4 +21,17 @@ class ECPayLogisticsService
         if ($time == 0) $time = time();
         return ECPayLogistics::CreateTicket($id, $time);
     }
+
+    public function printTicket(string $vendor, string $ecpayId, string $ticketId, $validation = ''): string
+    {
+        $print = ECPayLogistics::PrintTicket();
+        $print = $print->vendor($vendor . 'C2C')
+            ->ecpayId($ecpayId)
+            ->shipmentId($ticketId);
+        if (!empty($validation)) {
+            $print = $print->validation($validation);
+        }
+        $print = $print->print();
+        return $print->makeForm();
+    }
 }
