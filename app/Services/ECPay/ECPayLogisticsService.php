@@ -5,7 +5,7 @@ namespace App\Services\ECPay;
 
 
 use Binota\ECPay\ECPay;
-use Binota\ECPay\Logistic\Ticket as LogisticsTicket;
+use Binota\ECPay\Logistics\Ticket as LogisticsTicket;
 
 class ECPayLogisticsService
 {
@@ -24,6 +24,6 @@ class ECPayLogisticsService
     public function createTicket(string $id, int $time = 0): LogisticsTicket
     {
         if ($time == 0) $time = time();
-        return $this->ecpayClient->getLogisticFactory()->makeTicket($id, $time);
+        return $this->ecpayClient->getLogisticsFactory()->makeTicket($id, $time);
     }
 }
