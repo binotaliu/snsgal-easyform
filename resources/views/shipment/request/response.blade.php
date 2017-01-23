@@ -100,7 +100,7 @@
 @endsection
 
 @section('footer')
-    <script src="{{ elixir('js/requests.js') }}"></script>
+    <script src="{{ elixir('js/shipment-requests.js') }}"></script>
     <script>
         (function() {
             "use strict";

@@ -464,5 +464,5 @@
     <script>
         var EcpayCodes = {!! json_encode($ecpay_codes) !!};
     </script>
-    <script src="{{ elixir('js/backend-requests.js') }}"></script>
+    <script src="{{ elixir('js/shipment-requests-backend.js') }}"></script>
 @endsection

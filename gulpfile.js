@@ -16,8 +16,8 @@ require('laravel-elixir-vue-2');
 elixir(mix => {
     mix.sass('app.scss')
         .webpack('app.js')
-        .webpack('requests.js')
-        .webpack('backend-requests.js')
+        .webpack('shipment-requests.js')
+        .webpack('shipment-requests-backend.js')
         .webpack('procurement-tickets-new.js')
         .webpack('procurement-tickets-backend.js');
 
@@ -26,8 +26,8 @@ elixir(mix => {
     mix.version([
         'css/app.css',
         'js/app.js',
-        'js/requests.js',
-        'js/backend-requests.js',
+        'js/shipment-requests.js',
+        'js/shipment-requests-backend.js',
         'js/procurement-tickets-new.js',
         'js/procurement-tickets-backend.js',
     ]);
