@@ -76,10 +76,12 @@ const app = new Vue({
         fetchRequests: function () {
             let resource = this.$resource('/api/shipment/requests');
 
+            Splash.enable('windcatcher');
             return resource.get().then((response) => {
                 return response.json();
             }).then((json) => {
                 this.$set(this, 'requests', json);
+                Splash.destroy();
                 return json;
             });
         },

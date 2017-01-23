@@ -6,6 +6,7 @@ return [
     'submit' => 'Submit',
     'cancel' => 'Cancel',
     'btn_print' => 'Print',
+    'btn_refresh' => 'Refresh',
 
     'type_cvs' => 'CVS',
     'type_standard' => 'Standard',

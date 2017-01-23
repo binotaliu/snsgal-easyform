@@ -19,6 +19,9 @@
                         <button type="button" v-on:click="showSender()" class="btn btn-default">
                             <i class="fa fa-address-card"></i> {{ trans('request.profile_btn') }}
                         </button>
+                        <button type="button" v-on:click="fetchRequests()" class="btn btn-default">
+                            <i class="fa fa-refresh"></i> {{ trans('request.btn_refresh') }}
+                        </button>
                     </div>
                 </div>
             </div>

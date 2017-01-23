@@ -6,6 +6,7 @@ return [
     'submit' => '送出',
     'cancel' => '取消',
     'btn_print' => '列印',
+    'btn_refresh' => '重新整理',
 
     'type_cvs' => '超商',
     'type_standard' => '宅配',
