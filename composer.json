@@ -9,7 +9,8 @@
         "laravel/framework": "5.3.*",
         "ramsey/uuid": "^3.5",
         "binota/ecpay-sdk": "dev-master",
-        "matriphe/format": "^1.6"
+        "matriphe/format": "^1.6",
+        "doctrine/dbal": "^2.5"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",
@@ -18,7 +19,6 @@
         "symfony/css-selector": "3.1.*",
         "symfony/dom-crawler": "3.1.*",
         "barryvdh/laravel-ide-helper": "^2.2",
-        "doctrine/dbal": "^2.5",
         "barryvdh/laravel-debugbar": "^2.3"
     },
     "autoload": {
