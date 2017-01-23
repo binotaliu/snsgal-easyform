@@ -227,6 +227,9 @@ return [
         'View' => Illuminate\Support\Facades\View::class,
 
         'Format' => Matriphe\Format\Facades\FormatFacade::class,
+
+        'ECPay' => Binota\ECPay\Facades\ECPayFacade::class,
+        'ECPayLogistics' => Binota\ECPay\Facades\LogisticsFacade::class,
     ],
 
 ];

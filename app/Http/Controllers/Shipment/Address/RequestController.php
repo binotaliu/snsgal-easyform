@@ -8,8 +8,7 @@ use App\Repositories\Shipment\AddressRepository;
 use App\Repositories\Shipment\Address\RequestRepository;
 use App\Services\ECPay\ECPayLogisticsService;
 use Auth;
-use Binota\ECPay\ECPay;
-use Binota\ECPay\Response as ECPayResponse;
+use ECPay;
 use Illuminate\Http\Request;
 
 class RequestController extends Controller
@@ -112,7 +111,7 @@ class RequestController extends Controller
         $request = $this->requestRepository->getRequest($token);
         if (!$request) return abort(404, 'Request Not Found');
 
-        $ticket = $this->ecpayLogisticsService->createTicket($request->id . '' . substr($token, 0, 8), strtotime($request->created_at));
+        $ticket = $this->ecpayLogisticsService->createTicket($request->id . '-' . substr($token, 0, 8), strtotime($request->created_at));
 
         $ticket = $ticket
             ->amount($req->input('package')['amount'])
@@ -120,7 +119,7 @@ class RequestController extends Controller
             ->replyServer(url("/shipment/requests/{$token}/notify"))
             ->replyC2C(url("/shipment/requests/{$token}/notify"))
             ->products([$req->input('package')['products']])
-            ->remark($token)
+            ->remark($token . "\n" . $request->description)
             ->vendor($request->address_type == 'standard' ? $req->input('package')['vendor'] : $request->cvs_address->vendor . 'C2C');
 
         if ($request->address_type == 'standard') {
@@ -208,7 +207,8 @@ class RequestController extends Controller
             'CVSValidationNo' => $req->input('CVSValidationNo'),
             'BookingNote' => $req->input('BookingNote')
         ];
-        new ECPayResponse(env('ECPAY_MERCHANTID'), env('ECPAY_HASHIV'), env('ECPAY_HASHKEY'), $ecpayData);
+
+        ECPay::HandleResponse($ecpayData);
 
         $this->requestRepository->updateRequest($token, $request->title, $request->description, $req->input('AllPayLogisticsID'));
 
