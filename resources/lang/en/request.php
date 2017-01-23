@@ -39,6 +39,8 @@ return [
     'field_shipping' => 'Shipping Method',
     'field_responded?' => 'Responded?',
     'field_exported?' => 'Exported?',
+    'field_shipping_status' => 'Shipping Status',
+    'field_shipment_ticket_id' => 'Shipping ID',
     'field_actions' => 'Actions',
 
     'field_receiver' => 'Receiver',
@@ -66,6 +68,8 @@ return [
     'field_temperature' => 'Temperature',
     'field_distance' => 'Distance',
     'field_specification' => 'Specification',
+
+    'field_na' => 'N/A',
 
     'create_btn' => 'New Request',
     'create_title' => 'New Request',

@@ -96,6 +96,21 @@ class RequestRepository
     }
 
     /**
+     * Update request shipment status
+     * @param string $token
+     * @param string $shipmentId
+     * @param int $status
+     * @return bool
+     */
+    public function updateRequestShipment(string $token, string $shipmentId, int $status): bool
+    {
+        return $this->request->where('token', $token)->update([
+            'shipment_ticket_id' => $shipmentId,
+            'shipment_status' => $status
+        ]);
+    }
+
+    /**
      * Remove specified request
      * @param string $token
      */

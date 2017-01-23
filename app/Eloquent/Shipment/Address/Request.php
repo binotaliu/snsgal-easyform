@@ -37,6 +37,10 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property bool $archived
  * @method static \Illuminate\Database\Query\Builder|\App\Eloquent\Shipment\Address\Request whereArchived($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Eloquent\Shipment\Address\Request archived($archived = true)
+ * @property string $shipment_ticket_id
+ * @property int $shipment_status
+ * @method static \Illuminate\Database\Query\Builder|\App\Eloquent\Shipment\Address\Request whereShipmentTicketId($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Eloquent\Shipment\Address\Request whereShipmentStatus($value)
  */
 class Request extends Model
 {

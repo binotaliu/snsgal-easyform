@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Shipment\Address;
 
+use App\Codes\Shipment\EcpayShipmentStatus;
 use App\Http\Controllers\Controller;
 use App\Repositories\Shipment\AddressRepository;
 use App\Repositories\Shipment\Address\RequestRepository;
@@ -34,7 +35,9 @@ class RequestController extends Controller
      */
     public function view()
     {
-        return view('shipment.requests');
+        return view('shipment.requests', [
+            'ecpay_codes' => EcpayShipmentStatus::getCodes()
+        ]);
     }
 
     /**
@@ -149,6 +152,11 @@ class RequestController extends Controller
         $ecpayRequest = $ticket->create($request->address_type == 'cvs' ? 'cvs' : 'home');
         $ecpayResponse = $ecpayRequest->send();
         $this->requestRepository->updateRequest($token, $request->title, $request->description, $ecpayResponse->data('AllPayLogisticsID'));
+
+        $ecpayStatus = $ecpayResponse->data('RtnCode');
+        $ecpayShipmentId = $ecpayResponse->data('CVSPaymentNo');
+        $this->requestRepository->updateRequestShipment($token, $ecpayShipmentId, $ecpayStatus);
+
         return $ecpayResponse->all();
     }
 
@@ -196,6 +204,10 @@ class RequestController extends Controller
         new ECPayResponse(env('ECPAY_MERCHANTID'), env('ECPAY_HASHIV'), env('ECPAY_HASHKEY'), $ecpayData);
 
         $this->requestRepository->updateRequest($token, $request->title, $request->description, $req->input('AllPayLogisticsID'));
+
+        $ecpayStatus = $req->input('RtnCode');
+        $ecpayShipmentId = $req->input('CVSPaymentNo');
+        $this->requestRepository->updateRequestShipment($token, $ecpayShipmentId, $ecpayStatus);
 
         if(Auth::guest()) {
             return '1|OK';
