@@ -5,6 +5,7 @@ const app = new Vue({
     data: {
         modalContent: {},
         archive: 0,
+        ecpayCodes: EcpayCodes,
         sender: {
             name: '',
             phone: '',
@@ -44,7 +45,6 @@ const app = new Vue({
     },
     computed: {
         filteredRequests() {
-            console.log(this.filter);
             let filtered = [];
             for (let i in this.requests) {
                 let request = this.requests[i];

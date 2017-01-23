@@ -69,13 +69,14 @@
                             <div class="col-sm-12">
                                 <table class="table table-striped">
                                     <thead><tr>
-                                        <td width="50" class="text-center">#</td>
-                                        <td width=160">{{ trans('request.field_created_updated_time') }}</td>
-                                        <td>{{ trans('request.field_title') }}</td>
-                                        <td width="60" class="text-center">{{ trans('request.field_type') }}</td>
-                                        <td width="80" class="text-center">{{ trans('request.field_responded?') }}</td>
-                                        <td width="80" class="text-center">{{ trans('request.field_exported?') }}</td>
-                                        <td width="160">{{ trans('request.field_actions') }}</td>
+                                        <th width="50" class="text-center">#</th>
+                                        <th width=160">{{ trans('request.field_created_updated_time') }}</th>
+                                        <th>{{ trans('request.field_title') }}</th>
+                                        <th width="60" class="text-center">{{ trans('request.field_type') }}</th>
+                                        <th width="80" class="text-center">{{ trans('request.field_responded?') }}</th>
+                                        <th width="80" class="text-center">{{ trans('request.field_exported?') }}</th>
+                                        <th width="240">{{ trans('request.field_shipping_status') }}</th>
+                                        <th width="110">{{ trans('request.field_actions') }}</th>
                                     </tr></thead>
                                     <tbody>
                                     <tr v-for="(request, index) in filteredRequests">
@@ -110,13 +111,17 @@
                                             <span class="label label-warning"><i class="fa fa-close"></i></span>
                                         </td>
 
+                                        <td v-if="request.exported">ID: @{{ request.shipment_ticket_id }}<br>
+                                            <small>@{{ request.shipment_status }} @{{ ecpayCodes[request.shipment_status].message }}</small></td>
+                                        <td v-else>{{ trans('request.field_na') }}</td>
+
                                         <td>
                                             <div class="btn-group">
                                                 <button class="btn btn-default" v-on:click="showRequest(index)">
-                                                    <i class="fa fa-eye"></i> {{ trans('request.detail_btn') }}
+                                                    <i class="fa fa-eye"></i>
                                                 </button>
                                                 <button class="btn btn-warning" v-on:click="confirmArchive(index)">
-                                                    <i class="fa fa-archive"></i> {{ trans('request.archive_btn') }}
+                                                    <i class="fa fa-archive"></i>
                                                 </button>
                                             </div>
                                         </td>
@@ -146,7 +151,7 @@
                     <table class="table table-striped">
                         <tbody>
                             <tr>
-                                <th width="90" class="text-right">{{ trans('request.field_id') }}</th>
+                                <th width="140" class="text-right">{{ trans('request.field_id') }}</th>
                                 <td>@{{ modalContent.id }}</td>
                             </tr>
                             <tr>
@@ -175,6 +180,21 @@
                                 <td v-else>
                                     <span class="label label-warning"><i class="fa fa-close"></i></span>
                                 </td>
+                            </tr>
+                            <tr>
+                                <th class="text-right">{{ trans('request.field_shipping_status') }}</th>
+                                <td v-if="modalContent.exported">
+                                    @{{ modalContent.shipment_status }} @{{ ecpayCodes[modalContent.shipment_status].message }}<br>
+                                    @{{ ecpayCodes[modalContent.shipment_status].description }}
+                                </td>
+                                <td v-else>{{ trans('request.field_na') }}</td>
+                            </tr>
+                            <tr>
+                                <th class="text-right">{{ trans('request.field_shipment_ticket_id') }}</th>
+                                <td v-if="modalContent.exported">
+                                    @{{ modalContent.shipment_ticket_id }}
+                                </td>
+                                <td v-else>{{ trans('request.field_na') }}</td>
                             </tr>
                         </tbody>
                     </table>
@@ -441,5 +461,8 @@
 @endsection
 
 @section('footer')
+    <script>
+        var EcpayCodes = {!! json_encode($ecpay_codes) !!};
+    </script>
     <script src="{{ elixir('js/backend-requests.js') }}"></script>
 @endsection
