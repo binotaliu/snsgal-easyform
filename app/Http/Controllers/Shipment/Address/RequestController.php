@@ -75,7 +75,10 @@ class RequestController extends Controller
         if (!$request) return abort(404, 'Request Not Found');
 
         if ($request->responded) {
-            return view('shipment.request.response.success');
+            return view('shipment.request.response.success', [
+                'request' => $request,
+                'ecpay_status' => EcpayShipmentStatus::getCode($request->shipment_status)
+            ]);
         }
 
         switch ($request->address_type) {
