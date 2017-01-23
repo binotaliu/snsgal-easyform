@@ -6,6 +6,7 @@ use App\Codes\Shipment\EcpayShipmentStatus;
 use App\Http\Controllers\Controller;
 use App\Repositories\Shipment\AddressRepository;
 use App\Repositories\Shipment\Address\RequestRepository;
+use App\Services\ECPay\ECPayLogisticsService;
 use Auth;
 use Binota\ECPay\ECPay;
 use Binota\ECPay\Response as ECPayResponse;
@@ -23,10 +24,16 @@ class RequestController extends Controller
      */
     protected $addressRepository;
 
-    public function __construct(RequestRepository $requestRepository, AddressRepository $addressRepository)
+    /**
+     * @var ECPayLogisticsService
+     */
+    protected $ecpayLogisticsService;
+
+    public function __construct(RequestRepository $requestRepository, AddressRepository $addressRepository, ECPayLogisticsService $ecpayLogisticsService)
     {
         $this->requestRepository = $requestRepository;
         $this->addressRepository = $addressRepository;
+        $this->ecpayLogisticsService = $ecpayLogisticsService;
     }
 
     /**
@@ -77,7 +84,7 @@ class RequestController extends Controller
         if ($request->responded) {
             return view('shipment.request.response.success', [
                 'request' => $request,
-                'ecpay_status' => EcpayShipmentStatus::getCode($request->shipment_status)
+                'ecpay_status' => $request->shipment_status ? EcpayShipmentStatus::getCode($request->shipment_status) : ''
             ]);
         }
 
@@ -105,10 +112,7 @@ class RequestController extends Controller
         $request = $this->requestRepository->getRequest($token);
         if (!$request) return abort(404, 'Request Not Found');
 
-
-        $ecpay = new ECPay(env('ECPAY_MERCHANTID'), env('ECPAY_HASHKEY'), env('ECPAY_HASHIV'));
-        $ticket = $ecpay->getLogisticFactory()
-            ->makeTicket($request->id . '' . substr($token, 0, 8) . '' . rand(1, 999), strtotime($request->created_at));
+        $ticket = $this->ecpayLogisticsService->createTicket($request->id . '' . substr($token, 0, 8), strtotime($request->created_at));
 
         $ticket = $ticket
             ->amount($req->input('package')['amount'])
@@ -266,7 +270,7 @@ class RequestController extends Controller
                 return abort(500, 'Unknown Address Type');
                 break;
         }
-        return view('shipment.request.response.success');
+        return redirect("/shipment/requests/{$token}");
     }
 
     /**

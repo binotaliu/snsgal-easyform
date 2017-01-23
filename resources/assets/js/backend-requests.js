@@ -175,13 +175,11 @@ const app = new Vue({
             }, (response) => {
                 // @TODO: error handle
             }).then((json) => {
-                let index = this.requests.findIndex((i) => {
-                    return (i.token == this.modalContent.token)
+                this.fetchRequests().then(response => {
+                    $('#request-modal').modal('hide');
+                    Splash.destroy();
                 });
 
-                this.requests[index].exported = json.AllPayLogisticsID;
-                $('#request-modal').modal('hide');
-                Splash.destroy();
                 return json;
             });
         }
