@@ -161,7 +161,8 @@ class RequestController extends Controller
 
         $ecpayStatus = $ecpayResponse->data('RtnCode');
         $ecpayShipmentId = $ecpayResponse->data('CVSPaymentNo');
-        $this->requestRepository->updateRequestShipment($token, $ecpayShipmentId, $ecpayStatus);
+        $ecpayShipmentValidation = $ecpayResponse->data('CVSValidationNo');
+        $this->requestRepository->updateRequestShipment($token, $ecpayShipmentId, $ecpayShipmentValidation, $ecpayStatus);
 
         return $ecpayResponse->all();
     }
@@ -214,7 +215,8 @@ class RequestController extends Controller
 
         $ecpayStatus = $req->input('RtnCode');
         $ecpayShipmentId = $req->input('CVSPaymentNo');
-        $this->requestRepository->updateRequestShipment($token, $ecpayShipmentId, $ecpayStatus);
+        $ecpayShipmentValidation = $req->input('CVSValidationNo') ?? '';
+        $this->requestRepository->updateRequestShipment($token, $ecpayShipmentId, $ecpayShipmentValidation, $ecpayStatus);
 
         if(Auth::guest()) {
             return '1|OK';

@@ -41,6 +41,8 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property int $shipment_status
  * @method static \Illuminate\Database\Query\Builder|\App\Eloquent\Shipment\Address\Request whereShipmentTicketId($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Eloquent\Shipment\Address\Request whereShipmentStatus($value)
+ * @property string $shipment_validation
+ * @method static \Illuminate\Database\Query\Builder|\App\Eloquent\Shipment\Address\Request whereShipmentValidation($value)
  */
 class Request extends Model
 {
