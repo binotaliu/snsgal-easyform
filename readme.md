@@ -1,13 +1,13 @@
 # SNSGAL
 
-![Build Status](https://travis-ci.com/BinotaLIU/snsgal-easyform.svg?token=pyTLBzEbQYxLQwzeYMoH&branch=master)
+[![CircleCI](https://circleci.com/gh/BinotaLIU/snsgal-easyform/tree/master.svg?style=svg&circle-token=9adc6b8fd499e985fa72547af680ede8d5741942)](https://circleci.com/gh/BinotaLIU/snsgal-easyform/tree/master)
 
 ## Building
 ```
 composer install
-php artisan key:generate
 cp .env.example .env
 vi .env
+php artisan key:generate
 php artisan migrate
 yarn install
 gulp --production # or just gulp if you're in developing
