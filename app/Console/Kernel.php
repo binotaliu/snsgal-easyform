@@ -16,6 +16,7 @@ class Kernel extends ConsoleKernel
         Commands\UpdateCurrencyRates::class,
         Commands\InitialConfigs::class,
         Commands\SetConfig::class,
+        Commands\UserOp::class,
     ];
 
     /**
