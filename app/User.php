@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Notifications\User\ResetPasswordNotification;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
@@ -55,5 +56,10 @@ class User extends Authenticatable
     public function requestProfile()
     {
         return $this->hasOne('App\Eloquent\User\RequestProfile');
+    }
+
+    public function sendPasswordResetNotification($token)
+    {
+        $this->notify(new ResetPasswordNotification($token));
     }
 }

@@ -13,12 +13,12 @@ return [
     |
     */
 
-    'failed' => 'These credentials do not match our records.',
-    'throttle' => 'Too many login attempts. Please try again in :seconds seconds.',
+    'failed' => '所輸入的資料不符合記錄',
+    'throttle' => '嘗試次數過多，請於 :seconds 秒後重試',
 
-    'email_reset_subject' => 'Reset Password',
-    'email_reset_intro' => 'You are receiving this email because we received a password reset request for your account.',
-    'email_reset_action' => 'Reset Password',
-    'email_reset_salutation' => 'If you did not request a password reset, no further action is required.',
+    'email_reset_subject' => '重設密碼',
+    'email_reset_intro' => '由於您要求重設密碼，故會收到此郵件，',
+    'email_reset_action' => '重設密碼',
+    'email_reset_salutation' => '若您未要求要重設密碼，則不需進行任何操作。',
 
 ];
