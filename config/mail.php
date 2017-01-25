@@ -56,8 +56,8 @@ return [
     */
 
     'from' => [
-        'address' => 'hello@example.com',
-        'name' => 'Example',
+        'address' => 'no-reply@snsgal.com',
+        'name' => env('APP_NAME', '穹ノ空'),
     ],
 
     /*
