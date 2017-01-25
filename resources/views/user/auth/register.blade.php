@@ -9,7 +9,7 @@
             <div class="panel panel-default">
                 <div class="panel-heading">Register</div>
                 <div class="panel-body">
-                    <form role="form" method="POST" action="{{ url('/register') }}">
+                    <form role="form" method="POST" action="{{ url('/user/register') }}">
                         {{ csrf_field() }}
 
                         <div class="form-group{{ $errors->has('name') ? ' has-error' : '' }}">

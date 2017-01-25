@@ -19,7 +19,9 @@ Route::get('/', function () {
     }
 });
 
-Auth::routes();
+Route::group(['prefix' => 'user'], function () {
+    Auth::routes();
+});
 
 Route::get('/home', 'HomeController@index');
 

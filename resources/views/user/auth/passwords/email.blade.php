@@ -16,7 +16,7 @@
                         </div>
                     @endif
 
-                    <form role="form" method="POST" action="{{ url('/password/email') }}">
+                    <form role="form" method="POST" action="{{ url('/user/password/email') }}">
                         {{ csrf_field() }}
 
                         <div class="form-group{{ $errors->has('email') ? ' has-error' : '' }}">

@@ -16,7 +16,7 @@
                         </div>
                     @endif
 
-                    <form role="form" method="POST" action="{{ url('/password/reset') }}">
+                    <form role="form" method="POST" action="{{ url('/user/password/reset') }}">
                         {{ csrf_field() }}
 
                         <input type="hidden" name="token" value="{{ $token }}">

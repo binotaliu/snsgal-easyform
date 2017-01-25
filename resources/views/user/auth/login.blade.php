@@ -9,7 +9,7 @@
             <div class="panel panel-default">
                 <div class="panel-heading">Login</div>
                 <div class="panel-body">
-                    <form role="form" method="POST" action="{{ url('/login') }}">
+                    <form role="form" method="POST" action="{{ url('/user/login') }}">
                         {{ csrf_field() }}
 
                         <div class="form-group{{ $errors->has('email') ? ' has-error' : '' }}">
@@ -50,7 +50,7 @@
                             </button>
                         </div>
                         <div class="form-group">
-                            <a class="btn btn-link" href="{{ url('/password/reset') }}">
+                            <a class="btn btn-link" href="{{ url('/user/password/reset') }}">
                                 Forgot Your Password?
                             </a>
                         </div>
