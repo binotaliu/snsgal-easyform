@@ -112,11 +112,11 @@ const app = new Vue({
 
             this.exportForm.package.products = '';
             this.exportForm.package.amount = 0;
-            this.exportForm.package.collect = false;
+            this.exportForm.package.collect = 'N';
             this.exportForm.package.vendor = 'TCAT';
-            this.exportForm.package.temperature = 'normal';
-            this.exportForm.package.distance = 'other';
-            this.exportForm.package.specification = '60';
+            this.exportForm.package.temperature = '0001';
+            this.exportForm.package.distance = '01';
+            this.exportForm.package.specification = '0001';
             $('#request-modal').modal('show');
         },
         confirmArchive: function (index) {

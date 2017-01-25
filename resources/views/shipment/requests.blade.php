@@ -73,7 +73,7 @@
                                 <table class="table table-striped">
                                     <thead><tr>
                                         <th width="50" class="text-center">#</th>
-                                        <th width=160">{{ trans('request.field_created_updated_time') }}</th>
+                                        <th width="160">{{ trans('request.field_created_updated_time') }}</th>
                                         <th>{{ trans('request.field_title') }}</th>
                                         <th width="60" class="text-center">{{ trans('request.field_type') }}</th>
                                         <th width="80" class="text-center">{{ trans('request.field_responded?') }}</th>
@@ -246,8 +246,8 @@
                                 <label for="exportForm-collect" class="col-sm-2 col-sm-offset-1 control-label">{{ trans('request.field_collect?') }}</label>
                                 <div class="col-sm-9">
                                     <select class="form-control" id="exportForm-collect" v-model="exportForm.package.collect">
-                                        <option value="false">{{ trans('request.status_no') }}</option>
-                                        <option value="true">{{ trans('request.status_yes') }}</option>
+                                        <option value="{{ $collections['NO'] }}">{{ trans('request.status_no') }}</option>
+                                        <option value="{{ $collections['YES'] }}">{{ trans('request.status_yes') }}</option>
                                     </select>
                                 </div>
                             </div>
@@ -257,8 +257,8 @@
                                     <label for="exportForm-vendor" class="col-sm-2 col-sm-offset-1 control-label">{{ trans('request.field_vendor') }}</label>
                                     <div class="col-sm-9">
                                         <select class="form-control" id="exportForm-vendor" v-model="exportForm.package.vendor">
-                                            <option value="TCAT">{{ trans('request.vendor_tcat') }}</option>
-                                            <option value="ECAN">{{ trans('request.vendor_ecan') }}</option>
+                                            <option value="{{ $vendors['TCAT'] }}">{{ trans('request.vendor_tcat') }}</option>
+                                            <option value="{{ $vendors['ECAN'] }}">{{ trans('request.vendor_ecan') }}</option>
                                         </select>
                                     </div>
                                 </div>
@@ -266,9 +266,9 @@
                                     <label for="exportForm-temperature" class="col-sm-2 col-sm-offset-1 control-label">{{ trans('request.field_temperature') }}</label>
                                     <div class="col-sm-9">
                                         <select class="form-control" id="exportForm-temperature" v-model="exportForm.package.temperature">
-                                            <option value="normal">{{ trans('request.temperature_normal') }}</option>
-                                            <option value="refrigeration">{{ trans('request.temperature_refrigeration') }}</option>
-                                            <option value="freeze">{{ trans('request.temperature_freezing') }}</option>
+                                            <option value="{{ $temperature['NORMAL'] }}">{{ trans('request.temperature_normal') }}</option>
+                                            <option value="{{ $temperature['REFRIGERATION'] }}">{{ trans('request.temperature_refrigeration') }}</option>
+                                            <option value="{{ $temperature['FREEZE'] }}">{{ trans('request.temperature_freezing') }}</option>
                                         </select>
                                     </div>
                                 </div>
@@ -276,9 +276,9 @@
                                     <label for="exportForm-distance" class="col-sm-2 col-sm-offset-1 control-label">{{ trans('request.field_distance') }}</label>
                                     <div class="col-sm-9">
                                         <select class="form-control" id="exportForm-distance" v-model="exportForm.package.distance">
-                                            <option value="other">{{ trans('request.distance_difference_county') }}</option>
-                                            <option value="same">{{ trans('request.distance_local') }}</option>
-                                            <option value="island">{{ trans('request.distance_outer_island') }}</option>
+                                            <option value="{{ $distance['OTHER'] }}">{{ trans('request.distance_difference_county') }}</option>
+                                            <option value="{{ $distance['SAME'] }}">{{ trans('request.distance_local') }}</option>
+                                            <option value="{{ $distance['ISLAND'] }}">{{ trans('request.distance_outer_island') }}</option>
                                         </select>
                                     </div>
                                 </div>
@@ -286,10 +286,10 @@
                                     <label for="exportForm-specification" class="col-sm-2 col-sm-offset-1 control-label">{{ trans('request.field_specification') }}</label>
                                     <div class="col-sm-9">
                                         <select class="form-control" id="exportForm-specification" v-model="exportForm.package.specification">
-                                            <option value="60">60cm</option>
-                                            <option value="90">90cm</option>
-                                            <option value="120">120cm</option>
-                                            <option value="150">150cm</option>
+                                            <option value="{{ $specifications['CM60'] }}">60cm</option>
+                                            <option value="{{ $specifications['CM90'] }}">90cm</option>
+                                            <option value="{{ $specifications['CM120'] }}">120cm</option>
+                                            <option value="{{ $specifications['CM150'] }}">150cm</option>
                                         </select>
                                     </div>
                                 </div>

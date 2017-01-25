@@ -3,11 +3,18 @@
 namespace App\Http\Controllers\Shipment\Address;
 
 use App\Codes\Shipment\EcpayShipmentStatus;
+use App\Exceptions\Shipment\Address\InvalidTypeException;
 use App\Http\Controllers\Controller;
 use App\Repositories\Shipment\AddressRepository;
 use App\Repositories\Shipment\Address\RequestRepository;
 use App\Services\ECPay\ECPayLogisticsService;
 use Auth;
+use Binota\ECPay\Logistics\Enum\Collection;
+use Binota\ECPay\Logistics\Enum\Distance;
+use Binota\ECPay\Logistics\Enum\Specification;
+use Binota\ECPay\Logistics\Enum\Temperature;
+use Binota\ECPay\Logistics\Enum\Time;
+use Binota\ECPay\Logistics\Enum\Vendor;
 use ECPay;
 use Illuminate\Http\Request;
 
@@ -42,7 +49,13 @@ class RequestController extends Controller
     public function view()
     {
         return view('shipment.requests', [
-            'ecpay_codes' => EcpayShipmentStatus::getCodes()
+            'ecpay_codes' => EcpayShipmentStatus::getCodes(),
+            'temperature' => Temperature::getConstants(),
+            'time' => Time::getConstants(),
+            'distance' => Distance::getConstants(),
+            'specifications' => Specification::getConstants(),
+            'vendors' => Vendor::getConstants(),
+            'collections' => Collection::getConstants()
         ]);
     }
 
@@ -114,53 +127,47 @@ class RequestController extends Controller
         $ticket = $this->ecpayLogisticsService->createTicket($request->id . '-' . substr($token, 0, 8), strtotime($request->created_at));
 
         $ticket = $ticket
-            ->amount($req->input('package')['amount'])
-            ->collect($req->input('package')['collect'])
-            ->replyServer(url("/shipment/requests/{$token}/notify"))
-            ->replyC2C(url("/shipment/requests/{$token}/notify"))
-            ->products([$req->input('package')['products']])
-            ->remark($token . "\n" . $request->description)
-            ->vendor($request->address_type == 'standard' ? $req->input('package')['vendor'] : $request->cvs_address->vendor . 'C2C');
+            ->setVendor($request->address_type == 'standard' ? $req->input('package')['vendor'] : $request->cvs_address->vendor)
+            ->useC2C()
+            ->setAmount($req->input('package')['amount'])
+            ->setCollection($req->input('package')['collect'] ? $req->input('package')['amount'] : 0)
+            ->setServerReplyUrl(url("/shipment/requests/{$token}/notify"))
+            ->setC2CReplyUrl(url("/shipment/requests/{$token}/notify"))
+            ->setGoods([$req->input('package')['products']])
+            ->setRemark($token . "\n" . $request->description)
+            ->setSenderName($req->input('sender')['name'])
+            ->setSenderCellPhone($req->input('sender')['phone']);
+
 
         if ($request->address_type == 'standard') {
             $ticket = $ticket
-                ->sender(
-                    $req->input('sender')['name'],
-                    null,
-                    $req->input('sender')['phone'],
-                    $req->input('sender')['postcode'],
-                    $req->input('sender')['address'])
-                ->receiver(
-                    $request->standard_address->receiver,
-                    null,
-                    $request->standard_address->phone,
-                    $request->standard_address->postcode,
+                ->setReceiverName($request->standard_address->receiver)
+                ->setReceiverCellPhone($request->standard_address->phone)
+                ->setSenderZipCode($req->input('sender')['postcode'])
+                ->setSenderAddress($req->input('sender')['address'])
+                ->setReceiverZipCode($request->standard_address->postcode)
+                ->setReceiverAddress(
                     $request->standard_address->county . $request->standard_address->city .
                         $request->standard_address->address1 . ' ' . $request->standard_address->address2)
-                ->temperature($req->input('package')['temperature'])
-                ->distance($req->input('package')['distance'])
-                ->specification($req->input('package')['specification'])
-                ->deliveryAt($request->standard_address->time)
-                ->package(1);
+                ->setTemperature($req->input('package')['temperature'])
+                ->setDistance($req->input('package')['distance'])
+                ->setSpecification($req->input('package')['specification'])
+                ->setDeliveryTime($request->standard_address->time)
+                ->setPackageCount(1);
         } elseif ($request->address_type == 'cvs') {
             $ticket = $ticket
-                ->sender(
-                    $req->input('sender')['name'],
-                    null,
-                    $req->input('sender')['phone'])
-                ->receiver(
-                    $request->cvs_address->receiver,
-                    null,
-                    $request->cvs_address->phone,
-                    $request->cvs_address->store);
+                ->setReceiverName($request->cvs_address->receiver)
+                ->setReceiverCellPhone($request->cvs_address->phone)
+                ->setReceiverStore($request->cvs_address->store);
         }
 
-        $ecpayRequest = $ticket->create($request->address_type == 'cvs' ? 'cvs' : 'home');
+        $ecpayRequest = $ticket->create();
         $ecpayResponse = $ecpayRequest->send();
         $this->requestRepository->updateRequest($token, $request->title, $request->description, $ecpayResponse->data('AllPayLogisticsID'));
 
         $ecpayStatus = $ecpayResponse->data('RtnCode');
         $ecpayShipmentId = $ecpayResponse->data('CVSPaymentNo');
+        if (empty($ecpayShipmentId)) $ecpayShipmentId = $ecpayResponse->data('BookingNote');
         $ecpayShipmentValidation = $ecpayResponse->data('CVSValidationNo');
         $this->requestRepository->updateRequestShipment($token, $ecpayShipmentId, $ecpayShipmentValidation, $ecpayStatus);
 
@@ -209,13 +216,14 @@ class RequestController extends Controller
             'BookingNote' => $req->input('BookingNote')
         ];
 
-        ECPay::HandleResponse($ecpayData);
+        ECPay::HandleResponse($ecpayData); //will check the CheckMacValue
 
         $this->requestRepository->updateRequest($token, $request->title, $request->description, $req->input('AllPayLogisticsID'));
 
         $ecpayStatus = $req->input('RtnCode');
         $ecpayShipmentId = $req->input('CVSPaymentNo');
-        $ecpayShipmentValidation = $req->input('CVSValidationNo') ?? '';
+        if (empty($ecpayShipmentId)) $ecpayShipmentId = $req->input('BookingNote');
+        $ecpayShipmentValidation = $req->input('CVSValidationNo');
         $this->requestRepository->updateRequestShipment($token, $ecpayShipmentId, $ecpayShipmentValidation, $ecpayStatus);
 
         if(Auth::guest()) {
@@ -232,7 +240,17 @@ class RequestController extends Controller
         if (!$request) return abort(404, 'Request Not Found');
         if (!$request->exported) return abort(500, 'Request Haven\'t been exported.');
 
-        return $this->ecpayLogisticsService->printTicket($request->cvs_address->vendor, $request->exported, $request->shipment_ticket_id, $request->shipment_validation);
+        switch ($request->address_type) {
+            case 'cvs':
+                return $this->ecpayLogisticsService->printTicket($request->cvs_address->vendor, $request->exported, $request->shipment_ticket_id, $request->shipment_validation);
+            case 'standard':
+                // No meter the first argument is TCAT or ECAN, just use Vendors/HomeVendor,
+                //    the value will not be sent to ECPay, only ECPay id will be sent.
+                // 第一個參數不管填 TCAT 或 ECAN 都可以，只要是 Home 類別的就好了，實際不會帶給 ECPay，只要有 ECPayID 就好了
+                return $this->ecpayLogisticsService->printTicket(Vendor::TCAT, $request->exported, $request->shipment_ticket_id);
+            default:
+                throw new InvalidTypeException('Unknown address type: ' . $request->address_type);
+        }
     }
 
     /**

@@ -12,16 +12,18 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/BinotaLIU/ECPay-PHP-SDK.git",
-                "reference": "c9f32ecd1a132a51b524c1fb20c3032862f246a3"
+                "reference": "241cdf20801f84d5d139432a968952c7473ef911"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/BinotaLIU/ECPay-PHP-SDK/zipball/c9f32ecd1a132a51b524c1fb20c3032862f246a3",
-                "reference": "c9f32ecd1a132a51b524c1fb20c3032862f246a3",
+                "url": "https://api.github.com/repos/BinotaLIU/ECPay-PHP-SDK/zipball/241cdf20801f84d5d139432a968952c7473ef911",
+                "reference": "241cdf20801f84d5d139432a968952c7473ef911",
                 "shasum": ""
             },
             "require": {
+                "greg0ire/enum": "^3.3",
                 "guzzlehttp/guzzle": "^6.2",
+                "php": ">=7.0.8",
                 "respect/validation": "^1.1"
             },
             "require-dev": {
@@ -44,7 +46,7 @@
                 }
             ],
             "description": "An Unofficial ECPay SDK for PHP",
-            "time": "2017-01-23 17:54:53"
+            "time": "2017-01-25 11:48:41"
         },
         {
             "name": "classpreloader/classpreloader",
@@ -601,6 +603,75 @@
                 "parser"
             ],
             "time": "2014-09-09T13:34:57+00:00"
+        },
+        {
+            "name": "greg0ire/enum",
+            "version": "v3.3.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/greg0ire/enum.git",
+                "reference": "8f68e663acdc1d030406571ea90642748fb2f6c2"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/greg0ire/enum/zipball/8f68e663acdc1d030406571ea90642748fb2f6c2",
+                "reference": "8f68e663acdc1d030406571ea90642748fb2f6c2",
+                "shasum": ""
+            },
+            "require": {
+                "doctrine/inflector": "^1.0",
+                "php": "^5.6 || ^7.0"
+            },
+            "conflict": {
+                "symfony/form": "<2.7 || >=4.0 <999",
+                "symfony/validator": "<2.7 || >=4.0 <999"
+            },
+            "require-dev": {
+                "matthiasnoback/symfony-dependency-injection-test": "^1.0",
+                "phpunit/phpunit": "^5.6",
+                "sllh/php-cs-fixer-styleci-bridge": "^2.0",
+                "symfony/form": "^2.7 || ^3.0",
+                "symfony/framework-bundle": "^2.7 || ^3.0",
+                "symfony/twig-bundle": "^2.7 || ^3.0",
+                "symfony/validator": "^2.7 || ^3.0",
+                "twig/twig": "^1.24 || ^2.0"
+            },
+            "suggest": {
+                "symfony/form": "To use enum form type",
+                "symfony/validator": "To use enum validator"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-legacy-stable": "2.x-dev",
+                    "dev-master": "3.x-dev",
+                    "dev-unstable": "4.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Greg0ire\\Enum\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "CC-BY-SA-3.0"
+            ],
+            "authors": [
+                {
+                    "name": "Grégoire Paris",
+                    "email": "postmaster@greg0ire.fr"
+                }
+            ],
+            "description": "work around the missing enum type in php",
+            "keywords": [
+                "enum",
+                "enumeration",
+                "form",
+                "symfony",
+                "validator"
+            ],
+            "time": "2017-01-06T09:12:54+00:00"
         },
         {
             "name": "guzzlehttp/guzzle",
