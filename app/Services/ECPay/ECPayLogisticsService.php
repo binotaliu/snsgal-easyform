@@ -25,11 +25,12 @@ class ECPayLogisticsService
     public function printTicket(string $vendor, string $ecpayId, string $ticketId, $validation = ''): string
     {
         $print = ECPayLogistics::PrintTicket();
-        $print = $print->vendor($vendor . 'C2C')
-            ->ecpayId($ecpayId)
-            ->shipmentId($ticketId);
+        $print = $print->setVendor($vendor)
+            ->useC2C()
+            ->setShipmentId($ticketId)
+            ->setEcpayId($ecpayId);
         if (!empty($validation)) {
-            $print = $print->validation($validation);
+            $print = $print->setValidation($validation);
         }
         $print = $print->print();
         return $print->makeForm();
