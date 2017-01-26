@@ -31,7 +31,7 @@ class UseAuth0ColumnsInUsersTable extends Migration
         //Nothing to do,
         // the action we do in up cannot be undo.
         Schema::table('users', function ($table) {
-            $table->dropColumn('auth0id', 35);
+            $table->dropColumn('auth0id');
 
             $table->string('password');
             $table->string('remember_token');
