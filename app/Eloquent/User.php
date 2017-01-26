@@ -1,7 +1,8 @@
 <?php
 
-namespace App;
+namespace App\Eloquent;
 
+use App\Notifications\User\ResetPasswordNotification;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
@@ -40,7 +41,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password',
+        'name', 'email', 'auth0id',
     ];
 
     /**
@@ -48,12 +49,15 @@ class User extends Authenticatable
      *
      * @var array
      */
-    protected $hidden = [
-        'password', 'remember_token',
-    ];
+    protected $hidden = [];
 
     public function requestProfile()
     {
         return $this->hasOne('App\Eloquent\User\RequestProfile');
+    }
+
+    public function sendPasswordResetNotification($token)
+    {
+        $this->notify(new ResetPasswordNotification($token));
     }
 }

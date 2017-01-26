@@ -25,7 +25,7 @@ class RouteServiceProvider extends ServiceProvider
     {
         //
         // Token is an valid UUID
-        Route::pattern('token', '[\da-f]{8}\-([\da-f]{4}-){3}[\da-f]{12}');
+        //Route::pattern('token', '[\da-f]{8}\-([\da-f]{4}-){3}[\da-f]{12}');
 
         parent::boot();
     }

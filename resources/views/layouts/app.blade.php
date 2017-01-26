@@ -49,7 +49,9 @@
                     <!-- Right Side Of Navbar -->
                     <ul class="nav navbar-nav navbar-right">
                         <!-- Authentication Links -->
-                        @if (!Auth::guest())
+                        @if (Auth::guest())
+                            <li><a href="javascript:void;" onclick="lock.show();">{{ trans('auth.link_login_register') }}</a></li>
+                        @else
                             <li class="dropdown">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
                                     {{ Auth::user()->name }} <span class="caret"></span>
@@ -57,13 +59,13 @@
 
                                 <ul class="dropdown-menu" role="menu">
                                     <li>
-                                        <a href="{{ url('/logout') }}"
+                                        <a href="{{ url('/user/logout') }}"
                                             onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">
-                                            Logout
+                                            {{ trans('auth.link_logout') }}
                                         </a>
 
-                                        <form id="logout-form" action="{{ url('/logout') }}" method="POST" style="display: none;">
+                                        <form id="logout-form" action="{{ url('/user/logout') }}" method="POST" style="display: none;">
                                             {{ csrf_field() }}
                                         </form>
                                     </li>
@@ -89,6 +91,24 @@
     </footer>
     {{-- Scripts --}}
     <script src="{{ elixir('js/app.js') }}"></script>
+    <script src="https://cdn.auth0.com/js/lock/10.9.1/lock.min.js"></script>
+    <script>
+        "use strict";
+        var AUTH0_CLIENT_ID = '{{ env('AUTH0_CLIENT_ID') }}';
+        var AUTH0_DOMAIN = '{{ env('AUTH0_DOMAIN') }}';
+        var auth0Configurations = {
+            auth: {
+                redirectUrl: '{{ url('auth0/callback') }}',
+                responseMode: 'form_post',
+                responseType: 'code',
+                params: {
+                    scope: 'openid email'
+                }
+            },
+            language: 'zh-TW',
+        };
+        var lock = new Auth0Lock(AUTH0_CLIENT_ID, AUTH0_DOMAIN, auth0Configurations);
+    </script>
     @yield('footer')
 </body>
 </html>

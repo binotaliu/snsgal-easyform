@@ -27,5 +27,7 @@ class AppServiceProvider extends ServiceProvider
             $this->app->register(\Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider::class);
             $this->app->register(\Barryvdh\Debugbar\ServiceProvider::class);
         }
+        $this->app->bind(\Auth0\Login\Contract\Auth0UserRepository::class,
+            \App\Repositories\UserRepository::class);
     }
 }

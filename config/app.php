@@ -168,6 +168,7 @@ return [
          */
 
         Matriphe\Format\FormatServiceProvider::class,
+        Auth0\Login\LoginServiceProvider::class,
 
         /*
          * Application Service Providers...
@@ -227,6 +228,7 @@ return [
         'View' => Illuminate\Support\Facades\View::class,
 
         'Format' => Matriphe\Format\Facades\FormatFacade::class,
+        'Auth0' => Auth0\Login\Facade\Auth0::class,
 
         'ECPay' => Binota\ECPay\Facades\ECPayFacade::class,
         'ECPayLogistics' => Binota\ECPay\Facades\LogisticsFacade::class,
