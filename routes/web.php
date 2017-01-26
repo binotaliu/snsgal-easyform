@@ -19,8 +19,10 @@ Route::get('/', function () {
     }
 });
 
-Route::group(['prefix' => 'user'], function () {
-    Auth::routes();
+Route::post('/auth0/callback', '\Auth0\Login\Auth0Controller@callback');
+Route::post('/user/logout', function () {
+    Auth::logout();
+    return redirect('/home');
 });
 
 Route::get('/home', 'HomeController@index');

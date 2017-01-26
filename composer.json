@@ -10,7 +10,8 @@
         "ramsey/uuid": "^3.5",
         "binota/ecpay-sdk": "dev-master",
         "matriphe/format": "^1.6",
-        "doctrine/dbal": "^2.5"
+        "doctrine/dbal": "^2.5",
+        "auth0/login": "~4.0"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",
