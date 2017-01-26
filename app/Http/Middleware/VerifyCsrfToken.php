@@ -13,7 +13,7 @@ class VerifyCsrfToken extends BaseVerifier
      */
     protected $except = [
         'map/cvs/response',
-        'request/*/notify',
-        'auth0/callback'
+        'auth0/callback',
+        'shipment/requests/*/notify',
     ];
 }
