@@ -113,7 +113,7 @@ class TicketRepository
     public function createTicket(string $name, string $email, string $contact, string $note, int $status, float $rate, string $localShipmentMethod, int $localShipmentPrice, array $items, array $japanShipments)
     {
         // Create a new token
-        $token = Uuid::uuid1();
+        $token = Uuid::uuid4();
 
         /** @var ProcurementTicket $ticket */
         $ticket = new $this->ticket([
