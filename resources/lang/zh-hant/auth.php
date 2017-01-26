@@ -21,4 +21,25 @@ return [
     'email_reset_action' => '重設密碼',
     'email_reset_salutation' => '若您未要求要重設密碼，則不需進行任何操作。',
 
+    'title_login' => '登入',
+    'title_register' => '註冊',
+    'title_login_register' => '登入/註冊',
+    'title_reset' => '重設密碼',
+
+    'link_login' => '登入',
+    'link_register' => '註冊',
+    'link_login_register' => '登入/註冊',
+    'link_logout' => '登出',
+    'link_forgot_password' => '忘記密碼？',
+
+    'field_name' => '昵稱',
+    'field_email' => 'E-Mail',
+    'field_password' => '密碼',
+    'field_password_confirm' => '確認密碼',
+    'field_remember' => '記住帳號',
+
+    'button_login' => '登入',
+    'button_register' => '註冊',
+    'button_send_password_reset_link' => '寄送密碼重設連結',
+    'button_reset_password' => '重設密碼',
 ];

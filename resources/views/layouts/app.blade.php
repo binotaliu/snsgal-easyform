@@ -50,8 +50,8 @@
                     <ul class="nav navbar-nav navbar-right">
                         <!-- Authentication Links -->
                         @if (Auth::guest())
-                            <li><a href="{{ url('/user/login') }}">Login</a></li>
-                            <li><a href="{{ url('/user/register') }}">Register</a></li>
+                            <li><a href="{{ url('/user/login') }}">{{ trans('auth.link_login') }}</a></li>
+                            <li><a href="{{ url('/user/register') }}">{{ trans('auth.link_register') }}</a></li>
                         @else
                             <li class="dropdown">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
@@ -63,7 +63,7 @@
                                         <a href="{{ url('/user/logout') }}"
                                             onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">
-                                            Logout
+                                            {{ trans('auth.link_logout') }}
                                         </a>
 
                                         <form id="logout-form" action="{{ url('/user/logout') }}" method="POST" style="display: none;">

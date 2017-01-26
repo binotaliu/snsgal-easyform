@@ -1,13 +1,13 @@
 @extends('layouts.app')
 
-@section('title', 'Reset Password')
+@section('title', trans('auth.title_reset'))
 
 @section('content')
 <div class="container">
     <div class="row">
         <div class="col-md-4 col-md-offset-4">
             <div class="panel panel-default">
-                <div class="panel-heading">Reset Password</div>
+                <div class="panel-heading">{{ trans('auth.title_reset') }}</div>
 
                 <div class="panel-body">
                     @if (session('status'))
@@ -22,7 +22,7 @@
                         <input type="hidden" name="token" value="{{ $token }}">
 
                         <div class="form-group{{ $errors->has('email') ? ' has-error' : '' }}">
-                            <label for="email">E-Mail Address</label>
+                            <label for="email">{{ trans('auth.field_email') }}</label>
 
                             <input id="email" type="email" class="form-control" name="email" value="{{ $email or old('email') }}" required autofocus>
 
@@ -34,7 +34,7 @@
                         </div>
 
                         <div class="form-group{{ $errors->has('password') ? ' has-error' : '' }}">
-                            <label for="password">Password</label>
+                            <label for="password">{{ trans('auth.field_password') }}</label>
 
                             <input id="password" type="password" class="form-control" name="password" required>
 
@@ -46,7 +46,7 @@
                         </div>
 
                         <div class="form-group{{ $errors->has('password_confirmation') ? ' has-error' : '' }}">
-                            <label for="password-confirm">Confirm Password</label>
+                            <label for="password-confirm">{{ trans('auth.field_password_confirm') }}</label>
 
                             <input id="password-confirm" type="password" class="form-control" name="password_confirmation" required>
 
@@ -59,7 +59,7 @@
 
                         <div class="form-group">
                             <button type="submit" class="btn btn-primary btn-block">
-                                Reset Password
+                                {{ trans('auth.button_reset') }}
                             </button>
                         </div>
                     </form>
