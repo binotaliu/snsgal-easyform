@@ -216,7 +216,7 @@ class RequestController extends Controller
             'BookingNote' => $req->input('BookingNote')
         ];
 
-        ECPay::HandleResponse($ecpayData); //will check the CheckMacValue
+        if (ECPay::GetCheckMacValue($ecpayData) !== $req->input('CheckMacValue')) throw new \Exception('Invalid CheckMacValue');
 
         $this->requestRepository->updateRequest($token, $request->title, $request->description, $req->input('AllPayLogisticsID'));
 
