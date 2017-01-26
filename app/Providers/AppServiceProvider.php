@@ -28,6 +28,6 @@ class AppServiceProvider extends ServiceProvider
             $this->app->register(\Barryvdh\Debugbar\ServiceProvider::class);
         }
         $this->app->bind(\Auth0\Login\Contract\Auth0UserRepository::class,
-            \Auth0\Login\Repository\Auth0UserRepository::class);
+            \App\Repositories\UserRepository::class);
     }
 }

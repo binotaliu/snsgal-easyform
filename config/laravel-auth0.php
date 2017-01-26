@@ -41,7 +41,7 @@ return array(
     */
 
     // 'redirect_uri'  => 'http://<host>/auth0/callback'
-    'redirect_uri'  => url('/auth0/callback'),
+    'redirect_uri'  => env('AUTH0_REDIRECT_URI'),
 
     /*
     |--------------------------------------------------------------------------

@@ -24,6 +24,9 @@ Route::post('/user/logout', function () {
     Auth::logout();
     return redirect('/home');
 });
+Route::get('/user/login', function () {
+    return view('user.auth.login');
+});
 
 Route::get('/home', 'HomeController@index');
 

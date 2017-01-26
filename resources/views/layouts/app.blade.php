@@ -94,7 +94,9 @@
     <script src="https://cdn.auth0.com/js/lock/10.9.1/lock.min.js"></script>
     <script>
         "use strict";
-        var lock = new Auth0Lock('qqZwwAb85JXZzd8UnJE0ZNYO0KWigqoN', 'snsgal.auth0.com', {
+        var AUTH0_CLIENT_ID = '{{ env('AUTH0_CLIENT_ID') }}';
+        var AUTH0_DOMAIN = '{{ env('AUTH0_DOMAIN') }}';
+        var auth0Configurations = {
             auth: {
                 redirectUrl: '{{ url('auth0/callback') }}',
                 responseMode: 'form_post',
@@ -104,7 +106,8 @@
                 }
             },
             language: 'zh-TW',
-        });
+        };
+        var lock = new Auth0Lock(AUTH0_CLIENT_ID, AUTH0_DOMAIN, auth0Configurations);
     </script>
     @yield('footer')
 </body>
