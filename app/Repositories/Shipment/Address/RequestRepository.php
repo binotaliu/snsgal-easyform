@@ -73,7 +73,7 @@ class RequestRepository
             'title' => $title,
             'description' => $description,
             'address_type' => $type,
-            'token' => Uuid::uuid1(),
+            'token' => Uuid::uuid4(),
             'responded' => false
         ]);
     }
