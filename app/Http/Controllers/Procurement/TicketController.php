@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Procurement;
 use App\Codes\Procurement\ItemStatus;
 use App\Codes\Procurement\TicketStatus;
 use App\Eloquent\Procurement\Ticket;
+use App\Exceptions\Procurement\Ticket\UnknownStatusException;
 use App\Http\Controllers\Controller;
 use App\Repositories\ConfigRepository;
 use App\Repositories\CurrencyRepository;
@@ -271,5 +272,33 @@ class TicketController extends Controller
             $items,
             $japanShipments
         );
+    }
+
+    /**
+     * @param Request $request
+     * @param string $token
+     * @return array
+     * @throws UnknownStatusException
+     */
+    public function updateTicketStatus(Request $request, string $token): array
+    {
+        $newStatus = (int)$request->input('status');
+        if (!TicketStatus::isValidValue($newStatus)) throw new UnknownStatusException('Unknown Status: ' . $newStatus);
+        $this->ticketRepository->updateTicketStatus($token, $newStatus);
+        return ['code' => '200', 'message' => 'OK'];
+    }
+
+    /**
+     * @param Request $request
+     * @param int $itemId
+     * @return array
+     * @throws UnknownStatusException
+     */
+    public function updateItemStatus(Request $request, int $itemId): array
+    {
+        $newStatus = (int)$request->input('status');
+        if (!ItemStatus::isValidValue($newStatus)) throw new UnknownStatusException('Unknown Status: ' . $newStatus);
+        $this->ticketRepository->updateItemStatus($itemId, $newStatus);
+        return ['code' => '200', 'message' => 'OK'];
     }
 }

@@ -5,8 +5,9 @@ namespace App\Codes\Procurement;
 
 
 use App\Codes\CodesInterface;
+use Greg0ire\Enum\AbstractEnum;
 
-class TicketStatus implements CodesInterface
+class TicketStatus extends AbstractEnum implements CodesInterface
 {
     const WAITING_CHECK = 100;
     const WAITING_FIRST_PAY = 101;
@@ -26,39 +27,57 @@ class TicketStatus implements CodesInterface
         return [
             self::WAITING_CHECK => [
                 'name' => trans('codes.procurement.ticket.waiting_check'),
-                'color' => 'warning'
+                'color' => 'warning',
+                'next' => self::WAITING_FIRST_PAY,
+                'previous' => null,
             ],
             self::WAITING_FIRST_PAY => [
                 'name' => trans('codes.procurement.ticket.waiting_first_pay'),
-                'color' => 'info'
+                'color' => 'info',
+                'next' => self::ORDERING,
+                'previous' => self::WAITING_CHECK,
             ],
             self::ORDERING => [
                 'name' => trans('codes.procurement.ticket.ordering'),
-                'color' => 'warning'
+                'color' => 'warning',
+                'next' => self::TRANSFERRING,
+                'previous' => self::WAITING_FIRST_PAY,
             ],
             self::TRANSFERRING => [
                 'name' => trans('codes.procurement.ticket.transferring'),
-                'color' => 'warning'
+                'color' => 'warning',
+                'next' => self::WAITING_LAST_PAY,
+                'previous' => self::ORDERING,
             ],
             self::WAITING_LAST_PAY => [
                 'name' => trans('codes.procurement.ticket.waiting_last_pay'),
-                'color' => 'info'
+                'color' => 'info',
+                'next' => self::SHIPPING,
+                'previous' => self::TRANSFERRING,
             ],
             self::SHIPPING => [
                 'name' => trans('codes.procurement.ticket.shipping'),
-                'color' => 'info'
+                'color' => 'info',
+                'next' => self::COMPLETED,
+                'previous' => self::WAITING_LAST_PAY,
             ],
             self::COMPLETED => [
                 'name' => trans('codes.procurement.ticket.completed'),
-                'color' => 'success'
+                'color' => 'success',
+                'next' => null,
+                'previous' => self::SHIPPING,
             ],
             self::INVALID => [
                 'name' => trans('codes.procurement.ticket.invalid'),
-                'color' => 'default'
+                'color' => 'default',
+                'next' => null,
+                'previous' => null,
             ],
             self::DISPUTED => [
                 'name' => trans('codes.procurement.ticket.disputed'),
-                'color' => 'danger'
+                'color' => 'danger',
+                'next' => null,
+                'previous' => null,
             ]
         ];
     }
