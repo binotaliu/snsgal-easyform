@@ -399,6 +399,12 @@ const app = new Vue({
 
                 return response;
             });
+        },
+        setTicketStatus(code) {
+
+        },
+        setItemStatus(code) {
+
         }
     }
 

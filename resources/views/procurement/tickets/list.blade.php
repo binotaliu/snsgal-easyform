@@ -77,14 +77,22 @@
                                         <td colspan="2">
                                             <span v-bind:class="'text-' + status.ticket[ticket.status].color"><i class="fa fa-circle"></i></span>
                                                 @{{ status.ticket[ticket.status].name }}<br>
-                                            <small>
-                                                @{{ ticket.updated_at }}
-                                            </small>
+                                            <div class="btn-group">
+                                                <button v-if="status.ticket[ticket.status].previous" type="button" class="btn btn-xs btn-default" v-on:click="setTicketStatus(status.ticket[ticket.status].previous)">
+                                                    &lt; @{{ status.ticket[status.ticket[ticket.status].previous].name }}
+                                                </button>
+
+                                                <button v-if="status.ticket[ticket.status].next" type="button" class="btn btn-xs btn-default" v-on:click="setTicketStatus(status.ticket[ticket.status].next)">
+                                                    @{{ status.ticket[status.ticket[ticket.status].next].name }} &gt;
+                                                </button>
+                                            </div>
                                         </td>
                                         <td>
                                             @{{ ticket.name }} &lt;@{{ ticket.email }}&gt; @{{ ticket.contact }}<br>
                                             <small>
                                                 <a v-bind:href="'/procurement/tickets/' + ticket.token" target="_blank">@{{ ticket.token }}</a>
+                                                /
+                                                {{ trans('procurement_ticket.field_updated_at') }} @{{ ticket.updated_at }}
                                             </small>
                                         </td>
                                         <td class="text-right">@{{ ticket.rate }}</td>
@@ -109,13 +117,21 @@
                                             <td width="130">
                                                 <span v-bind:class="'text-' + status.item[item.status].color"><i class="fa fa-circle"></i></span>
                                                     @{{ status.item[item.status].name }}<br>
-                                                <small>
-                                                    @{{ item.updated_at }}
-                                                </small>
+                                                <div class="btn-group">
+                                                    <button v-if="status.item[item.status].previous" type="button" class="btn btn-xs btn-default" v-on:click="setItemStatus(status.item[item.status].previous)">
+                                                        &lt; @{{ status.item[status.item[item.status].previous].name }}
+                                                    </button>
+
+                                                    <button v-if="status.item[item.status].next" type="button" class="btn btn-xs btn-default" v-on:click="setItemStatus(status.item[item.status].next)">
+                                                        @{{ status.item[status.item[item.status].next].name }} &gt;
+                                                    </button>
+                                                </div>
                                             </td>
                                             <td>@{{ item.title }}<br>
                                                 <small>
                                                     <a v-bind:href="item.url" target="_blank">@{{ item.url.substring(0, 70) + (item.url.length > 70 ? '...' : '') }}</a>
+                                                    /
+                                                    {{ trans('procurement_ticket.field_updated_at') }} @{{ item.updated_at }}
                                                 </small>
                                             </td>
                                             <td class="text-right">@{{ format('JPY', item.price) }}</td>
