@@ -118,6 +118,7 @@ final class EcpayShipmentStatus implements CodesInterface
         9001 => ['message' => '退貨已取', 'description' => '退貨已取'],
         9002 => ['message' => '退貨已取', 'description' => '退貨已取'],
         9999 => ['message' => '訂單取消', 'description' => '訂單取消'],
+        2067 => ['message' => '消費者成功取件', 'description' => '商品已成功取貨完成'],
         2068 => ['message' => '交貨便收件(A門市收到件寄件商品)', 'description' => '商品理貨中'],
         2069 => ['message' => '退貨便收件(商品退回指定C門市)', 'description' => '商品退回門市，請至門市領取'],
         2076 => ['message' => '消費者七天未取，商品退回至大智通', 'description' => '消費者七天未取，商品退回至大智通'],
