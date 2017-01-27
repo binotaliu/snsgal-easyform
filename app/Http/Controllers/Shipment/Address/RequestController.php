@@ -190,6 +190,7 @@ class RequestController extends Controller
      * @param String $token
      * @param Request $req
      * @return mixed
+     * @throws \Exception
      */
     public function notify(String $token, Request $req)
     {

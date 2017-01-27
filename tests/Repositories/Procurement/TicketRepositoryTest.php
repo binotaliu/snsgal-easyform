@@ -90,7 +90,7 @@ class TicketRepositoryTest extends TestCase
 
         $ticket = $this->createTicket(3);
 
-        $this->ticketRepository->updateTicketStatus($ticket->id, $expected);
+        $this->ticketRepository->updateTicketStatus($ticket->token, $expected);
         $actual = ProcurementTicket::find($ticket->id)->status;
 
         $this->assertEquals($expected, $actual);
