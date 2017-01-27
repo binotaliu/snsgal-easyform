@@ -24,32 +24,46 @@ class ItemStatus implements CodesInterface
         return [
             self::WAITING_CHECK => [
                 'name' => trans('codes.procurement.item.waiting_check'),
-                'color' => 'warning'
+                'color' => 'warning',
+                'next' => self::WAITING_ORDER,
+                'previous' => null,
             ],
             self::WAITING_ORDER => [
                 'name' => trans('codes.procurement.item.waiting_order'),
-                'color' => 'warning'
+                'color' => 'warning',
+                'next' => self::ORDERED,
+                'previous' => self::WAITING_CHECK,
             ],
             self::ORDERED => [
                 'name' => trans('codes.procurement.item.ordered'),
                 'color' => 'primary',
+                'next' => self::COMPLETED,
+                'previous' => self::WAITING_ORDER,
             ],
             self::COMPLETED => [
                 'name' => trans('codes.procurement.item.completed'),
-                'color' => 'success'
+                'color' => 'success',
+                'next' => null,
+                'previous' => self::ORDERED,
             ],
             self::RETURN => [
                 'name' => trans('codes.procurement.item.return'),
                 'color' => 'warning',
+                'next' => null,
+                'previous' => null,
             ],
             self::RETURNED => [
                 'name' => trans('codes.procurement.item.returned'),
                 'color' => 'info',
+                'next' => null,
+                'previous' => null,
             ],
             self::PROBLEM => [
                 'name' => trans('codes.procurement.item.problem'),
-                'color' => 'danger'
-            ]
+                'color' => 'danger',
+                'next' => null,
+                'previous' => null,
+            ],
         ];
     }
 
