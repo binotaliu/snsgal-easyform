@@ -4,7 +4,9 @@
 namespace App\Codes\Procurement;
 
 
-class IntShipmentStatus
+use Greg0ire\Enum\AbstractEnum;
+
+class IntShipmentStatus extends AbstractEnum
 {
     const WAITING_ORDER = 300;
     const WAITING_PACKAGE = 301;

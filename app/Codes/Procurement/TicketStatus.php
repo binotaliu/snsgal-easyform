@@ -5,8 +5,9 @@ namespace App\Codes\Procurement;
 
 
 use App\Codes\CodesInterface;
+use Greg0ire\Enum\AbstractEnum;
 
-class TicketStatus implements CodesInterface
+class TicketStatus extends AbstractEnum implements CodesInterface
 {
     const WAITING_CHECK = 100;
     const WAITING_FIRST_PAY = 101;

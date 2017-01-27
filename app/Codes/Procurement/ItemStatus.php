@@ -5,8 +5,9 @@ namespace App\Codes\Procurement;
 
 
 use App\Codes\CodesInterface;
+use Greg0ire\Enum\AbstractEnum;
 
-class ItemStatus implements CodesInterface
+class ItemStatus extends AbstractEnum implements CodesInterface
 {
     const WAITING_CHECK = 200;
     const WAITING_ORDER = 201;
