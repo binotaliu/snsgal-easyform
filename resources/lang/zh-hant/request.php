@@ -42,7 +42,7 @@ return [
     'field_responded?' => '已回覆?',
     'field_exported?' => '已匯出?',
     'field_shipping_status' => '物流狀態',
-    'field_shipment_ticket_id' => '拖運單號',
+    'field_shipment_ticket_id' => '託運單號',
     'field_actions' => '操作',
 
     'field_receiver' => '收件者',
