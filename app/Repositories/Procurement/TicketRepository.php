@@ -270,7 +270,7 @@ class TicketRepository
      */
     public function getTickets()
     {
-        return $this->ticket->with('items.category', 'items.extraServices', 'japanShipments')->archived(false)->orderBy('updated_at', 'desc')->get();
+        return $this->ticket->with('items.category', 'items.extraServices', 'japanShipments')->archived(false)->orderBy('id', 'desc')->get();
     }
 
     /**
