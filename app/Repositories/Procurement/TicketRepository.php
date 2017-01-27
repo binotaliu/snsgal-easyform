@@ -178,13 +178,13 @@ class TicketRepository
 
     /**
      * Update status of ticket.
-     * @param int $id
+     * @param string $token
      * @param int $status
      * @return bool
      */
-    public function updateTicketStatus(int $id, int $status)
+    public function updateTicketStatus(string $token, int $status)
     {
-        $ticket = $this->ticket->find($id);
+        $ticket = $this->ticket->where('token', $token);
         return $ticket->update([
             'status' => $status
         ]);
@@ -397,6 +397,18 @@ class TicketRepository
         $this->removeItemExtraServices($extraServices['delete']);
 
         return $item;
+    }
+
+    /**
+     * @param int $id
+     * @param int $status
+     * @return bool
+     */
+    public function updateItemStatus(int $id, int $status): bool
+    {
+        return $this->item->where('id', $id)->update([
+            'status' => $status
+        ]);
     }
 
     /**

@@ -400,11 +400,25 @@ const app = new Vue({
                 return response;
             });
         },
-        setTicketStatus(code) {
+        setTicketStatus(token, code) {
+            let resource = this.$resource('/api/procurement/tickets/{token}/status');
 
+            Splash.enable('windcatcher');
+            return resource.save({token: token}, {status: code}).then(response => {
+                return this.fetchTickets();
+            }).then(response => {
+                Splash.destroy();
+            });
         },
-        setItemStatus(code) {
+        setItemStatus(id, code) {
+            let resource = this.$resource('/api/procurement/ticket-items/{itemId}/status');
 
+            Splash.enable('windcatcher');
+            return resource.save({itemId: id}, {status: code}).then(response => {
+                return this.fetchTickets();
+            }).then(response => {
+                Splash.destroy();
+            });
         }
     }
 

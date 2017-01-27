@@ -78,11 +78,11 @@
                                             <span v-bind:class="'text-' + status.ticket[ticket.status].color"><i class="fa fa-circle"></i></span>
                                                 @{{ status.ticket[ticket.status].name }}<br>
                                             <div class="btn-group">
-                                                <button v-if="status.ticket[ticket.status].previous" type="button" class="btn btn-xs btn-default" v-on:click="setTicketStatus(status.ticket[ticket.status].previous)">
+                                                <button v-if="status.ticket[ticket.status].previous" type="button" class="btn btn-xs btn-default" v-on:click="setTicketStatus(ticket.token, status.ticket[ticket.status].previous)">
                                                     &lt; @{{ status.ticket[status.ticket[ticket.status].previous].name }}
                                                 </button>
 
-                                                <button v-if="status.ticket[ticket.status].next" type="button" class="btn btn-xs btn-default" v-on:click="setTicketStatus(status.ticket[ticket.status].next)">
+                                                <button v-if="status.ticket[ticket.status].next" type="button" class="btn btn-xs btn-default" v-on:click="setTicketStatus(ticket.token, status.ticket[ticket.status].next)">
                                                     @{{ status.ticket[status.ticket[ticket.status].next].name }} &gt;
                                                 </button>
                                             </div>
@@ -118,11 +118,11 @@
                                                 <span v-bind:class="'text-' + status.item[item.status].color"><i class="fa fa-circle"></i></span>
                                                     @{{ status.item[item.status].name }}<br>
                                                 <div class="btn-group">
-                                                    <button v-if="status.item[item.status].previous" type="button" class="btn btn-xs btn-default" v-on:click="setItemStatus(status.item[item.status].previous)">
+                                                    <button v-if="status.item[item.status].previous" type="button" class="btn btn-xs btn-default" v-on:click="setItemStatus(item.id, status.item[item.status].previous)">
                                                         &lt; @{{ status.item[status.item[item.status].previous].name }}
                                                     </button>
 
-                                                    <button v-if="status.item[item.status].next" type="button" class="btn btn-xs btn-default" v-on:click="setItemStatus(status.item[item.status].next)">
+                                                    <button v-if="status.item[item.status].next" type="button" class="btn btn-xs btn-default" v-on:click="setItemStatus(item.id, status.item[item.status].next)">
                                                         @{{ status.item[status.item[item.status].next].name }} &gt;
                                                     </button>
                                                 </div>
