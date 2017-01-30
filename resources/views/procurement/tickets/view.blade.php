@@ -40,12 +40,10 @@
                                     <td class="text-center">{{ $i + 1 }}</td>
                                     <td class="text-center">{{ $item->category->name }}</td>
                                     <td>
-                                        <small>
-                                            <span class="text-{{ $item_status[$item->status]['color'] }}"><i class="fa fa-circle"></i></span>
-                                            {{ $item_status[$item->status]['name'] }}
-                                        </small>
                                         {{ $item->title }}<br>
                                         <small>
+                                            <span class="text-{{ $item_status[$item->status]['color'] }}"><i class="fa fa-circle"></i></span>
+                                            {{ $item_status[$item->status]['name'] }} |
                                             <a href="{{ $item->url }}">{{ substr($item->url, 0, 70) . (strlen($item->url) > 70 ? '...' : '') }}</a>
                                         </small>
                                     </td>
@@ -66,24 +64,26 @@
                             @endforeach
 
                             {{-- Shipments --}}
-                            <tr class="active">
-                                <th></th>
-                                <th colspan="2">{{ trans('procurement_ticket.field_japan_shipment') }}</th>
-                                <th class="text-right">{{ trans('procurement_ticket.field_price_yen') }}</th>
-                                <th class="text-right table-price">{{ trans('procurement_ticket.field_price_twd') }}</th>
-                                <th>{{ trans('procurement_ticket.field_note') }}</th>
-                            </tr>
-                            @foreach ($ticket->japanShipments as $item)
-                                <tr>
-                                    <td></td>
-                                    <td colspan="2">
-                                        {{ $item->title }}
-                                    </td>
-                                    <td class="text-right">¥{{ Format::number($item->price, 0, '.', ',') }}</td>
-                                    <td class="text-right table-price">NT${{ Format::number($item->price * $ticket->rate, 2, '.', ',') }}</td>
-                                    <td>{{ $item->note }}</td>
+                            @if (count($ticket->japanShipments))
+                                <tr class="active">
+                                    <th></th>
+                                    <th colspan="2">{{ trans('procurement_ticket.field_japan_shipment') }}</th>
+                                    <th class="text-right">{{ trans('procurement_ticket.field_price_yen') }}</th>
+                                    <th class="text-right table-price">{{ trans('procurement_ticket.field_price_twd') }}</th>
+                                    <th>{{ trans('procurement_ticket.field_note') }}</th>
                                 </tr>
-                            @endforeach
+                                @foreach ($ticket->japanShipments as $item)
+                                    <tr>
+                                        <td></td>
+                                        <td colspan="2">
+                                            {{ $item->title }}
+                                        </td>
+                                        <td class="text-right">¥{{ Format::number($item->price, 0, '.', ',') }}</td>
+                                        <td class="text-right table-price">NT${{ Format::number($item->price * $ticket->rate, 2, '.', ',') }}</td>
+                                        <td>{{ $item->note }}</td>
+                                    </tr>
+                                @endforeach
+                            @endif
 
                             {{-- Total --}}
                             <tr class="table-total">
