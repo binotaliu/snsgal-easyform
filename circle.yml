@@ -9,7 +9,6 @@ dependencies:
     - yarn
   pre:
     - cp .env.circle .env
-    - composer self-update
     - composer install --prefer-source --no-interaction --dev
     - composer ide
     - yarn global add gulp-cli

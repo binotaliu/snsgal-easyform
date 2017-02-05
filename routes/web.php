@@ -84,7 +84,7 @@ Route::group(['namespace' => 'Procurement'], function () {
         Route::post('/ticket-items/{itemId}/status', 'TicketController@updateItemStatus');
 
         Route::resource('/tickets', 'TicketController', [
-            'only' => ['index', 'store', 'update']
+            'only' => ['index', 'update']
         ]);
 
         Route::resource('/shipment_methods/japan', 'Ticket\ShipmentMethod\JapanController', [
