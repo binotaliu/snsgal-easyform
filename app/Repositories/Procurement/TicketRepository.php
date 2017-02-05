@@ -261,6 +261,7 @@ class TicketRepository
             'local_shipment_price' => $localShipmentPrice
         ]);
 
+        $ticket = $this->getTicket($token); // Query it again, so we can get all japanShipemnts and items that just created.
         $this->saveTotals($ticket);
     }
 

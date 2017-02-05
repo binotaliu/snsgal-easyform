@@ -130,7 +130,7 @@ class RequestController extends Controller
             ->setVendor($request->address_type == 'standard' ? $req->input('package')['vendor'] : $request->cvs_address->vendor)
             ->useC2C()
             ->setAmount($req->input('package')['amount'])
-            ->setCollection($req->input('package')['collect'] ? $req->input('package')['amount'] : 0)
+            ->setCollection($req->input('package')['collect'] == Collection::YES ? $req->input('package')['amount'] : 0)
             ->setServerReplyUrl(url("/shipment/requests/{$token}/notify"))
             ->setC2CReplyUrl(url("/shipment/requests/{$token}/notify"))
             ->setGoods([$req->input('package')['products']])
