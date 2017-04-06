@@ -169,6 +169,8 @@ return [
 
         Matriphe\Format\FormatServiceProvider::class,
         Auth0\Login\LoginServiceProvider::class,
+        XmlResponse\XmlResponseServiceProvider::class,
+
 
         /*
          * Application Service Providers...

@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "b602ab49d1c0fec0f6ccb0890c388095",
+    "content-hash": "f557669509388611ac991c70f58da11f",
     "packages": [
         {
             "name": "adoy/oauth2",
@@ -1009,6 +1009,42 @@
                 "uri"
             ],
             "time": "2016-06-24T23:00:38+00:00"
+        },
+        {
+            "name": "jailtonsc/laravel-response-xml",
+            "version": "v1.1.6",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/jailtonsc/laravel-response-xml.git",
+                "reference": "514b4b9968318bcea8c2ba11d08ecd9d3f6db4c8"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/jailtonsc/laravel-response-xml/zipball/514b4b9968318bcea8c2ba11d08ecd9d3f6db4c8",
+                "reference": "514b4b9968318bcea8c2ba11d08ecd9d3f6db4c8",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.5.9"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "XmlResponse\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "description": "Add the method xml integrating the laravel's response, converting eloquent return to XML.",
+            "keywords": [
+                "eloquent",
+                "laravel",
+                "response",
+                "xml"
+            ],
+            "time": "2017-03-30T01:48:16+00:00"
         },
         {
             "name": "jakub-onderka/php-console-color",

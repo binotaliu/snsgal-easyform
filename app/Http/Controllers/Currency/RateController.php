@@ -16,11 +16,22 @@ class RateController extends Controller
         $this->currencyRepository = $currencyRepository;
     }
 
-    public function list() {
+    public function list(Request $request) {
+        $type = strtolower($request->input('type')) ?? 'json';
         $jpyRate = $this->currencyRepository->getRate('JPY');
 
-        return [
+        $response = [
             'jpy' => $jpyRate
         ];
+
+        switch ($type) {
+            case 'xml':
+                return \response()->xml($response);
+                break;
+            case 'json':
+            default:
+                return $response;
+                break;
+        }
     }
 }
