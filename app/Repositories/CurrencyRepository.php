@@ -43,7 +43,7 @@ class CurrencyRepository
 
     /**
      * @param string $currency
-     * @return CurrencyRate
+     * @returna float
      */
     public function getRate(string $currency)
     {
