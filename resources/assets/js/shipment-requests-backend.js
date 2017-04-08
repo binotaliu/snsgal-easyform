@@ -36,6 +36,10 @@ const app = new Vue({
             exported: '-1',
             method: 'all'
         },
+        createBatchForm: {
+            data: '',
+            method: 'cvs',
+        },
         createForm: {
             title: '',
             description: '',
@@ -155,6 +159,11 @@ const app = new Vue({
             this.createForm.method = 'cvs';
             $('#create-modal').modal('show');
         },
+        showCreateBatch: function () {
+            this.createBatchForm.title = '';
+            this.createBatchForm.method = 'cvs';
+            $('#create-batch-modal').modal('show');
+        },
         createRequest: function () {
             let resource = this.$resource('/api/shipment/requests');
 
@@ -163,6 +172,18 @@ const app = new Vue({
                 return this.fetchRequests().then((response) => {
                     Splash.destroy();
                     $('#create-modal').modal('hide');
+                    return response;
+                });
+            });
+        },
+        createRequests: function () {
+            let resource = this.$resource('/api/shipment/requests/batch');
+
+            Splash.enable('circular');
+            return resource.save(this.createBatchForm).then((response) => { // @TODO: not clear
+                return this.fetchRequests().then((response) => {
+                    Splash.destroy();
+                    $('#create-batch-modal').modal('hide');
                     return response;
                 });
             });

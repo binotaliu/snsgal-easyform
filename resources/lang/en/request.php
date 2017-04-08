@@ -32,6 +32,7 @@ return [
 
     'list_title' => 'Requests',
 
+    'field_batch_data' => 'Titles (one line with one record)',
     'field_id' => 'ID',
     'field_created_updated_time' => 'Created/Updated At',
     'field_title' => 'Title',
@@ -75,6 +76,9 @@ return [
 
     'create_btn' => 'New Request',
     'create_title' => 'New Request',
+
+    'create_batch_btn' => 'New Requests',
+    'create_batch_title' => 'New Requests',
 
     'detail_btn' => 'View',
     'detail_title' => 'Request Detail',

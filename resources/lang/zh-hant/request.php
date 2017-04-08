@@ -32,6 +32,7 @@ return [
 
     'list_title' => '地址單',
 
+    'field_batch_data' => '標題（一行一個）',
     'field_id' => 'ID',
     'field_created_updated_time' => '建立/更新時間',
     'field_title' => '標題',
@@ -75,6 +76,8 @@ return [
 
     'create_btn' => '新建地址單',
     'create_title' => '新建地址單',
+    'create_batch_btn' => '批次新建地址單',
+    'create_batch_title' => '批次新建地址單',
 
     'detail_btn' => '檢視',
     'detail_title' => '地址單',

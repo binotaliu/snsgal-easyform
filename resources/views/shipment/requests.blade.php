@@ -16,6 +16,9 @@
                         <button type="button" v-on:click="showCreate()" class="btn btn-primary">
                             <i class="fa fa-plus"></i> {{ trans('request.create_btn') }}
                         </button>
+                        <button type="button" v-on:click="showCreateBatch()" class="btn btn-default">
+                            <i class="fa fa-plus"></i> {{ trans('request.create_batch_btn') }}
+                        </button>
                         <button type="button" v-on:click="showSender()" class="btn btn-default">
                             <i class="fa fa-address-card"></i> {{ trans('request.profile_btn') }}
                         </button>
@@ -427,6 +430,39 @@
                             <div class="col-sm-10 col-sm-offset-2">
                                 <button type="button" v-on:click="createRequest()" class="btn btn-primary">{{ trans('request.submit') }}</button>
                             </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="create-batch-modal" class="modal fade" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+
+                    <h4 class="modal-title">{{ trans('request.create_batch_title') }}</h4>
+                </div>
+
+                <div class="modal-body">
+                    <form class="form">
+                        <div class="form-group">
+                            <label for="create-batch-data" class="control-label">{{ trans('request.field_batch_data') }}</label>
+                            <textarea id="create-batch-data" v-model="createBatchForm.data" class="form-control"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="create-batch-method" class="control-label">{{ trans('request.field_shipping') }}</label>
+                            <select id="create-batch-method" v-model="createBatchForm.method" class="form-control">
+                                <option value="standard">{{ trans('request.shipping_standard') }}</option>
+                                <option value="cvs">{{ trans('request.shipping_cvs') }}</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <button type="button" v-on:click="createRequests()" class="btn btn-primary">{{ trans('request.submit') }}</button>
                         </div>
                     </form>
                 </div>

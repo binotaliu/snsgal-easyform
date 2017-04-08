@@ -83,6 +83,27 @@ class RequestController extends Controller
         return $ticket;
     }
 
+    public function batch(Request $request)
+    {
+        $this->validate($request, [
+            'data' => 'required',
+            'method' => 'required|in:cvs,standard'
+        ]);
+
+        $titles = explode("\n", $request->input('data'));
+        $method = $request->input('method');
+        $tickets = [];
+
+        foreach ($titles as $title) {
+            $title = trim($title);
+            if (empty($title)) continue;
+
+            $tickets[] = $this->requestRepository->createRequest($title, $title, $method);
+        }
+
+        return $tickets;
+    }
+
     /**
      * Get the response form request
      * @param String $token

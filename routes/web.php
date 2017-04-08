@@ -50,6 +50,7 @@ Route::group(['namespace' => 'Shipment'], function () {
         Route::resource('/requests', 'Address\RequestController', [
             'only' => ['index', 'store', 'update']
         ]);
+        Route::post('/requests/batch', 'Address\RequestController@batch');
 
         Route::resource('/sender_profile', 'SenderController', [
             'only' => ['index', 'store']
