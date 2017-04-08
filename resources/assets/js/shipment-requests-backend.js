@@ -80,7 +80,7 @@ const app = new Vue({
         fetchRequests: function () {
             let resource = this.$resource('/api/shipment/requests');
 
-            Splash.enable('windcatcher');
+            Splash.enable('circular');
             return resource.get().then((response) => {
                 return response.json();
             }).then((json) => {
@@ -131,7 +131,7 @@ const app = new Vue({
         archiveRequest: function () {
             let resource = this.$resource('/api/shipment/requests{/token}/archive');
 
-            Splash.enable('windcatcher');
+            Splash.enable('circular');
             return resource.save({token: this.filteredRequests[this.archive].token}, {}).then((response) => {
                 Splash.destroy();
                 $('#archive-modal').modal('hide');
@@ -147,7 +147,7 @@ const app = new Vue({
         saveSender: function () {
             let resource = this.$resource('/api/shipment/sender_profile');
 
-            Splash.enable('windcatcher');
+            Splash.enable('circular');
             return resource.save(this.sender).then((response) => {
                 Splash.destroy();
                 return response;
@@ -167,7 +167,7 @@ const app = new Vue({
         createRequest: function () {
             let resource = this.$resource('/api/shipment/requests');
 
-            Splash.enable('windcatcher');
+            Splash.enable('circular');
             return resource.save(this.createForm).then((response) => { // @TODO: not clear
                 return this.fetchRequests().then((response) => {
                     Splash.destroy();
@@ -191,7 +191,7 @@ const app = new Vue({
         exportTicket: function () {
             let resource = this.$resource('/api/shipment/requests{/token}/export');
 
-            Splash.enable('windcatcher');
+            Splash.enable('circular');
 
             return resource.save({token: this.modalContent.token}, this.exportForm).then((response) => {
                 return response.json()
