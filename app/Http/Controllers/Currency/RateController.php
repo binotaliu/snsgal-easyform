@@ -21,7 +21,8 @@ class RateController extends Controller
         $jpyRate = $this->currencyRepository->getRate('JPY');
 
         $response = [
-            'jpy' => $jpyRate
+            'jpy' => $jpyRate,
+            'timestamp' => time()
         ];
 
         switch ($type) {
