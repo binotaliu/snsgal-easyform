@@ -36,7 +36,11 @@
             <input type="hidden" name="IsCollection" value="N">
             <input type="hidden" name="ServerReplyURL" value="{{ url('map/cvs/response') }}">
             <input type="hidden" name="ExtraData" value="">
-            <input type="hidden" name="Device" value="0">
+            @if (Agent::isMobile())
+                <input type="hidden" name="Device" value="1">
+            @else
+                <input type="hidden" name="Device" value="0">
+            @endif
         </form>
 @endsection
 

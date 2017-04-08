@@ -13,7 +13,8 @@
         "doctrine/dbal": "^2.5",
         "auth0/login": "~4.0",
         "greg0ire/enum": "^3.3",
-        "jailtonsc/laravel-response-xml": "^1.1"
+        "jailtonsc/laravel-response-xml": "^1.1",
+        "jenssegers/agent": "^2.5"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",

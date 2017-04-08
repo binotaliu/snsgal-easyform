@@ -170,6 +170,7 @@ return [
         Matriphe\Format\FormatServiceProvider::class,
         Auth0\Login\LoginServiceProvider::class,
         XmlResponse\XmlResponseServiceProvider::class,
+        Jenssegers\Agent\AgentServiceProvider::class,
 
 
         /*
@@ -234,6 +235,9 @@ return [
 
         'ECPay' => Binota\ECPay\Facades\ECPayFacade::class,
         'ECPayLogistics' => Binota\ECPay\Facades\LogisticsFacade::class,
+
+        'Agent' => Jenssegers\Agent\Facades\Agent::class,
+
     ],
 
 ];
