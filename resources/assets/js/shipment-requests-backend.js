@@ -22,7 +22,7 @@ const app = new Vue({
             package: {
                 products: '',
                 amount: 0,
-                collect: 'N',
+                collect: 'Y',
 
                 vendor: 'TCAT',
                 temperature: '0001',
