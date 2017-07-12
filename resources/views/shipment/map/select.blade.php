@@ -15,8 +15,8 @@
 
                     <div class="panel-body text-center">
                         <div class="btn-group" id="map-selector">
-                            <button type="button" data-cvs="UNIMART" class="btn btn-lg btn-default">{{ trans('request.cvs_unimart') }}</button>
-                            <button type="button" data-cvs="FAMI" class="btn btn-lg btn-default">{{ trans('request.cvs_fami') }}</button>
+                            <button type="button" data-cvs="UNIMARTC2C" class="btn btn-lg btn-default">{{ trans('request.cvs_unimart') }}</button>
+                            <button type="button" data-cvs="FAMIC2C" class="btn btn-lg btn-default">{{ trans('request.cvs_fami') }}</button>
                         </div>
                     </div>
                 </div>
