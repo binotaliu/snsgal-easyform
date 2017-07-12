@@ -135,12 +135,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/BinotaLIU/ECPay-PHP-SDK.git",
-                "reference": "beafd5079c5f41387b59e36e16c04fee83ea613f"
+                "reference": "e1b0feb2b4776e0b787f230e716517210a75127e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/BinotaLIU/ECPay-PHP-SDK/zipball/beafd5079c5f41387b59e36e16c04fee83ea613f",
-                "reference": "beafd5079c5f41387b59e36e16c04fee83ea613f",
+                "url": "https://api.github.com/repos/BinotaLIU/ECPay-PHP-SDK/zipball/e1b0feb2b4776e0b787f230e716517210a75127e",
+                "reference": "e1b0feb2b4776e0b787f230e716517210a75127e",
                 "shasum": ""
             },
             "require": {
@@ -155,7 +155,8 @@
             "type": "library",
             "autoload": {
                 "psr-4": {
-                    "Binota\\ECPay\\": "src/ECPay"
+                    "Binota\\ECPay\\": "src/ECPay",
+                    "Binota\\ECPay\\Tests\\": "tests"
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
@@ -169,7 +170,7 @@
                 }
             ],
             "description": "An Unofficial ECPay SDK for PHP",
-            "time": "2017-01-26 14:19:04"
+            "time": "2017-01-26T16:53:21+00:00"
         },
         {
             "name": "classpreloader/classpreloader",
