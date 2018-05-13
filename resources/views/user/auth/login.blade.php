@@ -17,9 +17,22 @@
 @section('footer')
     <script>
         (function () {
-            "use strict";
-            var lock = new Auth0Lock(AUTH0_CLIENT_ID, AUTH0_DOMAIN, extend({container: 'auth0-root'}, auth0Configurations));
-            lock.show();
+          "use strict";
+          const AUTH0_CLIENT_ID = '{{ env('AUTH0_CLIENT_ID') }}';
+          const AUTH0_DOMAIN = '{{ env('AUTH0_DOMAIN') }}';
+          const auth0Configurations = {
+            auth: {
+              redirectUrl: '{{ url('auth0/callback') }}',
+              responseMode: 'form_post',
+              responseType: 'code',
+              params: {
+                scope: 'openid email',
+              },
+            },
+            language: 'zh-TW',
+          };
+          const lock = new Auth0Lock(AUTH0_CLIENT_ID, AUTH0_DOMAIN, extend({container: 'auth0-root'}, auth0Configurations));
+          lock.show();
         })();
     </script>
 @endsection
