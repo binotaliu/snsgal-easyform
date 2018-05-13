@@ -12,12 +12,7 @@ class Kernel extends ConsoleKernel
      *
      * @var array
      */
-    protected $commands = [
-        Commands\UpdateCurrencyRates::class,
-        Commands\InitialConfigs::class,
-        Commands\SetConfig::class,
-        Commands\UserOp::class,
-    ];
+    protected $commands = [];
 
     /**
      * Define the application's command schedule.
@@ -41,5 +36,6 @@ class Kernel extends ConsoleKernel
     protected function commands()
     {
         require base_path('routes/console.php');
+        $this->load(__DIR__.'/Commands');
     }
 }

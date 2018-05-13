@@ -167,7 +167,6 @@ return [
          * Package Service Providers...
          */
 
-        Matriphe\Format\FormatServiceProvider::class,
         Auth0\Login\LoginServiceProvider::class,
         XmlResponse\XmlResponseServiceProvider::class,
         Jenssegers\Agent\AgentServiceProvider::class,
@@ -230,7 +229,6 @@ return [
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
 
-        'Format' => Matriphe\Format\Facades\FormatFacade::class,
         'Auth0' => Auth0\Login\Facade\Auth0::class,
 
         'ECPay' => Binota\ECPay\Facades\ECPayFacade::class,
