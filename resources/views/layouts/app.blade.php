@@ -100,7 +100,7 @@
         const auth0Configurations = {
           auth: {
             redirectUrl: '{{ url('auth0/callback') }}',
-            responseMode: 'form_post',
+            responseMode: 'query',
             responseType: 'code',
             params: {
               scope: 'openid email'
