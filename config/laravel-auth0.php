@@ -11,6 +11,7 @@ return array(
     */
 
     'domain'        => env('AUTH0_DOMAIN'),
+
     /*
     |--------------------------------------------------------------------------
     |   Your APP id
@@ -28,13 +29,13 @@ return array(
     |   As set in the auth0 administration page
     |
     */
-    // 'client_secret' => 'XXXXX',
+
     'client_secret' => env('AUTH0_CLIENT_SECRET'),
 
    /*
     |--------------------------------------------------------------------------
     |   The redirect URI
-    |----------------------------------------------------, '\Auth0\Login\Auth0Controller@callback'----------------------
+    |--------------------------------------------------------------------------
     |   Should be the same that the one configure in the route to handle the
     |   'Auth0\Login\Auth0Controller@callback'
     |
@@ -64,7 +65,7 @@ return array(
     |   This is used to verify the decoded tokens when using RS256
     |
     */
-    // 'authorized_issuers'  => [ 'https://XXXX.auth0.com/' ],
+    'authorized_issuers'  => [ env( 'AUTH0_DOMAIN' ) ],
 
     /*
     |--------------------------------------------------------------------------
@@ -81,7 +82,24 @@ return array(
     |   Used to know if it should decode the secret when using HS256
     |
     */
-    // 'secret_base64_encoded'  => true,
+
     'secret_base64_encoded'  => true,
 
+    /*
+    |--------------------------------------------------------------------------
+    |   Supported algorithms
+    |--------------------------------------------------------------------------
+    |   Token decoding algorithms supported by your API
+    |
+    */
+    'supported_algs'        => [ 'RS256' ],
+
+    /*
+    |--------------------------------------------------------------------------
+    |   Guzzle Options
+    |--------------------------------------------------------------------------
+    |   guzzle_options    (array) optional. Used to specify additional connection options e.g. proxy settings
+    |
+    */
+    // 'guzzle_options' => []
 );
