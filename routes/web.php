@@ -19,7 +19,7 @@ Route::get('/', function () {
     }
 });
 
-Route::post('/auth0/callback', '\Auth0\Login\Auth0Controller@callback');
+Route::any('/auth0/callback', '\Auth0\Login\Auth0Controller@callback');
 Route::post('/user/logout', function () {
     Auth::logout();
     return redirect('/home');
