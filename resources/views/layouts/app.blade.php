@@ -91,23 +91,25 @@
     </footer>
     {{-- Scripts --}}
     <script src="{{ elixir('js/app.js') }}"></script>
-    <script src="https://cdn.auth0.com/js/lock/10.9.1/lock.min.js"></script>
+    <script src="https://cdn.auth0.com/js/lock/11.6.1/lock.min.js"></script>
     <script>
+      (function () {
         "use strict";
-        var AUTH0_CLIENT_ID = '{{ env('AUTH0_CLIENT_ID') }}';
-        var AUTH0_DOMAIN = '{{ env('AUTH0_DOMAIN') }}';
-        var auth0Configurations = {
-            auth: {
-                redirectUrl: '{{ url('auth0/callback') }}',
-                responseMode: 'form_post',
-                responseType: 'code',
-                params: {
-                    scope: 'openid email'
-                }
-            },
-            language: 'zh-TW',
+        const AUTH0_CLIENT_ID = '{{ env('AUTH0_CLIENT_ID') }}';
+        const AUTH0_DOMAIN = '{{ env('AUTH0_DOMAIN') }}';
+        const auth0Configurations = {
+          auth: {
+            redirectUrl: '{{ url('auth0/callback') }}',
+            responseMode: 'form_post',
+            responseType: 'code',
+            params: {
+              scope: 'openid email'
+            }
+          },
+          language: 'zh-TW',
         };
-        var lock = new Auth0Lock(AUTH0_CLIENT_ID, AUTH0_DOMAIN, auth0Configurations);
+        window.lock = new Auth0Lock(AUTH0_CLIENT_ID, AUTH0_DOMAIN, auth0Configurations);
+      })();
     </script>
     @yield('footer')
 </body>
