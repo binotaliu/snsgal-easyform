@@ -48,5 +48,7 @@ class SetConfig extends Command
         } else {
             $this->configRepository->addConfig($this->argument('key'), $this->argument('value'));
         }
+
+        return 0;
     }
 }

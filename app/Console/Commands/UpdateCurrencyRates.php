@@ -64,6 +64,6 @@ class UpdateCurrencyRates extends Command
         $newRate->save();
 
         $this->info("Modded rate: {$rate}, updated");
-        return;
+        return 0;
     }
 }

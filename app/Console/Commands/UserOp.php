@@ -48,5 +48,7 @@ class UserOp extends Command
         $this->user->where('email', $email)->update([
             'is_admin' => true
         ]);
+
+        return 0;
     }
 }

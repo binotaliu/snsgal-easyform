@@ -29,5 +29,7 @@ class CreateUserCommand extends Command
 
         $this->line('User created successfully,');
         $this->line('Default password: ' . $plainPassword);
+
+        return 0;
     }
 }
