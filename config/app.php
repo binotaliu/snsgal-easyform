@@ -165,7 +165,6 @@ return [
         /*
          * Package Service Providers...
          */
-        Jenssegers\Agent\AgentServiceProvider::class,
 
         /*
          * Application Service Providers...
