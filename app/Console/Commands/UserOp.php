@@ -2,7 +2,7 @@
 
 namespace App\Console\Commands;
 
-use App\Eloquent\User;
+use App\Models\User;
 use Illuminate\Console\Command;
 
 class UserOp extends Command

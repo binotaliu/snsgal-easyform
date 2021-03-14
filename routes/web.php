@@ -11,21 +11,16 @@
 |
 */
 
+Route::group(['prefix' => 'user'], function () {
+    Auth::routes(['register' => false]);
+});
+
 Route::get('/', function () {
     if (Auth::guest()) {
-        return redirect('https://www.snsgal.com/');
+        return redirect('https://www.snsgal.com.tw/');
     } else {
         return redirect('/home');
     }
-});
-
-Route::any('/auth0/callback', '\Auth0\Login\Auth0Controller@callback');
-Route::post('/user/logout', function () {
-    Auth::logout();
-    return redirect('/home');
-});
-Route::get('/user/login', function () {
-    return view('user.auth.login');
 });
 
 Route::get('/home', 'HomeController@index');
@@ -33,77 +28,32 @@ Route::get('/home', 'HomeController@index');
 Route::group(['namespace' => 'Shipment'], function () {
     // /shipment/requests
     Route::group(['prefix' => 'shipment'], function () {
-        Route::get('/requests/{token}', 'Address\RequestController@get');
-        Route::post('/requests/{token}/address', 'Address\RequestController@addAddress');
-        Route::post('/requests/{token}/notify', 'Address\RequestController@notify');
+        Route::get('/requests/{token}', 'AddressTicketsController@get');
+        Route::post('/requests/{token}/address', 'AddressTicketsController@addAddress');
+        Route::post('/requests/{token}/notify', 'AddressTicketsController@notify');
 
         Route::group(['middleware' => ['auth', 'admin']], function () {
-            Route::get('/requests', 'Address\RequestController@view'); // vue handle
-            Route::get('/requests/{token}/print', 'Address\RequestController@print');
+            Route::get('/requests', 'AddressTicketsController@view'); // vue handle
+            Route::get('/requests/{token}/print', 'AddressTicketsController@print');
         });
     });
 
     // /api/shipment
     Route::group(['prefix' => 'api/shipment', 'middleware' => ['auth', 'admin']], function () {
-        Route::post('/requests/{token}/export', 'Address\RequestController@export');
-        Route::post('/requests/{token}/archive', 'Address\RequestController@archive');
-        Route::resource('/requests', 'Address\RequestController', [
+        Route::post('/requests/{token}/export', 'AddressTicketsController@export');
+        Route::post('/requests/{token}/archive', 'AddressTicketsController@archive');
+        Route::resource('/requests', 'AddressTicketsController', [
             'only' => ['index', 'store', 'update']
         ]);
-        Route::post('/requests/batch', 'Address\RequestController@batch');
+        Route::post('/requests/batch', 'AddressTicketsController@batch');
 
         Route::resource('/sender_profile', 'SenderController', [
             'only' => ['index', 'store']
         ]);
     });
 
-    Route::get('/map/cvs', 'Address\RequestController@cvsmap');
-    Route::post('/map/cvs/response', 'Address\RequestController@cvsmapResponse');
-});
-
-
-Route::group(['namespace' => 'Procurement'], function () {
-    // /procurement/tickets
-    Route::group(['prefix' => 'procurement'], function () {
-        Route::get('/tickets/new', 'TicketController@new');
-        Route::get('/tickets/{token}', 'TicketController@get');
-
-        Route::group(['middleware' => ['auth', 'admin']], function () {
-            Route::get('/tickets', 'TicketController@view'); // vue handle
-        });
-    });
-
-    Route::group(['prefix' => 'api/procurement'], function () {
-        Route::resource('/tickets', 'TicketController', [
-            'only' => ['store']
-        ]);
-    });
-
-    Route::group(['prefix' => 'api/procurement', 'middleware' => ['auth', 'admin']], function () {
-        Route::post('/tickets/{token}/archive', 'TicketController@archive');
-        Route::post('/tickets/{token}/status', 'TicketController@updateTicketStatus');
-        Route::post('/ticket-items/{itemId}/status', 'TicketController@updateItemStatus');
-
-        Route::resource('/tickets', 'TicketController', [
-            'only' => ['index', 'update']
-        ]);
-
-        Route::resource('/shipment_methods/japan', 'Ticket\ShipmentMethod\JapanController', [
-            'only' => ['index', 'store']
-        ]);
-
-        Route::resource('/shipment_methods/local', 'Ticket\ShipmentMethod\LocalController', [
-            'only' => ['index', 'store']
-        ]);
-
-        Route::resource('/item_categories', 'Item\CategoryController', [
-            'only' => ['index', 'store']
-        ]);
-
-        Route::resource('/item_extra_services', 'Item\ExtraServiceController', [
-            'only' => ['index', 'store']
-        ]);
-    });
+    Route::get('/map/cvs', 'AddressTicketsController@cvsmap');
+    Route::post('/map/cvs/response', 'AddressTicketsController@cvsmapResponse');
 });
 
 Route::group(['middleware' => ['auth', 'admin']], function () {

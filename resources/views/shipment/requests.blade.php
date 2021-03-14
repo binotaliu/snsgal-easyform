@@ -210,16 +210,16 @@
 
                     <div v-if="modalContent.responded" class="alert alert-info">
                         <div v-if="modalContent.address_type == 'cvs'">
-                            @{{ modalContent.cvs_address.receiver }} @{{ modalContent.cvs_address.phone }} <br>
-                            @{{ modalContent.cvs_address.vendor }} @{{ modalContent.cvs_address.store }} <br>
+                            @{{ modalContent.receiver_name }} @{{ modalContent.receiver_phone }} <br>
+                            @{{ modalContent.address.vendor }} @{{ modalContent.address.store }} <br>
                         </div>
                         <div v-if="modalContent.address_type == 'standard'">
-                            @{{ modalContent.standard_address.receiver }} @{{ modalContent.standard_address.phone }} <br>
-                            @{{ modalContent.standard_address.postcode }}
-                            @{{ modalContent.standard_address.county }}
-                            @{{ modalContent.standard_address.city }}
-                            @{{ modalContent.standard_address.address1 }} <br>
-                            @{{ modalContent.standard_address.address2 }} <br>
+                            @{{ modalContent.receiver_name }} @{{ modalContent.receiver_phone }} <br>
+                            @{{ modalContent.address.postcode }}
+                            @{{ modalContent.address.county }}
+                            @{{ modalContent.address.city }}
+                            @{{ modalContent.address.address_1 }} <br>
+                            @{{ modalContent.address.address_2 }} <br>
                         </div>
                     </div>
 
@@ -506,5 +506,5 @@
     <script>
         var EcpayCodes = {!! json_encode($ecpay_codes) !!};
     </script>
-    <script src="{{ elixir('js/shipment-requests-backend.js') }}"></script>
+    <script src="{{ mix('dist/js/shipment-requests-backend.js') }}"></script>
 @endsection

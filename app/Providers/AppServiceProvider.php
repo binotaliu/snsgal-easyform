@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use App\Models;
+use App\Observers;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -13,7 +15,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+        Models\Shipment\AddressTicket::observe(Observers\Shipment\AddressRequestObserver::class);
     }
 
     /**
@@ -27,7 +29,5 @@ class AppServiceProvider extends ServiceProvider
             $this->app->register(\Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider::class);
             $this->app->register(\Barryvdh\Debugbar\ServiceProvider::class);
         }
-        $this->app->bind(\Auth0\Login\Contract\Auth0UserRepository::class,
-            \App\Repositories\UserRepository::class);
     }
 }

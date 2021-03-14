@@ -11,17 +11,20 @@
 |
 */
 
-$factory->define(App\Eloquent\User::class, function (Faker\Generator $faker) {
+use Illuminate\Support\Facades\Hash as Hash;
+
+$factory->define(App\Models\User::class, function (Faker\Generator $faker) {
     static $password;
 
     return [
         'name' => $faker->name,
         'email' => $faker->unique()->safeEmail,
-        'auth0id' => random_int(1, 999999)
+        'password' => Hash::make('password'),
+        'remember_token' => '',
     ];
 });
 
-$factory->define(App\Eloquent\Shipment\Address\Request::class, function (Faker\Generator $faker) {
+$factory->define(\App\Models\Shipment\AddressTicket::class, function (Faker\Generator $faker) {
     $faker->seed(time() . random_int(1, 99999));
     return [
         'title' => $faker->company,
@@ -31,7 +34,7 @@ $factory->define(App\Eloquent\Shipment\Address\Request::class, function (Faker\G
     ];
 });
 
-$factory->state(App\Eloquent\Shipment\Address\Request::class, 'cvs', function (Faker\Generator $faker) {
+$factory->state(\App\Models\Shipment\AddressTicket::class, 'cvs', function (Faker\Generator $faker) {
     $faker->seed(time() . random_int(1, 99999));
     return [
         'title' => $faker->company,
@@ -41,7 +44,7 @@ $factory->state(App\Eloquent\Shipment\Address\Request::class, 'cvs', function (F
     ];
 });
 
-$factory->state(App\Eloquent\Shipment\Address\Request::class, 'standard', function (Faker\Generator $faker) {
+$factory->state(\App\Models\Shipment\AddressTicket::class, 'standard', function (Faker\Generator $faker) {
     $faker->seed(time() . random_int(1, 99999));
     return [
         'title' => $faker->company,
@@ -51,7 +54,7 @@ $factory->state(App\Eloquent\Shipment\Address\Request::class, 'standard', functi
     ];
 });
 
-$factory->define(App\Eloquent\Procurement\Item\Category::class, function (Faker\Generator $faker) {
+$factory->define(App\Models\Procurement\Item\Category::class, function (Faker\Generator $faker) {
     return [
         'name' => $faker->name,
         'value' => $faker->randomFloat(2, 0, 100),
@@ -59,14 +62,14 @@ $factory->define(App\Eloquent\Procurement\Item\Category::class, function (Faker\
     ];
 });
 
-$factory->define(App\Eloquent\Procurement\Ticket\ShipmentMethod\Japan::class, function (Faker\Generator $faker) {
+$factory->define(App\Models\Procurement\Ticket\ShipmentMethod\Japan::class, function (Faker\Generator $faker) {
     return [
         'name' => $faker->name,
         'price' => $faker->numberBetween(0, 999)
     ];
 });
 
-$factory->define(App\Eloquent\Procurement\Ticket\ShipmentMethod\Local::class, function (Faker\Generator $faker) {
+$factory->define(App\Models\Procurement\Ticket\ShipmentMethod\Local::class, function (Faker\Generator $faker) {
     return [
         'name' => $faker->name,
         'type' => $faker->boolean ? 'cvs' : 'standard',
@@ -75,7 +78,7 @@ $factory->define(App\Eloquent\Procurement\Ticket\ShipmentMethod\Local::class, fu
     ];
 });
 
-$factory->define(App\Eloquent\Procurement\Item\ExtraService::class, function (Faker\Generator $faker) {
+$factory->define(App\Models\Procurement\Item\ExtraService::class, function (Faker\Generator $faker) {
     return [
         'name' => $faker->name,
         'price' => $faker->randomNumber(),

@@ -4,7 +4,7 @@
 namespace App\Repositories;
 
 
-use App\Eloquent\Config;
+use App\Models\Config;
 
 class ConfigRepository
 {

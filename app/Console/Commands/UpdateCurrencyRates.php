@@ -2,8 +2,8 @@
 
 namespace App\Console\Commands;
 
+use App\Models\CurrencyRate;
 use App\Repositories\ConfigRepository;
-use App\Repositories\CurrencyRepository;
 use App\Services\CurrencyService;
 use Illuminate\Console\Command;
 
@@ -29,11 +29,6 @@ class UpdateCurrencyRates extends Command
     protected $currencyService;
 
     /**
-     * @var CurrencyRepository
-     */
-    protected $currencyRepository;
-
-    /**
      * @var ConfigRepository
      */
     protected $configRepository;
@@ -41,14 +36,12 @@ class UpdateCurrencyRates extends Command
     /**
      * Create a new command instance.
      * @param CurrencyService $currencyService
-     * @param CurrencyRepository $currencyRepository
      */
-    public function __construct(CurrencyService $currencyService, CurrencyRepository $currencyRepository, ConfigRepository $configRepository)
+    public function __construct(CurrencyService $currencyService, ConfigRepository $configRepository)
     {
         parent::__construct();
 
         $this->currencyService = $currencyService;
-        $this->currencyRepository = $currencyRepository;
         $this->configRepository = $configRepository;
     }
 
@@ -59,10 +52,17 @@ class UpdateCurrencyRates extends Command
      */
     public function handle()
     {
-        $rate = (float)$this->currencyService->getLatestRate('JPY');
-        $this->info("Un-modded rate: {$rate}");
-        $rate += $this->configRepository->getConfig('currency.jpy_mod');
-        $this->currencyRepository->updateRate('JPY', $rate);
+        // @todo: use decimal
+        $originalRate = CurrencyRate::latestOf('JPY')->rate;
+
+        $this->info("Un-modded rate: {$originalRate}");
+        $rate = $originalRate + (float)$this->configRepository->getConfig('currency.jpy_mod');
+
+        $newRate = new CurrencyRate;
+        $newRate->currency = 'JPY';
+        $newRate->rate = $rate;
+        $newRate->save();
+
         $this->info("Modded rate: {$rate}, updated");
         return;
     }

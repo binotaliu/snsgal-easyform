@@ -10,7 +10,7 @@
 
     <title>@yield('title') - {{ config('app.name', '穹ノ空') }}</title>
 
-    <link href="{{ elixir('css/app.css') }}" rel="stylesheet">
+    <link href="{{ mix('dist/css/app.css') }}" rel="stylesheet">
     <script>
         window.Snsgal = <?php echo json_encode([
             'csrfToken' => csrf_token(),
@@ -42,7 +42,6 @@
                     <ul class="nav navbar-nav">
                         @if (!Auth::guest() && Auth::user()->is_admin)
                             <li><a href="{{ url('/shipment/requests') }}">{{ trans('request.list_title') }}</a></li>
-                            <li><a href="{{ url('/procurement/tickets') }}">{{ trans('procurement_ticket.ticket') }}</a></li>
                         @endif
                     </ul>
 
@@ -90,27 +89,7 @@
         </div>
     </footer>
     {{-- Scripts --}}
-    <script src="{{ elixir('js/app.js') }}"></script>
-    <script src="https://cdn.auth0.com/js/lock/11.6.1/lock.min.js"></script>
-    <script>
-      (function () {
-        "use strict";
-        const AUTH0_CLIENT_ID = '{{ env('AUTH0_CLIENT_ID') }}';
-        const AUTH0_DOMAIN = '{{ env('AUTH0_DOMAIN') }}';
-        const auth0Configurations = {
-          auth: {
-            redirectUrl: '{{ url('auth0/callback') }}',
-            responseMode: 'query',
-            responseType: 'code',
-            params: {
-              scope: 'openid email'
-            }
-          },
-          language: 'zh-TW',
-        };
-        window.lock = new Auth0Lock(AUTH0_CLIENT_ID, AUTH0_DOMAIN, auth0Configurations);
-      })();
-    </script>
+    <script src="{{ mix('dist/js/app.js') }}"></script>
     @yield('footer')
 </body>
 </html>

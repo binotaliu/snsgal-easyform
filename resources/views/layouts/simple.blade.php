@@ -11,7 +11,7 @@
     <title>{{ config('app.name', 'Yubin Terminator') }}</title>
 
     <!-- Styles -->
-    <link href="{{ elixir('css/app.css') }}" rel="stylesheet">
+    <link href="{{ mix('dist/css/app.css') }}" rel="stylesheet">
 
     <!-- Scripts -->
     <script>
@@ -26,7 +26,7 @@
     </div>
 
     <!-- Scripts -->
-    <script src="{{ elixir('js/app.js') }}"></script>
+    <script src="{{ mix('dist/js/app.js') }}"></script>
     @yield('footer')
 </body>
 </html>

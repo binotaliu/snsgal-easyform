@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Shipment;
 
-use App\Repositories\Shipment\Address\RequestRepository;
+use App\Models\SenderProfile;
 use Auth;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -10,18 +10,8 @@ use App\Http\Controllers\Controller;
 class SenderController extends Controller
 {
     /**
-     * @var RequestRepository
-     */
-    protected $requestRepository;
-
-    public function __construct(RequestRepository $requestRepository)
-    {
-        $this->requestRepository = $requestRepository;
-    }
-
-    /**
      * Get user's profile
-     * @return \App\Eloquent\User\RequestProfile|array
+     * @return \App\Models\SenderProfile|array
      */
     public function index()
     {
@@ -50,12 +40,17 @@ class SenderController extends Controller
             'postcode' => 'required|numeric|digits:3',
             'address' => 'required'
         ]);
-        $this->requestRepository->updateProfile(Auth::user()->id, [
-            'name' => $request->input('name'),
-            'phone' => $request->input('phone'),
-            'postcode' => $request->input('postcode'),
-            'address' => $request->input('address')
-        ]);
+
+        SenderProfile::updateOrCreate(
+            ['user_id' => Auth::user()->id],
+            [
+                'name' => $request->input('name'),
+                'phone' => $request->input('phone'),
+                'postcode' => $request->input('postcode'),
+                'address' => $request->input('address'),
+            ]
+        );
+
         return ['status' => 'ok'];
     }
 
