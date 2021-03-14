@@ -87,8 +87,8 @@
                                     <tbody>
                                     <tr v-for="(request, index) in filteredRequests">
                                         <td class="text-center">@{{ request.id }}</td>
-                                        <td>@{{ request.created_at }}<br>
-                                            @{{ request.updated_at }}</td>
+                                        <td>@{{ $dayjs(request.created_at).format('YYYY-MM-DD HH:mm:ss') }}<br>
+                                            @{{ $dayjs(request.updated_at).format('YYYY-MM-DD HH:mm:ss') }}</td>
                                         <td>@{{ request.title }}<br>
                                             <small>
                                                 <a v-bind:href="'{{ url('shipment/requests') }}/' + request.token" target="_blank">

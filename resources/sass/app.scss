@@ -6,16 +6,16 @@
 @import "variables";
 
 // Bootstrap
-@import "node_modules/bootstrap-sass/assets/stylesheets/bootstrap";
+@import "~bootstrap-sass/assets/stylesheets/bootstrap";
 
 // Font Awesome
-@import "node_modules/font-awesome/scss/font-awesome";
+@import "~font-awesome/css/font-awesome";
 
 // Text-Spinners
-@import "node_modules/text-spinners/spinners.scss";
+@import "~text-spinners/spinners.scss";
 
 // Splash
-@import "node_modules/splash-screen/dist/splash.min";
+@import "~splash-screen/dist/splash.min";
 
 .navbar-default {
   box-shadow: inset 12px 0 0 #10516f;

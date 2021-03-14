@@ -1,5 +1,14 @@
+import axios from 'axios'
+import dayjs from 'dayjs'
+import Vue from 'vue'
 
-window._ = require('lodash');
+import { Splash } from 'splash-screen'
+
+import 'dayjs/locale/zh-tw'
+dayjs.locale('zh-tw')
+
+window.dayjs = dayjs
+Vue.prototype.$dayjs = dayjs
 
 /**
  * We'll load jQuery and the Bootstrap jQuery plugin which provides support
@@ -16,23 +25,12 @@ require('bootstrap-sass');
  * and simple, leaving you to focus on building your next great project.
  */
 
-window.Vue = require('vue');
-require('vue-resource');
+window.Vue = Vue;
 
-/**
- * We'll register a HTTP interceptor to attach the "CSRF" header to each of
- * the outgoing requests issued by this application. The CSRF middleware
- * included with Laravel will automatically verify the header's value.
- */
+window.axios = axios
+axios.defaults.headers['X-CSRF-TOKEN'] = Snsgal.csrfToken;
 
-Vue.http.interceptors.push((request, next) => {
-    request.headers.set('X-CSRF-TOKEN', Snsgal.csrfToken);
-
-    next();
-});
-
-window.extend = require('extend');
-window.Splash = require('splash-screen').Splash;
+window.Splash = Splash;
 window.moneyFormatter = require('money-formatter');
 
 /**

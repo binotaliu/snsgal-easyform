@@ -78,34 +78,24 @@ const app = new Vue({
     },
     methods: {
         fetchRequests: function () {
-            let resource = this.$resource('/api/shipment/requests');
-
             Splash.enable('circular');
-            return resource.get().then((response) => {
-                return response.json();
-            }).then((json) => {
-                this.$set(this, 'requests', json);
+            return axios.get('/api/shipment/requests').then(({ data }) => {
+                this.$set(this, 'requests', data);
                 Splash.destroy();
-                return json;
             });
         },
         fetchSender: function () {
-            let resource = this.$resource('/api/shipment/sender_profile');
-
-            return resource.get().then((response) => {
-                return response.json();
-            }).then((json) => {
-                this.$set(this, 'sender', extend({
+            return axios.get('/api/shipment/sender_profile').then(({ data }) => {
+                this.$set(this, 'sender', Object.assign({}, {
                     name: '',
                     phone: '',
                     postcode: '',
                     address: ''
-                }, json));
-                return json;
+                }, data));
             });
         },
         showRequest: function (index) {
-            this.modalContent = extend({loading: false}, this.filteredRequests[index]);
+            this.modalContent = Object.assign({}, { loading: false }, this.filteredRequests[index]);
 
             this.exportForm.loading = false;
 
@@ -129,28 +119,23 @@ const app = new Vue({
             $('#archive-modal').modal('show');
         },
         archiveRequest: function () {
-            let resource = this.$resource('/api/shipment/requests{/token}/archive');
 
             Splash.enable('circular');
-            return resource.save({token: this.filteredRequests[this.archive].token}, {}).then((response) => {
-                Splash.destroy();
-                $('#archive-modal').modal('hide');
+            return axios.post(`/api/shipment/requests/${this.filteredRequests[this.archive].token}/archive`)
+                .then(() => {
+                    Splash.destroy();
+                    $('#archive-modal').modal('hide');
 
-                this.requests.splice(this.archive, 1);
-
-                return response;
-            });
+                    this.requests.splice(this.archive, 1);
+                });
         },
         showSender: function () {
             $('#sender-modal').modal('show');
         },
         saveSender: function () {
-            let resource = this.$resource('/api/shipment/sender_profile');
-
             Splash.enable('circular');
-            return resource.save(this.sender).then((response) => {
+            return axios.post('/api/shipment/sender_profile', this.sender).then(() => {
                 Splash.destroy();
-                return response;
             });
         },
         showCreate: function () {
@@ -165,46 +150,36 @@ const app = new Vue({
             $('#create-batch-modal').modal('show');
         },
         createRequest: function () {
-            let resource = this.$resource('/api/shipment/requests');
-
             Splash.enable('circular');
-            return resource.save(this.createForm).then((response) => { // @TODO: not clear
-                return this.fetchRequests().then((response) => {
+            return axios.post('/api/shipment/requests', this.createForm).then(() => { // @TODO: not clear
+                return this.fetchRequests().then(() => {
                     Splash.destroy();
                     $('#create-modal').modal('hide');
-                    return response;
                 });
             });
         },
         createRequests: function () {
-            let resource = this.$resource('/api/shipment/requests/batch');
-
             Splash.enable('circular');
-            return resource.save(this.createBatchForm).then((response) => { // @TODO: not clear
-                return this.fetchRequests().then((response) => {
+            return axios.post('/api/shipment/requests/batch', this.createBatchForm).then(() => { // @TODO: not clear
+                return this.fetchRequests().then(() => {
                     Splash.destroy();
                     $('#create-batch-modal').modal('hide');
-                    return response;
                 });
             });
         },
         exportTicket: function () {
-            let resource = this.$resource('/api/shipment/requests{/token}/export');
-
             Splash.enable('circular');
 
-            return resource.save({token: this.modalContent.token}, this.exportForm).then((response) => {
-                return response.json()
-            }, (response) => {
-                // @TODO: error handle
-            }).then((json) => {
-                this.fetchRequests().then(response => {
-                    $('#request-modal').modal('hide');
-                    Splash.destroy();
-                });
+            return axios
+                .post(`/api/shipment/requests/${this.modalContent.token}/export`, this.exportForm)
+                .then(({ data }) => {
+                    this.fetchRequests().then(response => {
+                        $('#request-modal').modal('hide');
+                        Splash.destroy();
+                    });
 
-                return json;
-            });
+                    return data;
+                });
         }
     }
 });

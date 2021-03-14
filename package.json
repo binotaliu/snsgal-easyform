@@ -5,7 +5,7 @@
     "watch": "mix watch",
     "watch-poll": "mix watch -- --watch-options-poll=1000",
     "hot": "mix watch --hot",
-    "prod": "npm --production"
+    "prod": "mix --production"
   },
   "devDependencies": {
     "axios": "^0.21.1",
@@ -13,10 +13,12 @@
     "resolve-url-loader": "^3.1.2",
     "sass": "^1.32.8",
     "sass-loader": "^11.0.1",
+    "vue-loader": "^15.9.6",
     "vue-template-compiler": "^2.6.12"
   },
   "dependencies": {
     "bootstrap-sass": "^3.4.1",
+    "dayjs": "^1.10.4",
     "font-awesome": "^4.7.0",
     "jquery": "^3.6.0",
     "money-formatter": "^0.1.4",

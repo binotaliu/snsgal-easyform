@@ -1,9 +1,8 @@
 /node_modules
 /public/build
 /public/storage
-/public/css
-/public/js
-/public/fonts
+/public/dist
+/public/mix-manifest.json
 /vendor
 /.idea
 Homestead.json
