@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use App\Models;
 use App\Observers;
+use Illuminate\Pagination\Paginator;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -15,6 +16,8 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        Paginator::useBootstrapThree();
+
         Models\Shipment\AddressTicket::observe(Observers\Shipment\AddressRequestObserver::class);
     }
 

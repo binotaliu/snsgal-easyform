@@ -1,8 +1,10 @@
 <?php
 
+namespace Database\Seeders;
+
 use Illuminate\Database\Seeder;
 
-class RequestsSeeder extends Seeder
+class DatabaseSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -11,6 +13,6 @@ class RequestsSeeder extends Seeder
      */
     public function run()
     {
-        factory(\App\Models\Shipment\AddressTicket::class, 50)->create();
+        // $this->call(UsersTableSeeder::class);
     }
 }
