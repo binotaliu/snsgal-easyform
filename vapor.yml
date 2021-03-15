@@ -2,7 +2,7 @@ id: 4961
 name: snsgal
 environments:
     production:
-        runtime: php-8.0:al2
+        runtime: 'php-8.0:al2'
         memory: 1024
         cli-memory: 512
         domain: yubin.snsgal.com.tw
@@ -11,7 +11,7 @@ environments:
             - 'php artisan event:cache'
             - 'npm ci && npm run prod && rm -rf node_modules'
     staging:
-        runtime: php-8.0:al2
+        runtime: 'php-8.0:al2'
         memory: 1024
         cli-memory: 512
         build:
