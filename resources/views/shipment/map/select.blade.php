@@ -24,12 +24,12 @@
         </div>
     </div>
 
-    @if (env('ECPAY_MERCHANT_ID') == '2000132' || env('ECPAY_MERCHANT_ID') == '2000933')
+    @if (in_array(config('services.ecpay.merchant_id'), ['2000132', '2000933'], true))
         <form id="map-opener" action="https://logistics-stage.ecpay.com.tw/express/map" method="POST" class="display: none;">
     @else
         <form id="map-opener" action="https://logistics.ecpay.com.tw/express/map" method="POST" class="display: none;">
     @endif
-            <input type="hidden" name="MerchantID" value="{{ env('ECPAY_MERCHANT_ID') }}">
+            <input type="hidden" name="MerchantID" value="{{ config('services.ecpay.merchant_id') }}">
             <input type="hidden" name="MerchantTradeNo" value="{{ time() . rand(10000, 99999) }}">
             <input type="hidden" name="LogisticsType" value="CVS">
             <input type="hidden" name="LogisticsSubType" value="">
