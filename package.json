@@ -22,7 +22,7 @@
     "font-awesome": "^4.7.0",
     "jquery": "^3.6.0",
     "money-formatter": "^0.1.4",
-    "splash-screen": "^3.0.1",
+    "splash-screen": "^4.0.1",
     "text-spinners": "^1.0.5",
     "vue": "^2.6.12",
     "vue2-twzipcode": "^2.0.3"
