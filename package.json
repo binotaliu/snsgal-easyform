@@ -9,7 +9,7 @@
   },
   "devDependencies": {
     "axios": "^0.21.1",
-    "laravel-mix": "^6.0.27",
+    "laravel-mix": "^6.0.28",
     "resolve-url-loader": "^4.0.0",
     "sass": "^1.38.1",
     "sass-loader": "^12.1.0",
