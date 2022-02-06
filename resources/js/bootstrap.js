@@ -2,7 +2,7 @@ import axios from 'axios'
 import dayjs from 'dayjs'
 import Vue from 'vue'
 
-import { Splash } from 'splash-screen'
+import * as Splash from 'splash-screen'
 
 import 'dayjs/locale/zh-tw'
 dayjs.locale('zh-tw')
