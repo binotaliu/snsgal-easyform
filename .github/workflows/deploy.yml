@@ -1,0 +1,61 @@
+name: Deploy
+
+on: workflow_dispatch
+
+jobs:
+  deploy:
+    name: 'Deployment'
+    runs-on: 'ubuntu-latest'
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v2
+
+      - name: Cache for Composer
+        uses: actions/cache@v2
+        id: cache-test
+        with:
+          path: vendor
+          key: v0-${{ hashFiles('composer.lock') }}
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.0'
+          extensions: exif, gd, intl, pcntl, zip
+          tools: deployer/deployer:~7.0@dev
+
+      - name: Prepare SSH Key for Deployer
+        run: |
+          mkdir -p ~/.ssh
+          echo "$DEPLOYER_SSH_KEY" > ~/.ssh/id_deployer
+          echo "$DEPLOYER_SSH_PUBLIC_KEY" > ~/.ssh/id_deployer.pub
+          chmod 600 ~/.ssh/id_deployer
+          SSH_CONFIG=$'Host snsgal.com.tw\n\tHostName 3.113.79.79\n\tUser deployer\n\tIdentityFile ~/.ssh/id_deployer\n'
+          echo "$SSH_CONFIG" >> ~/.ssh/config
+        env:
+          DEPLOYER_SSH_KEY: ${{ secrets.DEPLOYER_SSH_KEY }}
+          DEPLOYER_SSH_PUBLIC_KEY: ${{ secrets.DEPLOYER_PUBLIC_KEY }}
+
+      - name: Prepare Hosts Fingerprints
+        run:
+          echo "3.113.79.79 ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAINQ0lSoo4T4E3GM+0I8I0Wf6ogql6Vgiv3YKimuLOE3G" >> ~/.ssh/known_hosts
+
+      - name: Ensure Directory Permissions
+        run: sudo chmod -R 777 storage bootstrap/cache
+
+      - name: Prune Git Repositories
+        run: |
+          git show-ref -s "$GITHUB_REF" > .git/shallow
+          git reflog expire --expire=0
+          git prune
+          git prune-packed
+
+      - name: Install NPM Dependencies
+        uses: bahmutov/npm-install@v1
+
+      - name: Install Composer Dependencies
+        run: composer install -q --no-ansi --no-interaction --no-progress --prefer-dist --no-dev --ignore-platform-reqs
+
+      - name: Deploy
+        run: dep deploy production

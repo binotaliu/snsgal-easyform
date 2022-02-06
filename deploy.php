@@ -29,11 +29,9 @@ host('production')
 // Tasks
 
 task('build', function () {
-    run('composer install --no-dev --optimize-autoloader --no-interaction --no-ansi');
-    run('npm ci');
-    run('npm run prod');
-    run('rm -Rf node_modules');
-})->local();
+    runLocally('npm run prod');
+    runLocally('rm -Rf node_modules');
+})->once();
 
 task('deploy:update_code', fn () => upload(__DIR__ . '/', '{{release_path}}'));
 
