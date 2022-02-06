@@ -1,6 +1,6 @@
 <?php
 
-use Illuminate\Http\Request;
+use App\Http\Controllers\Currency\RateController;
 
 /*
 |--------------------------------------------------------------------------
@@ -13,5 +13,5 @@ use Illuminate\Http\Request;
 |
 */
 
-Route::get('currency/rate', 'Currency\RateController@list');
+Route::get('currency/rate', [RateController::class, 'list']);
 
