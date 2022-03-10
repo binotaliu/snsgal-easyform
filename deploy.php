@@ -7,7 +7,7 @@ require 'contrib/cachetool.php';
 
 // Config
 
-set('application', 'snsgal-easyform');
+set('application', 'yubin.snsgal.com.tw');
 set('deploy_path', '~/{{application}}');
 
 set('writable_mode', 'chmod');
@@ -22,7 +22,7 @@ add('writable_dirs', []);
 host('production')
     ->setHostname('snsgal.com.tw')
     ->set('remote_user', 'deployer')
-    ->set('cachetool_args', '--fcgi=/var/run/php/php8.0-fpm.sock --tmp-dir=/tmp')
+    ->set('cachetool_args', '--fcgi=/var/run/php/php8.1-fpm.sock --tmp-dir=/tmp')
     ->set('writable_chmod_recursive', false)
     ->set('deploy_path', '/var/www/{{application}}');
 
