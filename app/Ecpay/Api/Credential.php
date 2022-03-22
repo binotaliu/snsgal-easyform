@@ -2,15 +2,15 @@
 
 namespace App\Ecpay\Api;
 
-class Credential
+final class Credential
 {
     protected const STAGE_MERCHANT_IDS = ['20000132', '2000933'];
 
-    protected $merchantId;
-    protected $hashKey;
-    protected $hashIv;
+    protected string $merchantId;
+    protected string $hashKey;
+    protected string $hashIv;
 
-    public function __construct($merchantId, $hashKey, $hashIv)
+    public function __construct(string $merchantId, string $hashKey, string $hashIv)
     {
         $this->merchantId = $merchantId;
         $this->hashKey = $hashKey;
@@ -22,26 +22,17 @@ class Credential
         return in_array((string)$this->merchantId, self::STAGE_MERCHANT_IDS);
     }
 
-    /**
-     * @return mixed
-     */
-    public function getMerchantId()
+    public function getMerchantId(): string
     {
         return $this->merchantId;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getHashKey()
+    public function getHashKey(): string
     {
         return $this->hashKey;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getHashIv()
+    public function getHashIv(): string
     {
         return $this->hashIv;
     }

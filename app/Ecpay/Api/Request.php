@@ -8,12 +8,11 @@ use Illuminate\Contracts\View\View;
 
 class Request
 {
-    protected $guzzle;
+    protected GuzzleClient $guzzle;
 
-    /** @var \App\Ecpay\Api\Credential */
-    protected $credential;
+    protected Credential $credential;
 
-    protected $data = [];
+    protected array $data = [];
 
     public function __construct(Credential $credential, GuzzleClient $guzzle)
     {
@@ -21,7 +20,7 @@ class Request
         $this->guzzle = $guzzle;
     }
 
-    public function setData($key, $data = null)
+    public function setData(string|array $key, mixed $data = null): mixed
     {
         if (is_array($key) && $data === null) {
             $this->data = array_merge($this->data, $key);
@@ -35,7 +34,7 @@ class Request
         throw new \InvalidArgumentException('Argument $key should be a string');
     }
 
-    public function getData(?string $key = null, $default = null)
+    public function getData(?string $key = null, $default = null): mixed
     {
         if ($key === null) {
             return $this->data;
@@ -48,7 +47,7 @@ class Request
         return $default;
     }
 
-    protected function prepareData()
+    protected function prepareData(): void
     {
         if ($this->getData('MerchantID') === null) {
             $this->setData('MerchantID', $this->credential->getMerchantId());

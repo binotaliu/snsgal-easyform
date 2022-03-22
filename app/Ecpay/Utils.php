@@ -4,7 +4,7 @@ namespace App\Ecpay;
 
 use App\Ecpay\Api\Credential;
 
-class Utils
+final class Utils
 {
     protected const DOTNET_URL_ENCODE_CHARS = [
         '%2d' => '-',
@@ -16,7 +16,7 @@ class Utils
         '%29' => ')',
     ];
 
-    public static function getCheckMacValue(Credential $credential, array $data)
+    public static function getCheckMacValue(Credential $credential, array $data): string
     {
         $str = collect($data)
             ->sortKeys()

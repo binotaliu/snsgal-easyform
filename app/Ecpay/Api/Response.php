@@ -4,17 +4,16 @@ namespace App\Ecpay\Api;
 
 use App\Ecpay\Utils;
 use Illuminate\Support\Arr;
-use function GuzzleHttp\Psr7\parse_query;
 
-class Response
+final class Response
 {
-    protected $response;
+    protected string $response;
 
-    protected $code;
-    protected $errorMessage = '';
-    protected $data = [];
+    protected string $code;
+    protected string $errorMessage = '';
+    protected array $data = [];
 
-    protected $isValid = false;
+    protected bool $isValid = false;
 
     public function __construct(Credential $credential, string $responseBody)
     {
@@ -39,28 +38,17 @@ class Response
         $this->isValid = $receivedHash === $expectedHash;
     }
 
-    /**
-     * @return string
-     */
     public function getCode(): ?string
     {
         return $this->code;
     }
 
-    /**
-     * @return string
-     */
-    public function getErrorMessage()
+    public function getErrorMessage(): string
     {
         return $this->errorMessage;
     }
 
-    /**
-     * @param string|null $key
-     * @param null $default
-     * @return mixed
-     */
-    public function getData(?string $key = null, $default = null)
+    public function getData(?string $key = null, $default = null): mixed
     {
         if ($key === null) {
             return $this->data;
@@ -73,9 +61,6 @@ class Response
         return $default;
     }
 
-    /**
-     * @return bool
-     */
     public function isValid(): bool
     {
         return $this->isValid;
