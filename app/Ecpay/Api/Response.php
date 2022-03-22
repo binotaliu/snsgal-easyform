@@ -27,7 +27,7 @@ class Response
             return;
         }
 
-        $this->data = parse_query($data);
+        parse_str($data, $this->data);
 
         if (!array_key_exists('CheckMacValue', $this->data)) {
             $this->isValid = false;
