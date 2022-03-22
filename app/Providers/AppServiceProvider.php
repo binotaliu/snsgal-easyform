@@ -18,7 +18,7 @@ class AppServiceProvider extends ServiceProvider
     {
         Paginator::useBootstrapThree();
 
-        Models\Shipment\AddressTicket::observe(Observers\Shipment\AddressRequestObserver::class);
+        Models\AddressTicket::observe(Observers\AddressRequestObserver::class);
     }
 
     /**

@@ -6,7 +6,7 @@ use App\Codes\Shipment\EcpayShipmentStatus;
 use App\Ecpay\Api\Request as EcpayRequest;
 use App\Exceptions\Shipment\Address\InvalidTypeException;
 use App\Http\Controllers\Controller;
-use App\Models\Shipment\AddressTicket;
+use App\Models\AddressTicket;
 use App\Models\Shipment\CvsAddress;
 use App\Models\Shipment\StandardAddress;
 use Auth;
@@ -41,11 +41,11 @@ class AddressTicketsController extends Controller
 
     /**
      * List requests
-     * @return \Illuminate\Database\Eloquent\Collection|\App\Models\Shipment\AddressTicket[]
+     * @return \Illuminate\Database\Eloquent\Collection|\App\Models\AddressTicket[]
      */
     public function index()
     {
-        return AddressTicket
+        return \App\Models\AddressTicket
             ::latest()
             ->where('archived', false)
             ->get();
@@ -54,7 +54,7 @@ class AddressTicketsController extends Controller
     /**
      * Store new request
      * @param Request $request
-     * @return null|\App\Models\Shipment\AddressTicket
+     * @return null|\App\Models\AddressTicket
      * @throws \Illuminate\Validation\ValidationException
      */
     public function store(Request $request)
@@ -64,7 +64,7 @@ class AddressTicketsController extends Controller
             'method' => 'required|in:cvs,standard'
         ]);
 
-        $ticket = new AddressTicket;
+        $ticket = new \App\Models\AddressTicket;
         $ticket->title = $request->input('title');
         $ticket->description = $request->input('description', $ticket->title);
         $ticket->address_type = $request->input('method');
@@ -88,7 +88,7 @@ class AddressTicketsController extends Controller
             $title = trim($title);
             if (empty($title)) continue;
 
-            $ticket = new AddressTicket;
+            $ticket = new \App\Models\AddressTicket;
             $ticket->title = $title;
             $ticket->description = $title;
             $ticket->address_type = $method;
@@ -107,7 +107,7 @@ class AddressTicketsController extends Controller
      */
     public function get(string $token)
     {
-        $ticket = AddressTicket::where('token', $token)->firstOrFail();
+        $ticket = \App\Models\AddressTicket::where('token', $token)->firstOrFail();
 
         if ($ticket->responded) {
             return view('shipment.request.response.success', [
@@ -137,7 +137,7 @@ class AddressTicketsController extends Controller
      */
     public function export(string $token, Request $request)
     {
-        $ticket = AddressTicket::where('token', $token)->firstOrFail();
+        $ticket = \App\Models\AddressTicket::where('token', $token)->firstOrFail();
 
         /** @var EcpayRequest $ecpayReq */
         $ecpayReq = app()->make(EcpayRequest::class);
@@ -205,7 +205,7 @@ class AddressTicketsController extends Controller
      */
     public function archive(string $token)
     {
-        $ticket = AddressTicket
+        $ticket = \App\Models\AddressTicket
             ::where('token', $token)
             ->firstOrFail();
 
@@ -224,7 +224,7 @@ class AddressTicketsController extends Controller
      */
     public function notify(String $token, Request $request)
     {
-        $ticket = AddressTicket
+        $ticket = \App\Models\AddressTicket
             ::where('token', $token)
             ->firstOrFail();
 
@@ -269,7 +269,7 @@ class AddressTicketsController extends Controller
 
     public function print(string $token)
     {
-        $ticket = AddressTicket
+        $ticket = \App\Models\AddressTicket
             ::where('token', $token)
             ->firstOrFail();
 
@@ -317,8 +317,8 @@ class AddressTicketsController extends Controller
      */
     public function addAddress(string $token, Request $req)
     {
-        /** @var AddressTicket $ticket */
-        $ticket = AddressTicket::where('token', $token)->firstOrFail();
+        /** @var \App\Models\AddressTicket $ticket */
+        $ticket = \App\Models\AddressTicket::where('token', $token)->firstOrFail();
 
         $ticket->receiver_name = $req->input('receiver');
         $ticket->receiver_phone = $req->input('phone');

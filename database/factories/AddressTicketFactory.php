@@ -2,10 +2,10 @@
 
 namespace Database\Factories;
 
-use App\Models\Shipment\AddressTicket;
+use App\Models\AddressTicket;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
-class ShipmentAddressTicketFactory extends Factory
+class AddressTicketFactory extends Factory
 {
     /**
      * The name of the factory's corresponding model.

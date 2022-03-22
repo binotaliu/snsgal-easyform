@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\AddressTicket;
 use Illuminate\Database\Seeder;
 
 class RequestsSeeder extends Seeder
@@ -13,6 +14,6 @@ class RequestsSeeder extends Seeder
      */
     public function run()
     {
-        factory(\App\Models\Shipment\AddressTicket::class, 50)->create();
+        AddressTicket::factory()->count(50)->create();
     }
 }
