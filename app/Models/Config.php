@@ -20,20 +20,9 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Config whereValue($value)
  * @mixin \Eloquent
  */
-class Config extends Model
+final class Config extends Model
 {
-    /**
-     * @var string
-     */
-    protected $table = 'configs';
-
-    /**
-     * @var array
-     */
     protected $fillable = ['key', 'value'];
 
-    /**
-     * @var bool
-     */
     public $incrementing = false;
 }

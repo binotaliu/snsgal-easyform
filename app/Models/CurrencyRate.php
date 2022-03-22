@@ -24,13 +24,8 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\CurrencyRate whereUpdatedAt($value)
  * @mixin \Eloquent
  */
-class CurrencyRate extends Model
+final class CurrencyRate extends Model
 {
-    /**
-     * @var string
-     */
-    protected $table = 'currency_rates';
-
     protected $fillable = [
         'currency',
         'rate',

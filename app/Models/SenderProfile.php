@@ -30,18 +30,8 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\SenderProfile whereUserId($value)
  * @mixin \Eloquent
  */
-class SenderProfile extends Model
+final class SenderProfile extends Model
 {
-    /**
-     * The name of the table
-     * @var string
-     */
-    protected $table = 'sender_profiles';
-
-    /**
-     * Fillable columns
-     * @var String
-     */
     protected $fillable = [
         'user_id',
         'name',

@@ -62,43 +62,14 @@ class AddressTicket extends Model
     use SoftDeletes;
     use HasFactory;
 
-    /**
-     * Table name.
-     *
-     * @var string
-     */
-    protected $table = 'address_tickets';
-
-    /**
-     * Define date columns
-     *
-     * @var array
-     */
-    protected $dates = ['expired_at', 'deleted_at'];
-
-    /**
-     * Make columns un-assignable.
-     *
-     * @var array
-     */
     protected $guarded = ['id'];
 
     protected $casts = [
         'address' => 'json',
     ];
 
-    /**
-     * Enable timestamps.
-     *
-     * @var bool
-     */
-    public $timestamps = true;
+    protected $dates = ['expired_at', 'deleted_at'];
 
-    /**
-     * @param Builder $query
-     * @param bool $archived
-     * @return Builder
-     */
     public function scopeArchived(Builder $query, bool $archived = true): Builder
     {
         return $query->where('archived', $archived);
