@@ -58,4 +58,4 @@ jobs:
         run: composer install -q --no-ansi --no-interaction --no-progress --prefer-dist --no-dev --ignore-platform-reqs
 
       - name: Deploy
-        run: dep deploy production
+        run: deployer.phar deploy production
