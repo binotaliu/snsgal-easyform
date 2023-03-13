@@ -91,7 +91,7 @@
                                             @{{ $dayjs(request.updated_at).format('YYYY-MM-DD HH:mm:ss') }}</td>
                                         <td>@{{ request.title }}<br>
                                             <small>
-                                                <a v-bind:href="'{{ url('shipment/requests') }}/' + request.token" target="_blank">
+                                                <a v-bind:href="'{{ url('shipment/requests') }}/' + request.token + '?openExternalBrowser=1'" target="_blank">
                                                     @{{ request.token }}
                                                 </a>
                                             </small>
