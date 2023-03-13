@@ -18,7 +18,7 @@
                         </div>
 
                         @if ($request->exported)
-                            <p><strong>{{ trans('request.field_shipment_ticket_id') }}</strong>: {{ $request->shipment_ticket_id }}</p>
+                            <p><strong>{{ trans('request.field_shipment_ticket_id') }}</strong>: {{ $request->shipment_ticket_id . $request->shipment_validation }}</p>
                             <p><strong>{{ trans('request.field_shipping_status') }}</strong>: {{ $ecpay_status['description']}}</p>
                         @else
                             <p>{{ trans('request.responded') }}</p>

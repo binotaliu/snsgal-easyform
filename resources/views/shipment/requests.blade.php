@@ -117,7 +117,7 @@
                                             <span class="label label-warning"><i class="fa fa-close"></i></span>
                                         </td>
 
-                                        <td v-if="request.exported && ecpayCodes[request.shipment_status]">ID: @{{ request.shipment_ticket_id }}
+                                        <td v-if="request.exported && ecpayCodes[request.shipment_status]">ID: @{{ request.shipment_ticket_id }}@{{ request.shipment_validation }}
                                             <small><a v-bind:href="'{{ url('/shipment/requests') }}/' + request.token + '/print'" target="_blank">
                                                     [{{ trans('request.btn_print') }}]
                                                 </a></small><br>
@@ -201,7 +201,7 @@
                             <tr>
                                 <th class="text-right">{{ trans('request.field_shipment_ticket_id') }}</th>
                                 <td v-if="modalContent.exported">
-                                    @{{ modalContent.shipment_ticket_id }}
+                                    @{{ modalContent.shipment_ticket_id }}@{{ modalContent.shipment_validation }}
                                 </td>
                                 <td v-else>{{ trans('request.field_na') }}</td>
                             </tr>
