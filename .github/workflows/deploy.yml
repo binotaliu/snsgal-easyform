@@ -31,7 +31,7 @@ jobs:
           echo "$DEPLOYER_SSH_KEY" > ~/.ssh/id_deployer
           echo "$DEPLOYER_SSH_PUBLIC_KEY" > ~/.ssh/id_deployer.pub
           chmod 600 ~/.ssh/id_deployer
-          SSH_CONFIG=$'Host snsgal.com.tw\n\tHostName 13.113.153.158\n\tUser deployer\n\tIdentityFile ~/.ssh/id_deployer\n'
+          SSH_CONFIG=$'Host snsgal.com.tw\n\tHostName $SSH_HOST\n\tUser deployer\n\tIdentityFile ~/.ssh/id_deployer\n'
           echo "$SSH_CONFIG" >> ~/.ssh/config
         env:
           DEPLOYER_SSH_KEY: ${{ secrets.DEPLOYER_SSH_KEY }}
@@ -39,7 +39,7 @@ jobs:
 
       - name: Prepare Hosts Fingerprints
         run:
-          echo "13.113.153.158 ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQDJ0H+c7OgPQ/ah52TSTYDgKECQ4PsVbTzdNqMaLoF9TAeyMJqJ/aPst/L2gFjLPgEvtlOu8fGfDNSgBNaUjtY2i7HSQhr3iLXgnpJfEWHT33a4Nq0kd+BOG/cZrhMsnsSVHIFfwQvWC0m+0wOjK2AKqicec0AY+4i5cnlyMebrQ5WiE1IA9BPbH+QFEzGw4aClMbCwBiUTlJTB5q2tjSaT4tJhNF6fcqPbT1H8CKzB9H2/3mfhHWT+65TcX/pa5VGmLX/ePfKKseHm8rxiOFR/7Zq0a1b8fw6zl49gR1im0v6Qke2oHrpVx9jJ44nJ9tEjzlxVOjCr6f4KFRVl2V9YVHxUhN53T6PDPY+dANqxaCq4gWuzDXt44AT07bqsk/pJ6P/f6CNgzOvo6SIK5F1cymshnF6i2826Sovpv04hqUgm8yj4ZVGgmDWKvneU/KFMTY8xSQ0CmCEuuKBcCXnW4Rc0fVfZx+3MRAec0VDaCwMPxAg+xnvkDbyipTGEg6U=" >> ~/.ssh/known_hosts
+          echo "$SSH_HOST ssh-rsa $SSH_SERVER_KEY" >> ~/.ssh/known_hosts
 
       - name: Ensure Directory Permissions
         run: sudo chmod -R 777 storage bootstrap/cache
