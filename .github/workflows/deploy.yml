@@ -36,10 +36,15 @@ jobs:
         env:
           DEPLOYER_SSH_KEY: ${{ secrets.DEPLOYER_SSH_KEY }}
           DEPLOYER_SSH_PUBLIC_KEY: ${{ secrets.DEPLOYER_PUBLIC_KEY }}
+          SSH_HOST: ${{ secrets.SSH_HOST }}
+          SSH_SERVER_KEY: ${{ secrets.SSH_SERVER_KEY }}
 
       - name: Prepare Hosts Fingerprints
         run:
           echo "$SSH_HOST ssh-rsa $SSH_SERVER_KEY" >> ~/.ssh/known_hosts
+        env:
+          SSH_HOST: ${{ secrets.SSH_HOST }}
+          SSH_SERVER_KEY: ${{ secrets.SSH_SERVER_KEY }}
 
       - name: Ensure Directory Permissions
         run: sudo chmod -R 777 storage bootstrap/cache
