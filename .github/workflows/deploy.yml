@@ -31,7 +31,7 @@ jobs:
           echo "$DEPLOYER_SSH_KEY" > ~/.ssh/id_deployer
           echo "$DEPLOYER_SSH_PUBLIC_KEY" > ~/.ssh/id_deployer.pub
           chmod 600 ~/.ssh/id_deployer
-          SSH_CONFIG="Host snsgal.com.tw\n\tHostName $SSH_HOST\n\tUser deployer\n\tIdentityFile ~/.ssh/id_deployer\n"
+          SSH_CONFIG="Host snsgal.com.tw\n\tHostName $SSH_HOST\n\tUser deployer\n\tIdentityFile ~/.ssh/id_deployer\n\tStrictHostKeyChecking no\n\tUserKnownHostsFile /dev/null\n"
           echo -e "$SSH_CONFIG" >> ~/.ssh/config
         env:
           DEPLOYER_SSH_KEY: ${{ secrets.DEPLOYER_SSH_KEY }}
